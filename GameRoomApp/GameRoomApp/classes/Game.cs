@@ -10,10 +10,10 @@ namespace GameRoomApp.classes
     {
         [BsonId]
         public int Id { get; set;}
-        public string Name { get; set; }
-        public User User { get; set; }
-        public int Score { get; set; }
-        public DateTime PlayedOn { get; set; }
-        
+        public string Type { get; set; }
+        public List<Player> Players{ get; set; }
+        public DateTime StartOn { get; set; }
+        public DateTime EndOn { get; set; }
+       
     }
 }
