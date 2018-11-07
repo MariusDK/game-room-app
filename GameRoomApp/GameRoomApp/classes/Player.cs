@@ -14,8 +14,16 @@ namespace GameRoomApp.classes
         public string Username { get; set; }
         public string Password { get; set; }
         public int Age { get; set; }
-        public List<Game> History { get; set; }
         public int Score { get; set; }
 
+        public Player(string Name, string Username, string Password, int Age)
+        {
+            this.Name = Name;
+            this.Username = Username;
+            this.Password = Password;
+            this.Age = Age;
+        }
+        public Player()
+        { }
     }
 }

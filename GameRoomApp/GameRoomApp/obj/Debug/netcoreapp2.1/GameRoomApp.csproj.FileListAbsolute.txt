@@ -6,3 +6,6 @@ C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomA
 C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.csproj.CoreCompileInputs.cache
 C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.AssemblyInfoInputs.cache
 C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.AssemblyInfo.cs
+C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\bin\Debug\netcoreapp2.1\GameRoomApp.pdb
+C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.dll
+C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.pdb
