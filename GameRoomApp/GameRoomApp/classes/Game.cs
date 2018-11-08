@@ -14,6 +14,12 @@ namespace GameRoomApp.classes
         public List<Player> Players{ get; set; }
         public DateTime StartOn { get; set; }
         public DateTime EndOn { get; set; }
-       
+
+
+        public override string ToString()
+        {
+            return "";
+        }
+
     }
 }

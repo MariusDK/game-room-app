@@ -1,4 +1,5 @@
 ﻿using GameRoomApp.classes;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,11 @@ namespace GameRoomApp.providers
         {
             collection.InsertOne(player);
         }
-        public Player GetSpecificPlayer(int id)
+        public Player GetSpecificPlayer(String id)
         {
+            ObjectId idObject = new ObjectId(id);
             var builder = Builders<Player>.Filter;
-            var idFilter = builder.Eq("Id", id);
+            var idFilter = builder.Eq("Id", idObject);
             var cursor = collection.Find(idFilter);
             Player player = cursor.FirstOrDefault();
             return player;
@@ -40,16 +42,17 @@ namespace GameRoomApp.providers
         }
         public void UpdatePlayer(Player player)
         {
-            var Fbuilder = Builders<Player>.Filter;
+            FilterDefinitionBuilder<Player> Fbuilder = Builders<Player>.Filter;
             var UBuilder = Builders<Player>.Update;
             var idFilter = Fbuilder.Eq("Id", player.Id);
-            var updateDefinition = UBuilder.Set("Name", player.Name).Set("Username", player.Username).Set("Password",player.Password).Set("Age",player.Age);
+            var updateDefinition = UBuilder.Set("Name", player.Name).Set("Username", player.Username).Set("Password",player.Password).Set("Age",player.Age).Set("Score",player.Score);
             var cursor = collection.UpdateOne(idFilter, updateDefinition);
         }
-        public void RemovePlayer(int id)
+        public void RemovePlayer(String id)
         {
+            ObjectId idObject = new ObjectId(id);
             var builder = Builders<Player>.Filter;
-            var idFilter = builder.Eq("Id", id);
+            var idFilter = builder.Eq("Id", idObject);
             collection.DeleteOne(idFilter);
         }
         
