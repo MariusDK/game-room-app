@@ -1,5 +1,8 @@
-﻿using GameRoomApp.classes;
+﻿using GameRoomApp.DataModel;
 using GameRoomApp.providers;
+using GameRoomApp.providers.PlayerRepository;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;

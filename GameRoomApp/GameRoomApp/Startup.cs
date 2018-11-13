@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameRoomApp.providers;
+using GameRoomApp.providers.PlayerRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +30,13 @@ namespace GameRoomApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-           
+            services.Configure<Settings>(settings =>
+            {
+                settings.ConnectionString = Configuration.GetSection("MongoDB:ConnectionString").Value;
+                settings.DatabaseName = Configuration.GetSection("MongoDB:Database").Value;
+            });
+            services.AddTransient<IPlayerContext, PlayerContext>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
