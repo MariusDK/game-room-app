@@ -15,7 +15,7 @@ namespace GameRoomApp.classes
         public string Username { get; set; }
         public string Password { get; set; }
         public int Age { get; set; }
-        public int Score { get; set; }
+        
 
         public Player(string Name, string Username, string Password, int Age)
         {
@@ -28,7 +28,7 @@ namespace GameRoomApp.classes
         { }
         public override string ToString()
         {
-            return Name + " " + Age + " " + Score;
+            return Name + " " + Age + " " ;
         }
 
     }

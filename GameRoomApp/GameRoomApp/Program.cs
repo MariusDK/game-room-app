@@ -15,14 +15,14 @@ namespace GameRoomApp
             PlayerProvider playerProvider = new PlayerProvider();
             //Test Add
             Player player = new Player();
-            ObjectId objectId = new ObjectId("5be4927ce1ac0307bc508ce2");
-            player.Id = objectId;
-            player.Name = "Marius";
+            //ObjectId objectId = new ObjectId("5be4927ce1ac0307bc508ce2");
+            //player.Id = objectId;
+            player.Name = "Ioan";
             player.Age = 23;
             player.Username = "mariusdk";
             player.Password = "suprem";
-            player.Score = 100;
-            //playerProvider.InsertPlayer(player);
+            player.Score = 0;
+            playerProvider.InsertPlayer(player);
 
             //Test get by Id
             //Console.WriteLine(playerProvider.GetSpecificPlayer("5be403919208d806f81ba49d").ToString());
@@ -38,11 +38,11 @@ namespace GameRoomApp
             //Console.ReadLine();
             //////////------------------Test provider Team
             ///Add
-            Team team = new Team();
-            TeamProvider provider = new TeamProvider();
+            //Team team = new Team();
+            //TeamProvider provider = new TeamProvider();
             //team.Name = "Real";
 
-            List<Player> list = new List<Player>();
+            //List<Player> list = new List<Player>();
             //list.Add(player);
             //team.Players = list;
             //provider.InsertTeam(team);
@@ -60,7 +60,7 @@ namespace GameRoomApp
             //provider.AddPlayerToTeam("5be4936172c23146d8e14148", player);
             ///Remove team
             //provider.RemoveTeam("5be4936172c23146d8e14148");
-
+            GameProvider gameProvider = new GameProvider();
             Console.ReadLine();
 
         }

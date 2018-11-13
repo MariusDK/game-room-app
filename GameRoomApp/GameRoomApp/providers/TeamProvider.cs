@@ -23,11 +23,11 @@ namespace GameRoomApp.providers
         {
             collection.InsertOne(a);
         }
-        public Team GetSpecificTeam(String id)
+        public Team GetSpecificTeam(ObjectId Id)
         {
-            ObjectId objectId = new ObjectId(id);
+           
             var builder = Builders<Team>.Filter;
-            var idFilter = builder.Eq("Id",objectId);
+            var idFilter = builder.Eq("Id",Id);
             var cursor = collection.Find(idFilter);
             Team team = cursor.FirstOrDefault();
             return team;
@@ -45,17 +45,17 @@ namespace GameRoomApp.providers
             FilterDefinitionBuilder<Team> Fbuilder = Builders<Team>.Filter;
             var UBuilder = Builders<Team>.Update;
             var idFilter = Fbuilder.Eq("Id", team.Id);
-            var updateDefinition = UBuilder.Set("Name", team.Name).Set("Players", team.Players);
+            var updateDefinition = UBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game",team.Game);
             var cursor = collection.UpdateOne(idFilter,updateDefinition);
         }
-        public void RemoveTeam(String id)
+        public void RemoveTeam(ObjectId Id)
         {
-            ObjectId objectId = new ObjectId(id);
+            
             var builder = Builders<Team>.Filter;
-            var idFilter = builder.Eq("Id",objectId);
+            var idFilter = builder.Eq("Id",Id);
             collection.DeleteOne(idFilter);
         }
-        public void AddPlayerToTeam(String id,Player player)
+        public void AddPlayerToTeam(ObjectId id,Player player)
         {
             Team team = GetSpecificTeam(id);
             List <Player> players= team.Players;
@@ -63,5 +63,6 @@ namespace GameRoomApp.providers
             team.Players = players;
             UpdateTeam(team);
         }
+
     }
 }

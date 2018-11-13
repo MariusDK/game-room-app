@@ -7,18 +7,19 @@ using System.Text;
 namespace GameRoomApp.classes
 {
     [BsonIgnoreExtraElements]
-    public class Team
+    public class Score
     {
         [BsonId]
         public ObjectId Id { get; set; }
-        public string Name { get; set; }
-        public List<Player> Players { get; set; }
+        public Player Player { get; set; }
         public Game Game { get; set; }
+        public int Value { get; set; } 
 
-
-        public override string ToString()
+        public Score(Player Player, Game Game)
         {
-            return this.Name + " " + this.Players + " "+this.Game;
+            this.Player = Player;
+            this.Game = Game;
+            this.Value = 0;
         }
 
     }
