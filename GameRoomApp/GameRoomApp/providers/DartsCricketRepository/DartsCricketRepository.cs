@@ -5,38 +5,33 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameRoomApp.providers
+namespace GameRoomApp.providers.DartsCricketRepository
 {
-    public class DartsCricketProvider
+    public class DartsCricketRepository
     {
-        private IMongoClient client;
-        private IMongoDatabase database;
-        private IMongoCollection<DartsCricket> collection;
-
-        public DartsCricketProvider()
+        private readonly IDartsCricketContext _dartsCricketContext; 
+        public DartsCricketRepository(IDartsCricketContext dartsCricketContext)
         {
-            client = new MongoClient();
-            database = client.GetDatabase("gameRoom");
-            collection = database.GetCollection<DartsCricket>("DartsCricket");
+            this._dartsCricketContext = dartsCricketContext;
         }
 
         public void InsertDartsCricket(DartsCricket dartsCricket)
         {
-            collection.InsertOne(dartsCricket);
+            _dartsCricketContext.dartsCricket.InsertOne(dartsCricket);
         }
         public DartsCricket GetDartsCricket(ObjectId Id)
         {
             var builder = Builders<DartsCricket>.Filter;
             var idFilter = builder.Eq("Id", Id);
-            var cursor = collection.Find(idFilter);
+            var cursor = _dartsCricketContext.dartsCricket.Find(idFilter);
             DartsCricket dartsCricket = cursor.FirstOrDefault();
             return dartsCricket;
         }
-        public List<DartsCricket> GetAllDartsCricket()
+        public IEnumerable<DartsCricket> GetAllDartsCricket()
         {
             var builder = Builders<DartsCricket>.Filter;
             var Filter = builder.Empty;
-            var cursor = collection.Find(Filter);
+            var cursor = _dartsCricketContext.dartsCricket.Find(Filter);
             List<DartsCricket> dartsCricketList = cursor.ToList();
             return dartsCricketList;
         }
@@ -44,7 +39,7 @@ namespace GameRoomApp.providers
         {
             var builder = Builders<DartsCricket>.Filter;
             var scoreFilter = builder.Eq("Score", score);
-            var cursor = collection.Find(scoreFilter);
+            var cursor = _dartsCricketContext.dartsCricket.Find(scoreFilter);
             DartsCricket dartsCricket = cursor.FirstOrDefault();
             return dartsCricket;
         }
@@ -54,13 +49,13 @@ namespace GameRoomApp.providers
             var UBuilder = Builders<DartsCricket>.Update;
             var idFilter = GFilter.Eq("Id", dartsCricket.Id);
             var updateDefinition = UBuilder.Set("Score", dartsCricket.Score).Set("Hits", dartsCricket.Hits);
-            var cursor = collection.UpdateOne(idFilter, updateDefinition);
+            var cursor = _dartsCricketContext.dartsCricket.UpdateOne(idFilter, updateDefinition);
         }
         public void RemoveDartsCricket(ObjectId Id)
         {
             var builder = Builders<DartsCricket>.Filter;
             var idFilter = builder.Eq("Id", Id);
-            collection.DeleteOne(idFilter);
+            _dartsCricketContext.dartsCricket.DeleteOne(idFilter);
         }
     }
 }

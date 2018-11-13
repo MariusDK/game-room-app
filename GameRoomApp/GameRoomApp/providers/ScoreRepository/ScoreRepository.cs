@@ -3,36 +3,32 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 
-namespace GameRoomApp.providers
+namespace GameRoomApp.providers.ScoreRepository
 {
-    public class ScoreProvider
+    public class ScoreRepository : IScoreRepository
     {
-        private IMongoClient client;
-        private IMongoDatabase database;
-        private IMongoCollection<Score> collection;
+        private readonly IScoreContext _scoreContext;
 
-        public ScoreProvider()
+        public ScoreRepository(IScoreContext scoreContext)
         {
-            client = new MongoClient();
-            database = client.GetDatabase("gameRoom");
-            collection = database.GetCollection<Score>("scores");
+            this._scoreContext = scoreContext;
         }
 
         public void InsertScore(Score score)
         {
-            collection.InsertOne(score);
+            _scoreContext.Score.InsertOne(score);
         }
 
-        public List<Score> GetScoresForGame(Game game)
+        public IEnumerable<Score> GetScoresForGame(Game game)
         {
             var builder = Builders<Score>.Filter;
             var gameFilter = builder.Eq("Game", game);
-            var cursor = collection.Find(gameFilter);
+            var cursor = _scoreContext.Score.Find(gameFilter);
             List<Score> scores = cursor.ToList();
             return scores;
         }
         
-        public List<Score> LeaderboardForGame(Game game)
+        public IEnumerable<Score> LeaderboardForGame(Game game)
         {
             List<Player> players = game.Players;
             List<Score> scores = new List<Score>();
@@ -51,7 +47,7 @@ namespace GameRoomApp.providers
             var gameFilter = builder.Eq("Game", game);
             var playerFilter = builder.Eq("Player",player);
             var filter = gameFilter & playerFilter;
-            var cursor = collection.Find(filter);
+            var cursor = _scoreContext.Score.Find(filter);
             Score score = cursor.FirstOrDefault();
             return score;
         }
@@ -73,7 +69,7 @@ namespace GameRoomApp.providers
             List<Player> players = new List<Player>();
             foreach (Game game in games)
             {
-                scores = LeaderboardForGame(game);
+                scores = (List<Score>)LeaderboardForGame(game);
                 Player winner = scores[0].Player;
                 players.Add(winner);
             }
@@ -103,13 +99,13 @@ namespace GameRoomApp.providers
             var idFilter = Fbuilder.Eq("Id", score.Id);
             var updateDefinition = UBuilder.Set("Player", score.Player).Set("Game", score.Game).
                 Set("Value", score.Value);
-            var cursor = collection.UpdateOne(idFilter, updateDefinition);
+            var cursor = _scoreContext.Score.UpdateOne(idFilter, updateDefinition);
         }
         public void RemoveScore(ObjectId Id)
         {
             var builder = Builders<Score>.Filter;
             var idFilter = builder.Eq("Id", Id);
-            collection.DeleteOne(idFilter);
+            _scoreContext.Score.DeleteOne(idFilter);
         }
 
     }

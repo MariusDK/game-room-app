@@ -1,41 +1,38 @@
 ﻿using GameRoomApp.classes;
+
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameRoomApp.providers
+namespace GameRoomApp.providers.GameRepository
 {
-    public class GameProvider
+    public class GameRepository : IGameRepository
     {
-        private IMongoClient client;
-        private IMongoDatabase database;
-        private IMongoCollection<Game> collection;
+        private readonly IGameContext _gameContext;
 
-        public GameProvider()
+        public GameRepository(IGameContext gameContext)
         {
-            client = new MongoClient();
-            database = client.GetDatabase("gameRoom");
-            collection = database.GetCollection<Game>("games");
+            _gameContext = gameContext;
         }
         public void InsertGame(Game game)
         {
-            collection.InsertOne(game);
+            _gameContext.Games.InsertOne(game);
         }
         public Game GetSpecificGame(ObjectId objectId)
         {
             var builder = Builders<Game>.Filter;
             var idFilter = builder.Eq("Id",objectId);
-            var cursor = collection.Find(idFilter);
+            var cursor = _gameContext.Games.Find(idFilter);
             Game game = cursor.FirstOrDefault();
             return game;
         }
-        public List<Game> GetGames()
+        public IEnumerable<Game> GetAllGames()
         {
             var builder = Builders<Game>.Filter;
             var filter = builder.Empty;
-            var cursor = collection.Find(filter);
+            var cursor = _gameContext.Games.Find(filter);
             List<Game> games = cursor.ToList();
             return games;
         }
@@ -47,37 +44,37 @@ namespace GameRoomApp.providers
             var updateDefinition = UBuilder.Set("Name",game.Name).Set("Type",game.Type).Set("Players",game.Players).
                 Set("StartOn",game.StartOn).Set("EndOn",game.EndOn).
                 Set("EmbarrassingMoments",game.EmbarrassingMoments).Set("VictoryMoments",game.VictoryMoments);
-            var cursor = collection.UpdateOne(idFilter,updateDefinition);
+            var cursor = _gameContext.Games.UpdateOne(idFilter,updateDefinition);
         }
-        public void RemoveGame(Object Id)
+        public void RemoveGame(ObjectId Id)
         {
             var builder = Builders<Game>.Filter;
             var idFilter = builder.Eq("Id",Id);
-            collection.DeleteOne(idFilter);
+            _gameContext.Games.DeleteOne(idFilter);
         }
-        public List<Game> GetGamesThatHaveASpecificPlayer(ObjectId Id)
+        public IEnumerable<Game> GetGamesByPlayer(ObjectId Id)
         {
             var builder = Builders<Game>.Filter;
             var friendFilter = builder.Eq("Player", Id);
-            var cursor = collection.Find(friendFilter);
+            var cursor = _gameContext.Games.Find(friendFilter);
             List<Game> games = cursor.ToList();
             return games;
         }
-        public List<Game> GetGameHistory()
+        public IEnumerable<Game> GetGameHistory()
         {
             var builder = Builders<Game>.Filter;
             var historyFilter = builder.Ne("EndOn", 0);
-            var cursor = collection.Find(historyFilter);
+            var cursor = _gameContext.Games.Find(historyFilter);
             List<Game> games = cursor.ToList();
             return games;
         }
-        public List<Game> GetGameWithType(Type type)
+        public IEnumerable<Game> GetGameWithType(Type type)
         {
             var builder = Builders<Game>.Filter;
             var historyFilter = builder.Ne("EndOn", 0);
             var typeFilter = builder.Eq("Type", type);
             var filter = typeFilter & historyFilter;
-            var cursor = collection.Find(filter);
+            var cursor = _gameContext.Games.Find(filter);
             List<Game> games = cursor.ToList();
             return games;
         }

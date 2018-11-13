@@ -3,38 +3,34 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-namespace GameRoomApp.providers
+namespace GameRoomApp.providers.PlayerRepository
 {
-    public class PlayerProvider
+    public class PlayerRepository : IPlayerRepository
     {
-        private IMongoClient client;
-        private IMongoDatabase database;
-        private IMongoCollection<Player> collection;
+        private readonly IPlayerContext _playerContext;
 
-        public PlayerProvider()
+        public PlayerRepository(IPlayerContext playerContext)
         {
-            client = new MongoClient();
-            database = client.GetDatabase("gameRoom");
-            collection = database.GetCollection<Player>("players");
+            _playerContext = playerContext;
         }
 
         public void InsertPlayer(Player player)
         {
-            collection.InsertOne(player);
+            _playerContext.Player.InsertOne(player);
         }
-        public Player GetSpecificPlayer(ObjectId Id)
+        public Player GetPlayer(ObjectId Id)
         {
             var builder = Builders<Player>.Filter;
             var idFilter = builder.Eq("Id", Id);
-            var cursor = collection.Find(idFilter);
+            var cursor = _playerContext.Player.Find(idFilter);
             Player player = cursor.FirstOrDefault();
             return player;
         }
-        public List<Player> GetPlayers()
+        public IEnumerable<Player> GetAllPlayers()
         {
             var builder = Builders<Player>.Filter;
             var filter = builder.Empty;
-            var cursor = collection.Find(filter);
+            var cursor = _playerContext.Player.Find(filter);
             List<Player> players = cursor.ToList();
             return players;
         }
@@ -45,14 +41,13 @@ namespace GameRoomApp.providers
             var idFilter = Fbuilder.Eq("Id", player.Id);
             var updateDefinition = UBuilder.Set("Name", player.Name).Set("Username", player.Username).
                 Set("Password", player.Password).Set("Age", player.Age);
-            var cursor = collection.UpdateOne(idFilter, updateDefinition);
+            var cursor = _playerContext.Player.UpdateOne(idFilter, updateDefinition);
         }
         public void RemovePlayer(ObjectId Id)
         {
             var builder = Builders<Player>.Filter;
             var idFilter = builder.Eq("Id", Id);
-            collection.DeleteOne(idFilter);
+            _playerContext.Player.DeleteOne(idFilter);
         }
-
     }
 }

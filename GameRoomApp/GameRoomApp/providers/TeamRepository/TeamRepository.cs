@@ -5,38 +5,34 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameRoomApp.providers
+namespace GameRoomApp.providers.TeamRepository
 {
-    public class TeamProvider
+    public class TeamProvider : ITeamRepository
     {
-        private IMongoClient client;
-        private IMongoDatabase database;
-        private IMongoCollection<Team> collection;
+        private readonly ITeamContext _teamContext;
 
-        public TeamProvider()
+        public TeamProvider(ITeamContext teamContext)
         {
-            client = new MongoClient();
-            database = client.GetDatabase("gameRoom");
-            collection = database.GetCollection<Team>("teams");
+            _teamContext = teamContext;
         }
         public void InsertTeam(Team a)
         {
-            collection.InsertOne(a);
+            _teamContext.Team.InsertOne(a);
         }
-        public Team GetSpecificTeam(ObjectId Id)
+        public Team GetTeam(ObjectId Id)
         {
            
             var builder = Builders<Team>.Filter;
             var idFilter = builder.Eq("Id",Id);
-            var cursor = collection.Find(idFilter);
+            var cursor = _teamContext.Team.Find(idFilter);
             Team team = cursor.FirstOrDefault();
             return team;
         }
-        public List<Team> GetAllTeams()
+        public IEnumerable<Team> GetAllTeams()
         {
             var builder = Builders<Team>.Filter;
             var idFilter = builder.Empty;
-            var cursor = collection.Find(idFilter);
+            var cursor = _teamContext.Team.Find(idFilter);
             List<Team> teams = cursor.ToList();
             return teams;
         }
@@ -46,18 +42,18 @@ namespace GameRoomApp.providers
             var UBuilder = Builders<Team>.Update;
             var idFilter = Fbuilder.Eq("Id", team.Id);
             var updateDefinition = UBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game",team.Game);
-            var cursor = collection.UpdateOne(idFilter,updateDefinition);
+            var cursor = _teamContext.Team.UpdateOne(idFilter,updateDefinition);
         }
         public void RemoveTeam(ObjectId Id)
         {
             
             var builder = Builders<Team>.Filter;
             var idFilter = builder.Eq("Id",Id);
-            collection.DeleteOne(idFilter);
+            _teamContext.Team.DeleteOne(idFilter);
         }
         public void AddPlayerToTeam(ObjectId id,Player player)
         {
-            Team team = GetSpecificTeam(id);
+            Team team = GetTeam(id);
             List <Player> players= team.Players;
             players.Add(player);
             team.Players = players;
