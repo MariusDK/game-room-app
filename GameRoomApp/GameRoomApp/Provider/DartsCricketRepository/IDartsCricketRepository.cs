@@ -13,6 +13,6 @@ namespace GameRoomApp.providers.DartsCricketRepository
         IEnumerable<DartsCricket> GetAllDartsCricket();
         DartsCricket GetDartsCricketByScore(Score score);
         void UpdateDartsCricket(DartsCricket dartsCricket);
-        void RemoveDartsCricket(ObjectId Id);
+        void RemoveDartsCricket(string Id);
     }
 }

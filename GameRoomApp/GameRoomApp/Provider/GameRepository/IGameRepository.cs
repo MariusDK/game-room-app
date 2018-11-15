@@ -9,13 +9,18 @@ namespace GameRoomApp.providers.GameRepository
     public interface IGameRepository
     {
         void InsertGame(Game game);
-        Game GetSpecificGame(ObjectId objectId);
+        Game GetGameById(ObjectId objectId);
+        Game GetGameByName(string name);
         IEnumerable<Game> GetAllGames();
-        void UpdateGame(Game game);
-        void RemoveGame(ObjectId Id);
-        IEnumerable<Game> GetGamesByPlayer(ObjectId Id);
+        IEnumerable<Game> GetGamesByPlayer(Player player);
         IEnumerable<Game> GetGameHistory();
-        IEnumerable<Game> GetGameWithType(Type type);
+        IEnumerable<Game> GetGamesByType(string type);
+        void UpdateGameById(Game game);
+        void UpdateGameByName(string name,Game game);
+        void RemoveGameById(ObjectId Id);
+        void RemoveGameByName(string Id);
+        void AddPlayerToGame(string id, Player player);
+        void RemovePlayerFromGame(string id, string playerId);
     }
 }
 

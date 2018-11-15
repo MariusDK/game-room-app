@@ -9,7 +9,7 @@ namespace GameRoomApp.providers.PlayerRepository
     public interface IPlayerRepository
     {
         void InsertPlayer(Player player);
-        Player GetPlayer(ObjectId id);
+        Player GetPlayerById(ObjectId id);
         IEnumerable<Player> GetAllPlayers();
         Player GetPlayerByName(string name);
         void UpdatePlayer(Player player);

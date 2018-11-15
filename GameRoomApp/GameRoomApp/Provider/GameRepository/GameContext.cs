@@ -19,7 +19,7 @@ namespace GameRoomApp.providers.GameRepository
         {
             get
             {
-                return _database.GetCollection<Game>("Games");
+                return _database.GetCollection<Game>("Game");
             }
         }
     }

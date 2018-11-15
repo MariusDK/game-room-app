@@ -61,5 +61,11 @@ namespace GameRoomApp.providers.DartsX01Repository
             }
             return leaderboard;
         }
+        public void RemoveDartsX01(string id)
+        {
+            var builder = Builders<DartsX01>.Filter;
+            var idFilter = builder.Eq("Id", id);
+            _dartsX01Context.dartsX01.DeleteOne(idFilter);
+        }
     }
 }

@@ -10,8 +10,15 @@ namespace GameRoomApp.DataModel
     public class DartsCricket
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public Score Score { get; set; }
-        public List<String> Hits { get; set; } 
+        public List<String> Hits { get; set; }
+        public DartsCricket(Score score)
+        {
+            this.Score = score;
+        }
+
     }
+   
 }

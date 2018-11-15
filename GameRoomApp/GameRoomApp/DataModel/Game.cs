@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,8 @@ namespace GameRoomApp.DataModel
     {
         //Elimina runda pentru generalizarea modelului
         [BsonId]
-        public int Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public List<Player> Players { get; set; }
@@ -19,7 +21,23 @@ namespace GameRoomApp.DataModel
         public DateTime StartOn { get; set; }
         public DateTime EndOn { get; set; }
 
-
+        public Game(string Id,string Name, string Type, List<Player> players)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Type = Type;
+            this.Players = players;
+            this.StartOn = DateTime.Today;
+            this.EndOn = DateTime.Today;
+        }
+        public Game(string Name, string Type,List<Player> players)
+        {
+            this.Name = Name;
+            this.Type = Type;
+            this.Players = players;
+            this.StartOn = DateTime.Today;
+            this.EndOn = DateTime.Today;
+        }
         public Game(string Name, string Type)
         {
             this.Name = Name;
@@ -29,6 +47,10 @@ namespace GameRoomApp.DataModel
         public Game(string Name)
         {
             this.Name = Name;
+            this.StartOn = DateTime.Today;
+        }
+        public Game()
+        {
             this.StartOn = DateTime.Today;
         }
 

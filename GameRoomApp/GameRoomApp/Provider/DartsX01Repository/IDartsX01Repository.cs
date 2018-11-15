@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameRoomApp.providers.DartsX01Repository
 {
-    interface IDartsX01Repository
+    public interface IDartsX01Repository
     {
         void InsertDartsX01(DartsX01 dartsX01);
         DartsX01 GetDartsX01(ObjectId Id);
@@ -14,5 +14,6 @@ namespace GameRoomApp.providers.DartsX01Repository
         DartsX01 GetDartsX01ByScore(Score score);
         void UpdateDartsX01(DartsX01 dartsX01);
         Dictionary<Player, int> LeaderboardInGameDartsX01(Game game, List<Score> scores);
+        void RemoveDartsX01(string id);
     }
 }

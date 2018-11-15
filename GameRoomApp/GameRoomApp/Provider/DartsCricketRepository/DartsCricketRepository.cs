@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GameRoomApp.providers.DartsCricketRepository
 {
-    public class DartsCricketRepository
+    public class DartsCricketRepository:IDartsCricketRepository
     {
         private readonly IDartsCricketContext _dartsCricketContext; 
         public DartsCricketRepository(IDartsCricketContext dartsCricketContext)
@@ -51,7 +51,7 @@ namespace GameRoomApp.providers.DartsCricketRepository
             var updateDefinition = UBuilder.Set("Score", dartsCricket.Score).Set("Hits", dartsCricket.Hits);
             var cursor = _dartsCricketContext.dartsCricket.UpdateOne(idFilter, updateDefinition);
         }
-        public void RemoveDartsCricket(ObjectId Id)
+        public void RemoveDartsCricket(string Id)
         {
             var builder = Builders<DartsCricket>.Filter;
             var idFilter = builder.Eq("Id", Id);

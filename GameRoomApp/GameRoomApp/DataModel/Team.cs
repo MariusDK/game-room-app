@@ -15,7 +15,12 @@ namespace GameRoomApp.DataModel
         public List<Player> Players { get; set; }
         public Game Game { get; set; }
 
-
+        public Team(string Name, List<Player> players,Game game)
+        {
+            this.Name = Name;
+            this.Players = players;
+            this.Game = game;
+        }
         public override string ToString()
         {
             return this.Name + " " + this.Players + " "+this.Game;

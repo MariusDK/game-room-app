@@ -1,4 +1,6 @@
 ﻿using GameRoomApp.DataModel;
+using GameRoomApp.providers.DartsCricketRepository;
+using GameRoomApp.providers.DartsX01Repository;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
@@ -8,17 +10,40 @@ namespace GameRoomApp.providers.ScoreRepository
     public class ScoreRepository : IScoreRepository
     {
         private readonly IScoreContext _scoreContext;
+        private readonly IDartsCricketRepository _dartsCricketRepository;
+        private readonly IDartsX01Repository _dartsX01Repository;
 
-        public ScoreRepository(IScoreContext scoreContext)
+        public ScoreRepository(IScoreContext scoreContext, IDartsCricketRepository dartsCricketRepository,
+            IDartsX01Repository dartsX01Repository)
         {
             this._scoreContext = scoreContext;
+            this._dartsCricketRepository = dartsCricketRepository;
+            this._dartsX01Repository = dartsX01Repository;
         }
 
         public void InsertScore(Score score)
         {
             _scoreContext.Score.InsertOne(score);
         }
-
+        public void InsertScoreForAllPlayer(Game game)
+        {
+            List<Player> players = game.Players;
+            foreach (Player player in players)
+            {
+                Score score = new Score(player, game);
+                InsertScore(score);
+                if (game.Type.Equals("Darts/Cricket"))
+                {
+                    DartsCricket dartsCricket = new DartsCricket(score);
+                    _dartsCricketRepository.InsertDartsCricket(dartsCricket);
+                }
+                if (game.Type.Equals("Darts/X01"))
+                {
+                    DartsX01 dartsX01 = new DartsX01(score);
+                    _dartsX01Repository.InsertDartsX01(dartsX01);
+                }
+            }
+        }
         public IEnumerable<Score> GetScoresForGame(Game game)
         {
             var builder = Builders<Score>.Filter;
@@ -27,7 +52,7 @@ namespace GameRoomApp.providers.ScoreRepository
             List<Score> scores = cursor.ToList();
             return scores;
         }
-        
+
         public IEnumerable<Score> LeaderboardForGame(Game game)
         {
             List<Player> players = game.Players;
@@ -41,11 +66,11 @@ namespace GameRoomApp.providers.ScoreRepository
             return scores;
 
         }
-        public Score GetScoreForPlayer(Player player,Game game)
+        public Score GetScoreForPlayer(Player player, Game game)
         {
             var builder = Builders<Score>.Filter;
             var gameFilter = builder.Eq("Game", game);
-            var playerFilter = builder.Eq("Player",player);
+            var playerFilter = builder.Eq("Player", player);
             var filter = gameFilter & playerFilter;
             var cursor = _scoreContext.Score.Find(filter);
             Score score = cursor.FirstOrDefault();
@@ -76,11 +101,11 @@ namespace GameRoomApp.providers.ScoreRepository
             var leaderboard = new Dictionary<Player, int>();
             foreach (Player player in players)
             {
-                int nrWins = GetNumberOfWins(players,player);
+                int nrWins = GetNumberOfWins(players, player);
                 leaderboard.Add(player, nrWins);
             }
         }
-        public int GetNumberOfWins(List<Player> players,Player player)
+        public int GetNumberOfWins(List<Player> players, Player player)
         {
             int count = 0;
             foreach (Player player1 in players)
@@ -101,12 +126,60 @@ namespace GameRoomApp.providers.ScoreRepository
                 Set("Value", score.Value);
             var cursor = _scoreContext.Score.UpdateOne(idFilter, updateDefinition);
         }
-        public void RemoveScore(ObjectId Id)
+        public void UpdateScoreByGame(Game newGame,Game oldGame)
+        {
+            List<Player> players = newGame.Players;
+            foreach (Player player in players)
+            {
+                Score score = GetScoreForPlayer(player, oldGame);
+                if (score == null)
+                {
+                    InsertScoreForAllPlayer(newGame);
+                }
+                else {
+                    score.Game = newGame;
+                    UpdateScore(score);
+                }
+            }
+
+        }
+        public void RemoveScore(string Id)
         {
             var builder = Builders<Score>.Filter;
             var idFilter = builder.Eq("Id", Id);
             _scoreContext.Score.DeleteOne(idFilter);
         }
+        public void RemoveScoreByGame(Game game)
+        {
+            List<Player> players = game.Players;
+            foreach (Player player in players)
+            {
+                Score score = GetScoreForPlayer(player, game);
+                if (score != null)
+                {
+                    RemoveScore(score.Id);
+                    if (game.Type.Equals("Darts/Cricket"))
+                    {
+                        DartsCricket dartsCricket = _dartsCricketRepository.GetDartsCricketByScore(score);
+                        _dartsCricketRepository.RemoveDartsCricket(dartsCricket.Id);
+                    }
+                    if (game.Type.Equals("Darts/X01"))
+                    {
+                        DartsX01 dartsX01 = _dartsX01Repository.GetDartsX01ByScore(score);
+                        _dartsX01Repository.RemoveDartsX01(dartsX01.Id);
+                    }
+                }
+            }
+        }
 
+        public Score GetScoreById(string id)
+        {
+            var builder = Builders<Score>.Filter;
+            var idFilter = builder.Eq("Id", id);
+            var cursor = _scoreContext.Score.Find(idFilter);
+            Score score = cursor.FirstOrDefault();
+            return score;
+        }
     }
 }
+

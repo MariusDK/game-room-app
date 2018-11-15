@@ -26,7 +26,7 @@ namespace GameRoomApp.providers.PlayerRepository
             Player player = cursor.FirstOrDefault();
             return player;
         }
-        public Player GetPlayer(ObjectId Id)
+        public Player GetPlayerById(ObjectId Id)
         {
             var builder = Builders<Player>.Filter;
             var idFilter = builder.Eq("Id", Id);
