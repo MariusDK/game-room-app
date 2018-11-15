@@ -5,4 +5,4 @@
 - In Controller sunt clasele care se ocupa cu Rest API pentru fiecare model in parte.
 - Aplicatia de proneste din clasa Program
 - Au fost implementate o parte din functionalitati, restul urmând pe viitor.
-
+- Programul a fost testat pe doua unitati diferite
