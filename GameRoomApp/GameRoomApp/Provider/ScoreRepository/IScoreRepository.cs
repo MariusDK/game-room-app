@@ -19,7 +19,6 @@ namespace GameRoomApp.providers.ScoreRepository
         void UpdateScore(Score score);
         void UpdateScoreByGame(Game newGame, Game oldGame);
         void RemoveScore(string Id);
-        void RemoveScoreByGame(Game game);
-        
+        void RemoveScoreByGame(Game game);        
     }
 }

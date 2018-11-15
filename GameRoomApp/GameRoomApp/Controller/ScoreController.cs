@@ -7,7 +7,7 @@ using GameRoomApp.providers.ScoreRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameRoomApp.Controllers
+namespace GameRoomApp.Controller
 {
     [Route("api/[controller]")]
     [ApiController]

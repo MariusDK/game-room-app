@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
-namespace GameRoomApp.Controllers
+namespace GameRoomApp.Controller
 {
     [Route("api/[controller]")]
     [ApiController]

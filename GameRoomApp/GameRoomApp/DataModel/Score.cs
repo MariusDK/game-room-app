@@ -15,6 +15,10 @@ namespace GameRoomApp.DataModel
         public Player Player { get; set; }
         public Game Game { get; set; }
         public int Value { get; set; }
+
+        public Score()
+        { }
+
         public Score(string Id, Player Player, Game Game,int Value)
         {
             this.Id = Id;
@@ -35,8 +39,5 @@ namespace GameRoomApp.DataModel
             this.Game = Game;
             this.Value = 0;
         }
-        public Score()
-        {}
-
     }
 }

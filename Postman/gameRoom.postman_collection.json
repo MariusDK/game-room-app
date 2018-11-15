@@ -1,0 +1,1288 @@
+{
+	"info": {
+		"_postman_id": "0d050651-a5b5-4ac1-bee3-7f972bf0dbcb",
+		"name": "gameRoom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "player",
+			"item": [
+				{
+					"name": "getAllPlayers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPlayerById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player/id/5bec01f13b4a4a3cd81f456a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player",
+								"id",
+								"5bec01f13b4a4a3cd81f456a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPlayerByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player/name/Andrei Marian",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player",
+								"name",
+								"Andrei Marian"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertPlayer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Andrei Marian\",\n    \"username\": \"andreiM\",\n    \"password\": \"123456\",\n    \"age\": 20\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePlayerById",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Andrei Marian Ioan\",\n    \"username\": \"andreiMmm\",\n    \"password\": \"888888\",\n    \"age\": 20\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player/id/5bec01f13b4a4a3cd81f456a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player",
+								"id",
+								"5bec01f13b4a4a3cd81f456a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePlayerByName",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \"id\": \"5bec01f13b4a4a3cd81f456a\",\n        \"name\": \"Andrei Marian\",\n        \"username\": \"andreiM\",\n        \"password\": \"999999\",\n        \"age\": 20\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player/name/Andrei Marian Ioan",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player",
+								"name",
+								"Andrei Marian Ioan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player/id/5bec7f8c11ed243a24b24fe1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player",
+								"id",
+								"5bec7f8c11ed243a24b24fe1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByName",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/player/name/Noris Rad",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"player",
+								"name",
+								"Noris Rad"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "team",
+			"item": [
+				{
+					"name": "getAllTeams",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTeamByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/name/Fire",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"name",
+								"Fire"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTeamById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/Id/5bec7506797ff22d183b8419",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"Id",
+								"5bec7506797ff22d183b8419"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPlayers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/players/5bec7506797ff22d183b8419",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"players",
+								"5bec7506797ff22d183b8419"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertTeam",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \"name\": \"Water\",\n        \"players\": \n            [{\n                \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                \"name\": \"Andrei Marian\",\n                \"username\": \"andreiM\",\n                \"password\": \"123456\",\n                \"age\": 20\n            }],\n        \"game\": {\n            \"id\": \"3ca9cd88b2f2580351e1ab5f\",\n            \"name\": \"Joc1\",\n            \"type\": \"Fifa\",\n            \"players\": [\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                    \"name\": \"Andrei Marian\",\n                    \"username\": \"andreiM\",\n                    \"password\": \"123456\",\n                    \"age\": 20\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                    \"name\": \"Noris Rad\",\n                    \"username\": \"noritsRad\",\n                    \"password\": \"999999\",\n                    \"age\": 25\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456b\",\n                    \"name\": \"Mihai Andrea\",\n                    \"username\": \"mAndrea\",\n                    \"password\": \"000000\",\n                    \"age\": 30\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456d\",\n                    \"name\": \"Gicu Groza\",\n                    \"username\": \"gicuggg\",\n                    \"password\": \"172834\",\n                    \"age\": 28\n                }\n            ],\n            \"embarrassingMoments\": null,\n            \"victoryMoments\": null,\n            \"startOn\": \"2018-11-13T22:00:00Z\",\n            \"endOn\": \"2018-11-13T22:00:00Z\"\n        }\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByName",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Water\",\n        \"players\": \n            [{\n        \t\t\"id\": \"5bec01f13b4a4a3cd81f456b\",\n        \t\t\"name\": \"Mihai Andrea\",\n        \t\t\"username\": \"mAndrea\",\n        \t\t\"password\": \"000000\",\n        \t\t\"age\": 30\n    \t\t},\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                \"name\": \"Andrei Marian\",\n                \"username\": \"andreiM\",\n                \"password\": \"123456\",\n                \"age\": 20\n            }],\n        \"game\": {\n            \"id\": \"3ca9cd88b2f2580351e1ab5f\",\n            \"name\": \"Joc1\",\n            \"type\": \"Fifa\",\n            \"players\": [\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                    \"name\": \"Andrei Marian\",\n                    \"username\": \"andreiM\",\n                    \"password\": \"123456\",\n                    \"age\": 20\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                    \"name\": \"Noris Rad\",\n                    \"username\": \"noritsRad\",\n                    \"password\": \"999999\",\n                    \"age\": 25\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456b\",\n                    \"name\": \"Mihai Andrea\",\n                    \"username\": \"mAndrea\",\n                    \"password\": \"000000\",\n                    \"age\": 30\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456d\",\n                    \"name\": \"Gicu Groza\",\n                    \"username\": \"gicuggg\",\n                    \"password\": \"172834\",\n                    \"age\": 28\n                }\n            ],\n            \"embarrassingMoments\": null,\n            \"victoryMoments\": null,\n            \"startOn\": \"2018-11-13T22:00:00Z\",\n            \"endOn\": \"2018-11-13T22:00:00Z\"\n        }\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/name/Water",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"name",
+								"Water"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateById",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Water\",\n        \"players\": \n            [{\n                \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                \"name\": \"Andrei Marian\",\n                \"username\": \"andreiM\",\n                \"password\": \"123456\",\n                \"age\": 20\n            }],\n        \"game\": {\n            \"id\": \"3ca9cd88b2f2580351e1ab5f\",\n            \"name\": \"Joc1\",\n            \"type\": \"Fifa\",\n            \"players\": [\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                    \"name\": \"Andrei Marian\",\n                    \"username\": \"andreiM\",\n                    \"password\": \"123456\",\n                    \"age\": 20\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                    \"name\": \"Noris Rad\",\n                    \"username\": \"noritsRad\",\n                    \"password\": \"999999\",\n                    \"age\": 25\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456b\",\n                    \"name\": \"Mihai Andrea\",\n                    \"username\": \"mAndrea\",\n                    \"password\": \"000000\",\n                    \"age\": 30\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456d\",\n                    \"name\": \"Gicu Groza\",\n                    \"username\": \"gicuggg\",\n                    \"password\": \"172834\",\n                    \"age\": 28\n                }\n            ],\n            \"embarrassingMoments\": null,\n            \"victoryMoments\": null,\n            \"startOn\": \"2018-11-13T22:00:00Z\",\n            \"endOn\": \"2018-11-13T22:00:00Z\"\n        }\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/id/5bec890d8ea8d5270425bf7b",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"id",
+								"5bec890d8ea8d5270425bf7b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPlayerToTeam",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"5bec01f13b4a4a3cd81f456d\",\n    \"name\": \"Gicu Groza\",\n    \"username\": \"gicuggg\",\n    \"password\": \"172834\",\n    \"age\": 28\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/addPlayer/5bec890d8ea8d5270425bf7b",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"addPlayer",
+								"5bec890d8ea8d5270425bf7b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removePlayerFromTeam",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"5bec01f13b4a4a3cd81f456d\""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/removePlayer/5bec890d8ea8d5270425bf7b",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"removePlayer",
+								"5bec890d8ea8d5270425bf7b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByName",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/name/Water",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"name",
+								"Water"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/team/id/5bec7506797ff22d183b8418",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"team",
+								"id",
+								"5bec7506797ff22d183b8418"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "game",
+			"item": [
+				{
+					"name": "getAllGames",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getHistory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/history",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGameLeaderboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/leaderboard/5bec01f13b4a4a3cd81f456f",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"leaderboard",
+								"5bec01f13b4a4a3cd81f456f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGamesByType",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/type/Fifa",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"type",
+								"Fifa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGamesByPlayer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/idPlayer/5bec01f13b4a4a3cd81f456a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"idPlayer",
+								"5bec01f13b4a4a3cd81f456a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGameById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/id/5bec01f13b4a4a3cd81f456f",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"id",
+								"5bec01f13b4a4a3cd81f456f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGameByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/name/Joc1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"name",
+								"Joc1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertGame",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Joc12\",\n        \"type\": \"Darts/X01\",\n        \"players\": [\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                \"name\": \"Andrei Marian\",\n                \"username\": \"andreiM\",\n                \"password\": \"123456\",\n                \"age\": 20\n            },\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                \"name\": \"Noris Rad\",\n                \"username\": \"noritsRad\",\n                \"password\": \"999999\",\n                \"age\": 25\n            },\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456e\",\n                \"name\": \"Aurel Mita\",\n                \"username\": \"mitaurel\",\n                \"password\": \"986344\",\n                \"age\": 40\n            }\n        ],\n        \"embarrassingMoments\": null,\n        \"victoryMoments\": null\n    }"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateById",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n   {\n        \"id\": \"5bec01f13b4a4a3cd81f456f\",\n        \"name\": \"Joc1\",\n        \"type\": \"Darts/X01\",\n        \"players\": [\n            \n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                \"name\": \"Noris Rad\",\n                \"username\": \"noritsRad\",\n                \"password\": \"999999\",\n                \"age\": 25\n            },\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456e\",\n                \"name\": \"Aurel Mita\",\n                \"username\": \"mitaurel\",\n                \"password\": \"986344\",\n                \"age\": 40\n            }\n        ],\n        \"embarrassingMoments\": null,\n        \"victoryMoments\": null,\n        \"startOn\": \"2018-11-14T22:00:00Z\",\n        \"endOn\": \"2018-11-14T22:00:00Z\"\n    }"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/id/5bec01f13b4a4a3cd81f456f",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"id",
+								"5bec01f13b4a4a3cd81f456f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByName",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \"id\": \"5bec01f13b4a4a3cd81f456f\",\n        \"name\": \"Joc1\",\n        \"type\": \"Darts/Cricket\",\n        \"players\": [\n            \n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                \"name\": \"Noris Rad\",\n                \"username\": \"noritsRad\",\n                \"password\": \"999999\",\n                \"age\": 25\n            }\n  \n        ],\n        \"embarrassingMoments\": null,\n        \"victoryMoments\": null,\n        \"startOn\": \"2018-11-14T22:00:00Z\",\n        \"endOn\": \"2018-11-14T22:00:00Z\"\n    }"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/name/Joc1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"name",
+								"Joc1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPlayerToGame",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"5bec01f13b4a4a3cd81f456d\",\n    \"name\": \"Gicu Groza\",\n    \"username\": \"gicuggg\",\n    \"password\": \"172834\",\n    \"age\": 28\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/addPlayer/5bec01f13b4a4a3cd81f456f",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"addPlayer",
+								"5bec01f13b4a4a3cd81f456f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePlayerFromGame",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"5bec01f13b4a4a3cd81f456d\""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/removePlayer/5bec01f13b4a4a3cd81f456f",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"removePlayer",
+								"5bec01f13b4a4a3cd81f456f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteGameById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/id/994f8881011ea98668f4f090",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"id",
+								"994f8881011ea98668f4f090"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByName",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/game/name/Joc5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"game",
+								"name",
+								"Joc5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "score",
+			"item": [
+				{
+					"name": "getScore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/score/5beca6b9f8cf5116c80b0eb5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"score",
+								"5beca6b9f8cf5116c80b0eb5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateScore",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"5beca6b9f8cf5116c80b0eb5\",\n    \"player\": {\n        \"id\": \"5bec01f13b4a4a3cd81f456a\",\n        \"name\": \"Andrei Marian\",\n        \"username\": \"andreiM\",\n        \"password\": \"123456\",\n        \"age\": 20\n    },\n    \"game\": {\n        \"id\": \"5bec01f13b4a4a3cd81f456f\",\n        \"name\": \"Joc1\",\n        \"type\": \"Fifa\",\n        \"players\": [\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                \"name\": \"Andrei Marian\",\n                \"username\": \"andreiM\",\n                \"password\": \"123456\",\n                \"age\": 20\n            },\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                \"name\": \"Noris Rad\",\n                \"username\": \"noritsRad\",\n                \"password\": \"999999\",\n                \"age\": 25\n            },\n            {\n                \"id\": \"5bec01f13b4a4a3cd81f456e\",\n                \"name\": \"Aurel Mita\",\n                \"username\": \"mitaurel\",\n                \"password\": \"986344\",\n                \"age\": 40\n            }\n        ],\n        \"embarrassingMoments\": null,\n        \"victoryMoments\": null,\n        \"startOn\": \"2018-11-14T22:00:00Z\",\n        \"endOn\": \"2018-11-14T22:00:00Z\"\n    },\n    \"value\": 100\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/score/id/5beca6b9f8cf5116c80b0eb5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"score",
+								"id",
+								"5beca6b9f8cf5116c80b0eb5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteScore",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/score/id/5beca6b9f8cf5116c80b0eb5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"score",
+								"id",
+								"5beca6b9f8cf5116c80b0eb5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dartsCricket",
+			"item": [
+				{
+					"name": "getAllDartsCricket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsCricket",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsCricket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDartsCricket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsCricket/id/5beca89df8cf5116c80b0ece",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsCricket",
+								"id",
+								"5beca89df8cf5116c80b0ece"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDartsCricket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"score\": {\n        \"id\": \"5beca89df8cf5116c80b0ecd\",\n        \"player\": {\n            \"id\": \"5bec01f13b4a4a3cd81f456c\",\n            \"name\": \"Noris Rad\",\n            \"username\": \"noritsRad\",\n            \"password\": \"999999\",\n            \"age\": 25\n        },\n        \"game\": {\n            \"id\": \"5bec01f13b4a4a3cd81f456f\",\n            \"name\": \"Joc1\",\n            \"type\": \"Darts/Cricket\",\n            \"players\": [\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                    \"name\": \"Noris Rad\",\n                    \"username\": \"noritsRad\",\n                    \"password\": \"999999\",\n                    \"age\": 25\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456e\",\n                    \"name\": \"Aurel Mita\",\n                    \"username\": \"mitaurel\",\n                    \"password\": \"986344\",\n                    \"age\": 40\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456d\",\n                    \"name\": \"Gicu Groza\",\n                    \"username\": \"gicuggg\",\n                    \"password\": \"172834\",\n                    \"age\": 28\n                }\n            ],\n            \"embarrassingMoments\": null,\n            \"victoryMoments\": null,\n            \"startOn\": \"2018-11-14T22:00:00Z\",\n            \"endOn\": \"2018-11-14T22:00:00Z\"\n        },\n        \"value\": 0\n    },\n    \"hits\": [\"15\", \"18\", \"B\"]\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsCricket/id/5beca89df8cf5116c80b0ece",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsCricket",
+								"id",
+								"5beca89df8cf5116c80b0ece"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteDartsCricket",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsCricket/id/5beca89df8cf5116c80b0ece",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsCricket",
+								"id",
+								"5beca89df8cf5116c80b0ece"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dartsX01",
+			"item": [
+				{
+					"name": "getAllDartsX01",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsX01",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsX01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDartsX01",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsX01/id/5becb7da5383af2830cfe926",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsX01",
+								"id",
+								"5becb7da5383af2830cfe926"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDartsX01",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"score\": {\n        \"id\": \"c031f962f4782a69c1928f0f\",\n        \"player\": {\n            \"id\": \"5bec01f13b4a4a3cd81f456a\",\n            \"name\": \"Andrei Marian\",\n            \"username\": \"andreiM\",\n            \"password\": \"123456\",\n            \"age\": 20\n        },\n        \"game\": {\n            \"id\": \"df8b4518c1f279c812c3e9c6\",\n            \"name\": \"Joc3\",\n            \"type\": \"Darts/X01\",\n            \"players\": [\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456a\",\n                    \"name\": \"Andrei Marian\",\n                    \"username\": \"andreiM\",\n                    \"password\": \"123456\",\n                    \"age\": 20\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456c\",\n                    \"name\": \"Noris Rad\",\n                    \"username\": \"noritsRad\",\n                    \"password\": \"999999\",\n                    \"age\": 25\n                },\n                {\n                    \"id\": \"5bec01f13b4a4a3cd81f456e\",\n                    \"name\": \"Aurel Mita\",\n                    \"username\": \"mitaurel\",\n                    \"password\": \"986344\",\n                    \"age\": 40\n                }\n            ],\n            \"embarrassingMoments\": null,\n            \"victoryMoments\": null,\n            \"startOn\": \"2018-11-14T22:00:00Z\",\n            \"endOn\": \"2018-11-14T22:00:00Z\"\n        },\n        \"value\": 0\n    },\n    \"stateScore\": 100\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsX01/id/5becb7da5383af2830cfe926",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsX01",
+								"id",
+								"5becb7da5383af2830cfe926"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteDartsX01",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44333/api/dartsX01/id/5becb7da5383af2830cfe926",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44333",
+							"path": [
+								"api",
+								"dartsX01",
+								"id",
+								"5becb7da5383af2830cfe926"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

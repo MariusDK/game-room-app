@@ -13,7 +13,6 @@ namespace GameRoomApp.providers.PlayerRepository
         {
             _playerContext = playerContext;
         }
-
         public void InsertPlayer(Player player)
         {
             _playerContext.Player.InsertOne(player);
@@ -72,7 +71,5 @@ namespace GameRoomApp.providers.PlayerRepository
             var nameFilter = builder.Eq("Name", name);
             _playerContext.Player.DeleteOne(nameFilter);
         }
-
-
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 
-namespace GameRoomApp.Controllers
+namespace GameRoomApp.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,14 +20,11 @@ namespace GameRoomApp.Controllers
         {
             this._teamRepository = teamRepository;
         }
-        // GET: api/Team
         [HttpGet]
         public IEnumerable<Team> GetAllTeams()
         {
             return _teamRepository.GetAllTeams();
         }
-
-        // GET: api/Team/5
         [HttpGet("name/{name}", Name = "GetByName")]
         public Team GetTeamByName(string name)
         {
@@ -63,7 +60,6 @@ namespace GameRoomApp.Controllers
             }
             return null;
         }
-        // POST: api/Team
         [HttpPost]
         public string Post([FromBody] Team team)
         {
@@ -80,8 +76,6 @@ namespace GameRoomApp.Controllers
             }
             return result;
         }
-       
-        // PUT: api/Team/5
         [HttpPut("name/{name}")]
         public string PutByName(string name, [FromBody] Team team)
         {
@@ -155,7 +149,6 @@ namespace GameRoomApp.Controllers
             }
             return result;
         }
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("name/{name}")]
         public string DeleteByName(string name)
         {
@@ -178,9 +171,9 @@ namespace GameRoomApp.Controllers
         {
             var result = string.Empty;
             ObjectId Id = new ObjectId(id);
-            var existentPlayer = _teamRepository.GetTeam(Id);
+            var existentTeam = _teamRepository.GetTeam(Id);
 
-            if (existentPlayer != null)
+            if (existentTeam != null)
             {
                 _teamRepository.RemoveTeam(Id);
                 result = "Delete Working!";

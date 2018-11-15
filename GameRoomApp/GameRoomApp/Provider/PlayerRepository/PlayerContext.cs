@@ -15,8 +15,6 @@ namespace GameRoomApp.providers.PlayerRepository
             var client = new MongoClient(options.Value.ConnectionString);
             _database = client.GetDatabase(options.Value.DatabaseName);
         }
-
-
         public IMongoCollection<Player> Player
         {
             get
