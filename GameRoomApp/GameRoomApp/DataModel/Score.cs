@@ -9,35 +9,36 @@ namespace GameRoomApp.DataModel
     [BsonIgnoreExtraElements]
     public class Score
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-        public Player Player { get; set; }
-        public Game Game { get; set; }
-        public int Value { get; set; }
-
+       
         public Score()
         { }
 
-        public Score(string Id, Player Player, Game Game,int Value)
+        public Score(string Id, Team Team, Game Game,int Value)
         {
             this.Id = Id;
-            this.Player = Player;
+            this.Team = Team;
             this.Game = Game;
             this.Value = Value;
         }
-        public Score(string Id, Player Player, Game Game)
+        public Score(string Id, Team Team, Game Game)
         {
             this.Id = Id;
-            this.Player = Player;
+            this.Team = Team;
             this.Game = Game;
             this.Value = 0;
         }
-        public Score(Player Player, Game Game)
+        public Score(Team Team, Game Game)
         {
-            this.Player = Player;
+            this.Team = Team;
             this.Game = Game;
             this.Value = 0;
         }
+
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        public Team Team { get; set; }
+        public Game Game { get; set; }
+        public int Value { get; set; }
     }
 }

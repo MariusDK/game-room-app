@@ -9,10 +9,10 @@ namespace GameRoomApp.providers.DartsCricketRepository
     public interface IDartsCricketRepository
     {
         void InsertDartsCricket(DartsCricket dartsCricket);
-        DartsCricket GetDartsCricket(ObjectId Id);
+        DartsCricket GetDartsCricket(ObjectId id);
         IEnumerable<DartsCricket> GetAllDartsCricket();
         DartsCricket GetDartsCricketByScore(Score score);
         void UpdateDartsCricket(DartsCricket dartsCricket);
-        void RemoveDartsCricket(string Id);
+        void RemoveDartsCricket(string id);
     }
 }

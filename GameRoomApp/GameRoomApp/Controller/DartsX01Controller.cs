@@ -24,18 +24,20 @@ namespace GameRoomApp.Controller
         {
             return _dartsX01Repository.GetAllDartsX01();
         }
-        [HttpGet("id/{id}", Name = "GetDartsX01")]
-        public DartsX01 GetDartsX01(string id)
+        [HttpGet]
+        [ActionName(nameof(GetDartsX01))]
+        [ExactQueryParam("dartsId")]
+        public DartsX01 GetDartsX01(string dartsId)
         {
-            ObjectId Id = new ObjectId(id);
-            return _dartsX01Repository.GetDartsX01(Id);
+            ObjectId idObject = new ObjectId(dartsId);
+            return _dartsX01Repository.GetDartsX01(idObject);
         }
         [HttpPost]
         public string PostDartsX01([FromBody] DartsX01 dartsX01)
         {
             var result = string.Empty;
-            ObjectId Id = new ObjectId(dartsX01.Id);
-            var existentDartsX01 = _dartsX01Repository.GetDartsX01(Id);
+            ObjectId id = new ObjectId(dartsX01.Id);
+            var existentDartsX01 = _dartsX01Repository.GetDartsX01(id);
             if (existentDartsX01 == null)
             {
                 _dartsX01Repository.InsertDartsX01(dartsX01);
@@ -47,13 +49,14 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("id/{id}")]
-        public string PutDartsX01(string id, [FromBody] DartsX01 dartsX01)
+        [HttpPut]
+        [ExactQueryParam("dartsId")]
+        public string PutDartsX01(string dartsId, [FromBody] DartsX01 dartsX01)
         {
-            ObjectId Id = new ObjectId(id);
+            ObjectId idObject = new ObjectId(dartsId);
             var result = string.Empty;
-            var existentDartsX01 = _dartsX01Repository.GetDartsX01(Id);
-            dartsX01.Id = id;
+            var existentDartsX01 = _dartsX01Repository.GetDartsX01(idObject);
+            dartsX01.Id = dartsId;
             if (existentDartsX01 != null)
             {
                 _dartsX01Repository.UpdateDartsX01(dartsX01);
@@ -65,12 +68,13 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("id/{id}")]
-        public string DeleteDartsX01(string id)
+        [HttpDelete]
+        [ExactQueryParam("dartsId")]
+        public string DeleteDartsX01(string dartsId)
         {
-            ObjectId Id = new ObjectId(id);
+            ObjectId idObject = new ObjectId(dartsId);
             var result = string.Empty;
-            var existentDartsX01 = _dartsX01Repository.GetDartsX01(Id);
+            var existentDartsX01 = _dartsX01Repository.GetDartsX01(idObject);
 
             if (existentDartsX01 != null)
             {

@@ -9,7 +9,7 @@ namespace GameRoomApp.providers.DartsX01Repository
     public interface IDartsX01Repository
     {
         void InsertDartsX01(DartsX01 dartsX01);
-        DartsX01 GetDartsX01(ObjectId Id);
+        DartsX01 GetDartsX01(ObjectId id);
         IEnumerable<DartsX01> GetAllDartsX01();
         DartsX01 GetDartsX01ByScore(Score score);
         void UpdateDartsX01(DartsX01 dartsX01);

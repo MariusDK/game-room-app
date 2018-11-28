@@ -17,10 +17,10 @@ namespace GameRoomApp.providers.GameRepository
         IEnumerable<Game> GetGamesByType(string type);
         void UpdateGameById(Game game);
         void UpdateGameByName(string name,Game game);
-        void RemoveGameById(ObjectId Id);
-        void RemoveGameByName(string Id);
-        void AddPlayerToGame(string id, Player player);
-        void RemovePlayerFromGame(string id, string playerId);
+        void RemoveGameById(ObjectId id);
+        void RemoveGameByName(string id);
+        void AddPlayerToGame(string id, Team team);
+        void RemoveTeamFromGame(string id, string teamId);
     }
 }
 

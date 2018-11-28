@@ -18,17 +18,20 @@ namespace GameRoomApp.Controller
         {
             this._scoreRepository = scoreRepository;
         }
-        [HttpGet("{id}", Name = "Get")]
-        public Score GetScore(string id)
+        [HttpGet]
+        [ActionName("GetScore")]
+        [ExactQueryParam("scoreId")]
+        public Score GetScore(string scoreId)
         {
             return _scoreRepository.GetScoreById(id);
         }
-        [HttpPut("id/{id}")]
-        public string PutScore(string id, [FromBody] Score score)
+        [HttpPut]
+        [ExactQueryParam("scoreId")]
+        public string PutScore(string scoreId, [FromBody] Score score)
         {
 
             var result = string.Empty;
-            var existentScore = _scoreRepository.GetScoreById(id);
+            var existentScore = _scoreRepository.GetScoreById(scoreId);
 
             if (existentScore != null)
             {
@@ -42,16 +45,16 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("id/{id}")]
-        public string DeleteScore(string id)
+        [HttpDelete]
+        [ExactQueryParam("scoreId")]
+        public string DeleteScore(string scoreId)
         {
             var result = string.Empty;
-            var existentScore = _scoreRepository.GetScoreById(id);
+            var existentScore = _scoreRepository.GetScoreById(scoreId);
 
             if (existentScore != null)
             {
-
-                _scoreRepository.RemoveScore(id);
+                _scoreRepository.RemoveScore(scoreId);
                 result = "Delete Working!";
             }
             else

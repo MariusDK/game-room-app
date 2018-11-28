@@ -45,28 +45,28 @@ namespace GameRoomApp.providers.GameRepository
         }
         public void UpdateGameById(Game game)
         {
-            FilterDefinitionBuilder<Game> GFilter = Builders<Game>.Filter;
-            var UBuilder = Builders<Game>.Update;
-            var idFilter = GFilter.Eq("Id", game.Id);
-            var updateDefinition = UBuilder.Set("Name",game.Name).Set("Type",game.Type).Set("Players",game.Players).
+            FilterDefinitionBuilder<Game> gFilter = Builders<Game>.Filter;
+            var uBuilder = Builders<Game>.Update;
+            var idFilter = gFilter.Eq("Id", game.Id);
+            var updateDefinition = uBuilder.Set("Name",game.Name).Set("Type",game.Type).Set("Teams",game.Teams).
                 Set("StartOn",game.StartOn).Set("EndOn",game.EndOn).
                 Set("EmbarrassingMoments",game.EmbarrassingMoments).Set("VictoryMoments",game.VictoryMoments);
             var cursor = _gameContext.Games.UpdateOne(idFilter,updateDefinition);
         }
         public void UpdateGameByName(string name,Game game)
         {
-            FilterDefinitionBuilder<Game> GFilter = Builders<Game>.Filter;
-            var UBuilder = Builders<Game>.Update;
-            var nameFilter = GFilter.Eq("Name", name);
-            var updateDefinition = UBuilder.Set("Name", game.Name).Set("Type", game.Type).Set("Players", game.Players).
+            FilterDefinitionBuilder<Game> gFilter = Builders<Game>.Filter;
+            var uBuilder = Builders<Game>.Update;
+            var nameFilter = gFilter.Eq("Name", name);
+            var updateDefinition = uBuilder.Set("Name", game.Name).Set("Type", game.Type).Set("Teams", game.Teams).
                 Set("StartOn", game.StartOn).Set("EndOn", game.EndOn).
                 Set("EmbarrassingMoments", game.EmbarrassingMoments).Set("VictoryMoments", game.VictoryMoments);
             var cursor = _gameContext.Games.UpdateOne(nameFilter, updateDefinition);
         }
-        public void RemoveGameById(ObjectId Id)
+        public void RemoveGameById(ObjectId id)
         {
             var builder = Builders<Game>.Filter;
-            var idFilter = builder.Eq("Id",Id);
+            var idFilter = builder.Eq("Id",id);
             _gameContext.Games.DeleteOne(idFilter);
         }
         public void RemoveGameByName(string name)
@@ -101,29 +101,29 @@ namespace GameRoomApp.providers.GameRepository
             List<Game> games = cursor.ToList();
             return games;
         }
-        public void AddPlayerToGame(string id, Player player)
+        public void AddPlayerToGame(string id, Team team)
         {
             ObjectId objectId = new ObjectId(id);
             Game game = GetGameById(objectId);
-            List<Player> players = game.Players;
-            players.Add(player);
-            game.Players = players;
+            List<Team> teams = game.Teams;
+            teams.Add(team);
+            game.Teams = teams;
             UpdateGameById(game);
         }
-        public void RemovePlayerFromGame(string id, string playerId)
+        public void RemoveTeamFromGame(string id, string teamId)
         {
             ObjectId objectId = new ObjectId(id);
             Game game = GetGameById(objectId);
-            List<Player> players = game.Players;
-            foreach (Player player in players)
+            List<Team> teams = game.Teams;
+            foreach (Team team in teams)
             {
-                if (player.Id.Equals(playerId))
+                if (team.Id.Equals(teamId))
                 {
-                    players.Remove(player);
+                    teams.Remove(team);
                     break;
                 }
             }
-            game.Players = players;
+            game.Teams = teams;
             UpdateGameById(game);
         }
     }

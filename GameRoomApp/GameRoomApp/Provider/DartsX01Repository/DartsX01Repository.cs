@@ -19,10 +19,10 @@ namespace GameRoomApp.providers.DartsX01Repository
         {
             _dartsX01Context.dartsX01.InsertOne(dartsX01);
         }
-        public DartsX01 GetDartsX01(ObjectId Id)
+        public DartsX01 GetDartsX01(ObjectId id)
         {
             var builder = Builders<DartsX01>.Filter;
-            var idFilter = builder.Eq("Id", Id);
+            var idFilter = builder.Eq("Id", id);
             var cursor = _dartsX01Context.dartsX01.Find(idFilter);
             DartsX01 dartsX01 = cursor.FirstOrDefault();
             return dartsX01;
@@ -45,19 +45,19 @@ namespace GameRoomApp.providers.DartsX01Repository
         }
         public void UpdateDartsX01(DartsX01 dartsX01)
         {
-            FilterDefinitionBuilder<DartsX01> GFilter = Builders<DartsX01>.Filter;
-            var UBuilder = Builders<DartsX01>.Update;
-            var idFilter = GFilter.Eq("Id", dartsX01.Id);
-            var updateDefinition = UBuilder.Set("Score", dartsX01.Score).Set("StateScore", dartsX01.StateScore);
+            FilterDefinitionBuilder<DartsX01> gFilter = Builders<DartsX01>.Filter;
+            var uBuilder = Builders<DartsX01>.Update;
+            var idFilter = gFilter.Eq("Id", dartsX01.Id);
+            var updateDefinition = uBuilder.Set("Score", dartsX01.Score).Set("StateScore", dartsX01.StateScore);
             var cursor = _dartsX01Context.dartsX01.UpdateOne(idFilter, updateDefinition);
         }
-        public Dictionary<Player, int> LeaderboardInGameDartsX01(Game game, List<Score> scores)
+        public Dictionary<Team, int> LeaderboardInGameDartsX01(Game game, List<Score> scores)
         {
-            var leaderboard = new Dictionary<Player, int>();
+            var leaderboard = new Dictionary<Team, int>();
             foreach (Score score in scores)
             {
                 DartsX01 dartsX01 = GetDartsX01ByScore(score);
-                leaderboard.Add(score.Player,dartsX01.StateScore);
+                leaderboard.Add(score.Team,dartsX01.StateScore);
             }
             return leaderboard;
         }

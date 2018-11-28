@@ -25,37 +25,43 @@ namespace GameRoomApp.Controller
         {
             return _teamRepository.GetAllTeams();
         }
-        [HttpGet("name/{name}", Name = "GetByName")]
-        public Team GetTeamByName(string name)
+        [HttpGet]
+        [ActionName(nameof(GetTeamByName))]
+        [ExactQueryParam("playerName")]
+        public Team GetTeamByName(string teamName)
         {
             var team = default(Team);
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(teamName))
             {
-                return _teamRepository.GetTeamByName(name);
+                return _teamRepository.GetTeamByName(teamName);
             }
             return team;
         }
-        [HttpGet("id/{id}", Name = "GetById")]
-        public Team GetTeamById(string id)
+        [HttpGet]
+        [ActionName(nameof(GetTeamById))]
+        [ExactQueryParam("teamId")]
+        public Team GetTeamById(string teamId)
         {
             
             var team = default(Team);
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(teamId))
             {
-                ObjectId Id = new ObjectId(id);
-                return _teamRepository.GetTeam(Id);
+                ObjectId idObject = new ObjectId(teamId);
+                return _teamRepository.GetTeam(idObject);
             }
             return team;
         }
-        [HttpGet("players/{id}",Name = "GetPlayers")]
-        public IEnumerable<Player> GetPlayers(string id)
+        [HttpGet]
+        [ActionName(nameof(GetPlayers))]
+        [ExactQueryParam("teamId")]
+        public IEnumerable<Player> GetPlayers(string teamId)
         {
 
             var team = default(Team);
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(teamId))
             {
-                ObjectId Id = new ObjectId(id);
-                team = _teamRepository.GetTeam(Id);
+                ObjectId idObject = new ObjectId(teamId);
+                team = _teamRepository.GetTeam(idObject);
                 return team.Players;
             }
             return null;
@@ -76,16 +82,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("name/{name}")]
-        public string PutByName(string name, [FromBody] Team team)
+        [HttpPut]
+        [ExactQueryParam("teamName")]
+        public string PutByName(string teamName, [FromBody] Team team)
         {
             var result = string.Empty;
-            var existentTeam = _teamRepository.GetTeamByName(name);
+            var existentTeam = _teamRepository.GetTeamByName(teamName);
 
             if (existentTeam != null)
             {
 
-                _teamRepository.UpdateTeamByName(name,team);
+                _teamRepository.UpdateTeamByName(teamName,team);
                 result = "Update Working!";
             }
             else
@@ -94,16 +101,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("id/{id}")]
-        public string PutById(string id, [FromBody] Team team)
+        [HttpPut]
+        [ExactQueryParam("teamId")]
+        public string PutById(string teamId, [FromBody] Team team)
         {
             var result = string.Empty;
-            ObjectId Id = new ObjectId(id);
-            var existentTeam = _teamRepository.GetTeam(Id);
+            ObjectId idObject = new ObjectId(teamId);
+            var existentTeam = _teamRepository.GetTeam(idObject);
             
             if (existentTeam != null)
             {
-                team.Id = Id;
+                team.Id = idObject;
                 _teamRepository.UpdateTeam(team);
                 result = "Update Working!";
             }
@@ -113,16 +121,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("addPlayer/{id}")]
-        public string PutPlayer(string id, [FromBody] Player player)
+        [HttpPut]
+        [ExactQueryParam("teamId")]
+        public string PutPlayer(string teamId, [FromBody] Player player)
         {
             var result = string.Empty;
-            ObjectId Id = new ObjectId(id);
-            var existentTeam = _teamRepository.GetTeam(Id);
+            ObjectId idObject = new ObjectId(teamId);
+            var existentTeam = _teamRepository.GetTeam(idObject);
 
             if (existentTeam != null)
             {
-                _teamRepository.AddPlayerToTeam(Id, player);
+                _teamRepository.AddPlayerToTeam(idObject, player);
                 result = "Update Working!";
             }
             else
@@ -131,16 +140,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("removePlayer/{id}")]
-        public string PutDeletePlayer(string id, [FromBody] string idPlayer)
+        [HttpPut]
+        [ExactQueryParam("teamId")]
+        public string PutDeletePlayer(string teamId, [FromBody] string idPlayer)
         {
             var result = string.Empty;
-            ObjectId Id = new ObjectId(id);
-            var existentTeam = _teamRepository.GetTeam(Id);
+            ObjectId idObject = new ObjectId(teamId);
+            var existentTeam = _teamRepository.GetTeam(idObject);
 
             if (existentTeam != null)
             {
-                _teamRepository.RemovePlayerFromTeam(Id, idPlayer);
+                _teamRepository.RemovePlayerFromTeam(idObject, idPlayer);
                 result = "Update Working!";
             }
             else
@@ -149,15 +159,16 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("name/{name}")]
-        public string DeleteByName(string name)
+        [HttpDelete]
+        [ExactQueryParam("teamName")]
+        public string DeleteByName(string teamName)
         {
             var result = string.Empty;
-            var existentTeam = _teamRepository.GetTeamByName(name);
+            var existentTeam = _teamRepository.GetTeamByName(teamName);
 
             if (existentTeam != null)
             {
-                _teamRepository.RemoveTeamByName(name);
+                _teamRepository.RemoveTeamByName(teamName);
                 result = "Delete Working!";
             }
             else
@@ -166,16 +177,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("id/{id}")]
-        public string DeleteById(string id)
+        [HttpDelete]
+        [ExactQueryParam("teamId")]
+        public string DeleteById(string teamId)
         {
             var result = string.Empty;
-            ObjectId Id = new ObjectId(id);
-            var existentTeam = _teamRepository.GetTeam(Id);
+            ObjectId idObject = new ObjectId(teamId);
+            var existentTeam = _teamRepository.GetTeam(idObject);
 
             if (existentTeam != null)
             {
-                _teamRepository.RemoveTeam(Id);
+                _teamRepository.RemoveTeam(idObject);
                 result = "Delete Working!";
             }
             else

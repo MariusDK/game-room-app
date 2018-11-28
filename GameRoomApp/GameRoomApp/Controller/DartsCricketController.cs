@@ -24,18 +24,20 @@ namespace GameRoomApp.Controller
         {
             return _dartsCricketRepository.GetAllDartsCricket();
         }
-        [HttpGet("id/{id}", Name = "GetDartsCricket")]
-        public DartsCricket GetDartsCricket(string id)
+        [HttpGet]
+        [ActionName(nameof(GetDartsCricket))]
+        [ExactQueryParam("dartsId")]
+        public DartsCricket GetDartsCricket(string dartsId)
         {
-            ObjectId Id = new ObjectId(id);
-            return _dartsCricketRepository.GetDartsCricket(Id);
+            ObjectId idObject = new ObjectId(dartsId);
+            return _dartsCricketRepository.GetDartsCricket(idObject);
         }
         [HttpPost]
         public string PostDartsCricket([FromBody] DartsCricket dartsCricket)
         {
             var result = string.Empty;
-            ObjectId Id = new ObjectId(dartsCricket.Id);
-            var existentDartsCricket = _dartsCricketRepository.GetDartsCricket(Id);
+            ObjectId id = new ObjectId(dartsCricket.Id);
+            var existentDartsCricket = _dartsCricketRepository.GetDartsCricket(id);
             if (existentDartsCricket == null)
             {
                 _dartsCricketRepository.InsertDartsCricket(dartsCricket);
@@ -47,13 +49,14 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("id/{id}")]
-        public string PutDartsCricket(string id, [FromBody] DartsCricket dartsCricket)
+        [HttpPut]
+        [ExactQueryParam("dartsId")]
+        public string PutDartsCricket(string dartsId, [FromBody] DartsCricket dartsCricket)
         {
-            ObjectId Id = new ObjectId(id);
+            ObjectId idObject = new ObjectId(dartsId);
             var result = string.Empty;
-            var existentDartsCricket = _dartsCricketRepository.GetDartsCricket(Id);
-            dartsCricket.Id = id;
+            var existentDartsCricket = _dartsCricketRepository.GetDartsCricket(idObject);
+            dartsCricket.Id = dartsId;
 
             if (existentDartsCricket != null)
             {
@@ -66,16 +69,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("id/{id}")]
-        public string DeleteDartsCricket(string id)
+        [HttpDelete]
+        [ExactQueryParam("dartsId")]
+        public string DeleteDartsCricket(string dartsId)
         {
-            ObjectId Id = new ObjectId(id);
+            ObjectId idObject = new ObjectId(dartsId);
             var result = string.Empty;
-            var existentDartsCricket = _dartsCricketRepository.GetDartsCricket(Id);
+            var existentDartsCricket = _dartsCricketRepository.GetDartsCricket(idObject);
 
             if (existentDartsCricket != null)
             {
-                _dartsCricketRepository.RemoveDartsCricket(Id.ToString());
+                _dartsCricketRepository.RemoveDartsCricket(idObject.ToString());
                 result = "Delete Working!";
             }
             else

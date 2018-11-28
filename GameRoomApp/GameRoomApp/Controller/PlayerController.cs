@@ -25,19 +25,23 @@ namespace GameRoomApp.Controller
         {
             return _playerRepository.GetAllPlayers();
         }
-        [HttpGet("id/{id}", Name = "GetPlayerById")]
-        public Player GetPlayerById(string id)
+        [HttpGet]
+        [ActionName(nameof(GetPlayerById))]
+        [ExactQueryParam("playerId")]
+        public Player GetPlayerById(string playerId)
         {
-            ObjectId Id = new ObjectId(id);
-            return _playerRepository.GetPlayerById(Id);
+            ObjectId idObject = new ObjectId(playerId);
+            return _playerRepository.GetPlayerById(idObject);
         }
-        [HttpGet("name/{name}", Name = "GetPlayerByName")]
-        public Player GetPlayerByName(String name)
+        [HttpGet]
+        [ActionName(nameof(GetPlayerByName))]
+        [ExactQueryParam("playerName")]
+        public Player GetPlayerByName(String playerName)
         {
             var player = default(Player);
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(playerName))
             {
-                return _playerRepository.GetPlayerByName(name);
+                return _playerRepository.GetPlayerByName(playerName);
             }
             return player;
         }
@@ -57,15 +61,16 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("id/{id}")]
-        public string PutById(string id, [FromBody] Player player)
+        [HttpPut]
+        [ExactQueryParam("playerId")]
+        public string PutById(string playerId, [FromBody] Player player)
         {
-            ObjectId Id = new ObjectId(id);
+            ObjectId idObject = new ObjectId(playerId);
             var result = string.Empty;
-            var existentPlayer = _playerRepository.GetPlayerById(Id);
+            var existentPlayer = _playerRepository.GetPlayerById(idObject);
             if (existentPlayer != null)
             {
-                player.Id = id;
+                player.Id = playerId;
                 _playerRepository.UpdatePlayer(player);
                 result = "Update Working!";
             }
@@ -75,15 +80,16 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpPut("name/{name}")]
-        public string PutByName(string name, [FromBody] Player player)
+        [HttpPut]
+        [ExactQueryParam("playerName")]
+        public string PutByName(string playerName, [FromBody] Player player)
         {
             var result = string.Empty;
-            var existentPlayer = _playerRepository.GetPlayerByName(name);
+            var existentPlayer = _playerRepository.GetPlayerByName(playerName);
 
             if (existentPlayer != null)
             {
-                _playerRepository.UpdatePlayerByName(name,player);
+                _playerRepository.UpdatePlayerByName(playerName,player);
                 result = "Update Working!";
             }
             else
@@ -92,16 +98,17 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("id/{id}")]
-        public string DeleteById(string id)
+        [HttpDelete]
+        [ExactQueryParam("playerId")]
+        public string DeleteById(string playerId)
         {
-            ObjectId Id = new ObjectId(id);
+            ObjectId idObject = new ObjectId(playerId);
             var result = string.Empty;
-            var existentPlayer = _playerRepository.GetPlayerById(Id);
+            var existentPlayer = _playerRepository.GetPlayerById(idObject);
 
             if (existentPlayer != null)
             {
-                _playerRepository.RemovePlayer(Id);
+                _playerRepository.RemovePlayer(idObject);
                 result = "Delete Working!";
             }
             else
@@ -110,15 +117,16 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
-        [HttpDelete("name/{name}")]
-        public string DeleteByName(string name)
+        [HttpDelete]
+        [ExactQueryParam("playerName")]
+        public string DeleteByName(string playerName)
         {
             var result = string.Empty;
-            var existentPlayer = _playerRepository.GetPlayerByName(name);
+            var existentPlayer = _playerRepository.GetPlayerByName(playerName);
 
             if (existentPlayer != null)
             {
-                _playerRepository.RemovePlayerByName(name);
+                _playerRepository.RemovePlayerByName(playerName);
                 result = "Delete Working!";
             }
             else

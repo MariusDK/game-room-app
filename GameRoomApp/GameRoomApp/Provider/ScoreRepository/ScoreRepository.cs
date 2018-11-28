@@ -27,10 +27,10 @@ namespace GameRoomApp.providers.ScoreRepository
         }
         public void InsertScoreForAllPlayer(Game game)
         {
-            List<Player> players = game.Players;
-            foreach (Player player in players)
+            List<Team> teams = game.Teams;
+            foreach (Team team in teams)
             {
-                Score score = new Score(player, game);
+                Score score = new Score(team, game);
                 InsertScore(score);
                 if (game.Type.Equals("Darts/Cricket"))
                 {
@@ -55,23 +55,23 @@ namespace GameRoomApp.providers.ScoreRepository
 
         public IEnumerable<Score> LeaderboardForGame(Game game)
         {
-            List<Player> players = game.Players;
+            List<Team> teams = game.Teams;
             List<Score> scores = new List<Score>();
-            foreach (Player player in players)
+            foreach (Team team in teams)
             {
-                Score score = GetScoreForPlayer(player, game);
+                Score score = GetScoreForTeam(team, game);
                 scores.Add(score);
             }
             LeaderboardSort(scores);
             return scores;
 
         }
-        public Score GetScoreForPlayer(Player player, Game game)
+        public Score GetScoreForTeam(Team team, Game game)
         {
             var builder = Builders<Score>.Filter;
             var gameFilter = builder.Eq("Game", game);
-            var playerFilter = builder.Eq("Player", player);
-            var filter = gameFilter & playerFilter;
+            var teamFilter = builder.Eq("Player", team);
+            var filter = gameFilter & teamFilter;
             var cursor = _scoreContext.Score.Find(filter);
             Score score = cursor.FirstOrDefault();
             return score;
@@ -91,26 +91,26 @@ namespace GameRoomApp.providers.ScoreRepository
         public void GlobalLeaderboardForGameType(List<Game> games)
         {
             List<Score> scores = new List<Score>();
-            List<Player> players = new List<Player>();
+            List<Team> teams = new List<Team>();
             foreach (Game game in games)
             {
                 scores = (List<Score>)LeaderboardForGame(game);
-                Player winner = scores[0].Player;
-                players.Add(winner);
+                Team winner = scores[0].Team;
+                teams.Add(winner);
             }
-            var leaderboard = new Dictionary<Player, int>();
-            foreach (Player player in players)
+            var leaderboard = new Dictionary<Team, int>();
+            foreach (Team team in teams)
             {
-                int nrWins = GetNumberOfWins(players, player);
-                leaderboard.Add(player, nrWins);
+                int nrWins = GetNumberOfWins(teams, team);
+                leaderboard.Add(team, nrWins);
             }
         }
-        public int GetNumberOfWins(List<Player> players, Player player)
+        public int GetNumberOfWins(List<Team> teams, Team team)
         {
             int count = 0;
-            foreach (Player player1 in players)
+            foreach (Team team1 in teams)
             {
-                if (player.Equals(player1))
+                if (team.Equals(team1))
                 {
                     count++;
                 }
@@ -119,19 +119,19 @@ namespace GameRoomApp.providers.ScoreRepository
         }
         public void UpdateScore(Score score)
         {
-            FilterDefinitionBuilder<Score> Fbuilder = Builders<Score>.Filter;
-            var UBuilder = Builders<Score>.Update;
-            var idFilter = Fbuilder.Eq("Id", score.Id);
-            var updateDefinition = UBuilder.Set("Player", score.Player).Set("Game", score.Game).
+            FilterDefinitionBuilder<Score> fBuilder = Builders<Score>.Filter;
+            var uBuilder = Builders<Score>.Update;
+            var idFilter = fBuilder.Eq("Id", score.Id);
+            var updateDefinition = uBuilder.Set("Team", score.Team).Set("Game", score.Game).
                 Set("Value", score.Value);
             var cursor = _scoreContext.Score.UpdateOne(idFilter, updateDefinition);
         }
         public void UpdateScoreByGame(Game newGame,Game oldGame)
         {
-            List<Player> players = newGame.Players;
-            foreach (Player player in players)
+            List<Team> teams = newGame.Teams;
+            foreach (Team team in teams)
             {
-                Score score = GetScoreForPlayer(player, oldGame);
+                Score score = GetScoreForTeam(team, oldGame);
                 if (score == null)
                 {
                     InsertScoreForAllPlayer(newGame);
@@ -143,18 +143,18 @@ namespace GameRoomApp.providers.ScoreRepository
             }
 
         }
-        public void RemoveScore(string Id)
+        public void RemoveScore(string id)
         {
             var builder = Builders<Score>.Filter;
-            var idFilter = builder.Eq("Id", Id);
+            var idFilter = builder.Eq("Id", id);
             _scoreContext.Score.DeleteOne(idFilter);
         }
         public void RemoveScoreByGame(Game game)
         {
-            List<Player> players = game.Players;
-            foreach (Player player in players)
+            List<Team> teams = game.Teams;
+            foreach (Team team in teams)
             {
-                Score score = GetScoreForPlayer(player, game);
+                Score score = GetScoreForTeam(team, game);
                 if (score != null)
                 {
                     RemoveScore(score.Id);

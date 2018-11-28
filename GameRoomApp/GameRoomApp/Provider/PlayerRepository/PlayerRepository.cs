@@ -25,10 +25,10 @@ namespace GameRoomApp.providers.PlayerRepository
             Player player = cursor.FirstOrDefault();
             return player;
         }
-        public Player GetPlayerById(ObjectId Id)
+        public Player GetPlayerById(ObjectId id)
         {
             var builder = Builders<Player>.Filter;
-            var idFilter = builder.Eq("Id", Id);
+            var idFilter = builder.Eq("Id", id);
             var cursor = _playerContext.Player.Find(idFilter);
             Player player = cursor.FirstOrDefault();
             return player;
@@ -43,26 +43,26 @@ namespace GameRoomApp.providers.PlayerRepository
         }
         public void UpdatePlayer(Player player)
         {
-            FilterDefinitionBuilder<Player> Fbuilder = Builders<Player>.Filter;
-            var UBuilder = Builders<Player>.Update;
-            var idFilter = Fbuilder.Eq("Id", player.Id);
-            var updateDefinition = UBuilder.Set("Name", player.Name).Set("Username", player.Username).
+            FilterDefinitionBuilder<Player> fBuilder = Builders<Player>.Filter;
+            var uBuilder = Builders<Player>.Update;
+            var idFilter = fBuilder.Eq("Id", player.Id);
+            var updateDefinition = uBuilder.Set("Name", player.Name).Set("Username", player.Username).
                 Set("Password", player.Password).Set("Age", player.Age);
             var cursor = _playerContext.Player.UpdateOne(idFilter, updateDefinition);
         }
         public void UpdatePlayerByName(string name, Player player)
         {
-            FilterDefinitionBuilder<Player> Fbuilder = Builders<Player>.Filter;
-            var UBuilder = Builders<Player>.Update;
-            var nameFilter = Fbuilder.Eq("Name", name);
-            var updateDefinition = UBuilder.Set("Name", player.Name).Set("Username", player.Username).
+            FilterDefinitionBuilder<Player> fBuilder = Builders<Player>.Filter;
+            var uBuilder = Builders<Player>.Update;
+            var nameFilter = fBuilder.Eq("Name", name);
+            var updateDefinition = uBuilder.Set("Name", player.Name).Set("Username", player.Username).
                 Set("Password", player.Password).Set("Age", player.Age);
             var cursor = _playerContext.Player.UpdateOne(nameFilter, updateDefinition);
         }
-        public void RemovePlayer(ObjectId Id)
+        public void RemovePlayer(ObjectId id)
         {
             var builder = Builders<Player>.Filter;
-            var idFilter = builder.Eq("Id", Id);
+            var idFilter = builder.Eq("Id", id);
             _playerContext.Player.DeleteOne(idFilter);
         }
         public void RemovePlayerByName(string name)

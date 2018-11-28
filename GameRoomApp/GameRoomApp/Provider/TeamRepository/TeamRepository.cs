@@ -19,11 +19,11 @@ namespace GameRoomApp.providers.TeamRepository
         {
             _teamContext.Team.InsertOne(a);
         }
-        public Team GetTeam(ObjectId Id)
+        public Team GetTeam(ObjectId id)
         {
            
             var builder = Builders<Team>.Filter;
-            var idFilter = builder.Eq("Id",Id);
+            var idFilter = builder.Eq("Id",id);
             var cursor = _teamContext.Team.Find(idFilter);
             Team team = cursor.FirstOrDefault();
             return team;
@@ -46,25 +46,25 @@ namespace GameRoomApp.providers.TeamRepository
         }
         public void UpdateTeam(Team team)
         {
-            FilterDefinitionBuilder<Team> Fbuilder = Builders<Team>.Filter;
-            var UBuilder = Builders<Team>.Update;
-            var idFilter = Fbuilder.Eq("Id", team.Id);
-            var updateDefinition = UBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game",team.Game);
+            FilterDefinitionBuilder<Team> fBuilder = Builders<Team>.Filter;
+            var uBuilder = Builders<Team>.Update;
+            var idFilter = fBuilder.Eq("Id", team.Id);
+            var updateDefinition = uBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game",team.Game);
             var cursor = _teamContext.Team.UpdateOne(idFilter,updateDefinition);
         }
         public void UpdateTeamByName(string name,Team team)
         {
-            FilterDefinitionBuilder<Team> Fbuilder = Builders<Team>.Filter;
-            var UBuilder = Builders<Team>.Update;
-            var nameFilter = Fbuilder.Eq("Name", team.Name);
-            var updateDefinition = UBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game", team.Game);
+            FilterDefinitionBuilder<Team> fBuilder = Builders<Team>.Filter;
+            var uBuilder = Builders<Team>.Update;
+            var nameFilter = fBuilder.Eq("Name", team.Name);
+            var updateDefinition = uBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game", team.Game);
             var cursor = _teamContext.Team.UpdateOne(nameFilter, updateDefinition);
         }
-        public void RemoveTeam(ObjectId Id)
+        public void RemoveTeam(ObjectId id)
         {
             
             var builder = Builders<Team>.Filter;
-            var idFilter = builder.Eq("Id",Id);
+            var idFilter = builder.Eq("Id",id);
             _teamContext.Team.DeleteOne(idFilter);
         }
         public void RemoveTeamByName(string name)
@@ -97,6 +97,5 @@ namespace GameRoomApp.providers.TeamRepository
             team.Players = players;
             UpdateTeam(team);
         }
-
     }
 }
