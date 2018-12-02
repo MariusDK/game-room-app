@@ -78,7 +78,7 @@ namespace GameRoomApp.Controller
 
             if (existentDartsX01 != null)
             {
-                _dartsX01Repository.RemoveDartsX01(id);
+                _dartsX01Repository.RemoveDartsX01(dartsId);
                 result = "Delete Working!";
             }
             else

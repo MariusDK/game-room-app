@@ -23,7 +23,7 @@ namespace GameRoomApp.Controller
         [ExactQueryParam("scoreId")]
         public Score GetScore(string scoreId)
         {
-            return _scoreRepository.GetScoreById(id);
+            return _scoreRepository.GetScoreById(scoreId);
         }
         [HttpPut]
         [ExactQueryParam("scoreId")]
