@@ -13,7 +13,7 @@ namespace GameRoomApp.providers.DartsX01Repository
         IEnumerable<DartsX01> GetAllDartsX01();
         DartsX01 GetDartsX01ByScore(Score score);
         void UpdateDartsX01(DartsX01 dartsX01);
-        Dictionary<Player, int> LeaderboardInGameDartsX01(Game game, List<Score> scores);
+        Dictionary<Team, int> LeaderboardInGameDartsX01(Game game, List<Score> scores);
         void RemoveDartsX01(string id);
     }
 }

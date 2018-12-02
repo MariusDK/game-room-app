@@ -172,7 +172,7 @@ namespace GameRoomApp.Controller
 
             if (existentGame != null)
             {
-                _gameRepository.RemoveTeamFromGame(id, idTeam);
+                _gameRepository.RemoveTeamFromGame(gameId, idTeam);
                 Game game = _gameRepository.GetGameById(idObject);
                 _scoreRepository.UpdateScoreByGame(game,existentGame);
                 result = "Update Working!";
