@@ -1,10 +1,13 @@
 import * as React from 'react';
 import {RouteComponentProps, Redirect} from 'react-router';
-import PlayerService from 'src/services/PlayerServices';
+import PlayerService from 'src/services/PlayerService';
 import PlayerForm from './PlayerForm/PlayerForm';
-import { SpinnerComponent } from '../Spinner/Spinner';
+import { IPlayer } from 'src/models/IPlayer';
+import { SpinnerComponent } from 'src/components/Spinner/Spinner';
+import './RegisterPlayer.css';
 
 export interface IRegisterPlayerState {
+    infoMessage: string;
     name: string;
     username: string;
     password: string;
@@ -32,9 +35,11 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             nameError: '',
             usernameError: '',
             passwordError: '',
+            infoMessage:'',
             ageError: '',
             loading: false,
             redirect: false
+            
         }
     }
 
@@ -110,26 +115,32 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                     age: this.state.age
                 }
             PlayerService.insertPlayer(newPlayer)
-                        .then(() => {
-                            this.props.history.push('/')
+                        .then((response:string) => {
+                            this.props.history.push('/');
+                            this.setState({infoMessage:response});
+                            if (response=="Insert Working!")
+                            {
+                                console.log("Aici 1");
+                                this.setState({redirect:true});
+                            }
                 });
-            this.setState({redirect:true})
         }
         else{
             console.log("Error");
+
         }
         this.setState({loading:false});
     }
     
 
     public render() {
-        const {redirect} = this.state;
+        const redirect = this.state.redirect;
         if (redirect)
         {
             <Redirect to='/'/>
         }
         return (
-            <div className="App">
+            <div className="Register">
                 <PlayerForm
                     name={this.state.name}
                     username={this.state.username}
@@ -142,10 +153,11 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                     ageError={this.state.ageError}
                     title = "Register"
                 />
-                <SpinnerComponent 
+                <SpinnerComponent
                     loading = {this.state.loading}
                 />
-                <button onClick={this.addPlayer}>Register</button>
+                <button onClick={this.addPlayer}>Register</button><br/>
+                <span style={{color: "red"}}>{this.state.infoMessage}</span>
             </div>
         )
     }

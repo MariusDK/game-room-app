@@ -98,5 +98,14 @@ namespace GameRoomApp.providers.PlayerRepository
 
             return sb.ToString();
         }
+
+        public Player GetPlayerByUsername(string Username)
+        {
+            var builder = Builders<Player>.Filter;
+            var usernameFilter = builder.Eq("Username", Username);
+            var cursor = _playerContext.Player.Find(usernameFilter);
+            Player player = cursor.FirstOrDefault();
+            return player;
+        }
     }
 }

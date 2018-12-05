@@ -12,6 +12,7 @@ namespace GameRoomApp.DataModel
         public DartsX01(Score score)
         {
             this.Score = score;
+            this.StateScore = 501;
         }
 
         [BsonId]

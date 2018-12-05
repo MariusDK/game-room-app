@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GameRoomApp.DataModel;
 using GameRoomApp.providers.DartsX01Repository;
+using GameRoomApp.providers.ScoreRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -15,9 +16,11 @@ namespace GameRoomApp.Controller
     public class DartsX01Controller : ControllerBase
     {
         private readonly IDartsX01Repository _dartsX01Repository;
-        public DartsX01Controller(IDartsX01Repository dartsX01Repository)
+        private readonly IScoreRepository _scoreRepository;
+        public DartsX01Controller(IDartsX01Repository dartsX01Repository, IScoreRepository scoreRepository)
         {
             this._dartsX01Repository = dartsX01Repository;
+            this._scoreRepository = scoreRepository;
         }
         [HttpGet]
         public IEnumerable<DartsX01> GetAllDartsX01()
@@ -31,6 +34,14 @@ namespace GameRoomApp.Controller
         {
             ObjectId idObject = new ObjectId(dartsId);
             return _dartsX01Repository.GetDartsX01(idObject);
+        }
+        [HttpGet]
+        [ActionName(nameof(GetDartsX01))]
+        [ExactQueryParam("scoreId")]
+        public DartsX01 GetDartsX01UsingScore(string scoreId)
+        {
+            Score score = _scoreRepository.GetScoreById(scoreId);
+            return _dartsX01Repository.GetDartsX01ByScore(score);
         }
         [HttpPost]
         public string PostDartsX01([FromBody] DartsX01 dartsX01)

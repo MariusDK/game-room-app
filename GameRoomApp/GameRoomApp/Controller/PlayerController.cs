@@ -45,6 +45,18 @@ namespace GameRoomApp.Controller
             }
             return player;
         }
+        [HttpGet]
+        [ActionName(nameof(GetPlayerByUsername))]
+        [ExactQueryParam("username")]
+        public Player GetPlayerByUsername(String username)
+        {
+            var player = default(Player);
+            if (!string.IsNullOrEmpty(username))
+            {
+                return _playerRepository.GetPlayerByUsername(username);
+            }
+            return player;
+        }
         [HttpPost]
         public string Post([FromBody]Player player)
         {
@@ -73,14 +85,6 @@ namespace GameRoomApp.Controller
             string passwordHash = _playerRepository.GetHashString(password);
             string username = player.Username;
             var existentPlayer = _playerRepository.login(username,passwordHash);
-            if (existentPlayer != null)
-            {
-                result = "Player Exist!";
-            }
-            else
-            {
-                result = $"Player don't exists!";
-            }
             return existentPlayer;
         }
         [HttpPut]

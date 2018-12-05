@@ -12,7 +12,7 @@ namespace GameRoomApp.providers.GameRepository
         Game GetGameById(ObjectId objectId);
         Game GetGameByName(string name);
         IEnumerable<Game> GetAllGames();
-        IEnumerable<Game> GetGamesByPlayer(Player player);
+        List<Game> GetGamesByTeam(Team team);
         IEnumerable<Game> GetGameHistory();
         IEnumerable<Game> GetGamesByType(string type);
         void UpdateGameById(Game game);
@@ -21,6 +21,7 @@ namespace GameRoomApp.providers.GameRepository
         void RemoveGameByName(string id);
         void AddPlayerToGame(string id, Team team);
         void RemoveTeamFromGame(string id, string teamId);
+        void endGame(string name, Game game);
     }
 }
 

@@ -21,11 +21,12 @@ namespace GameRoomApp.providers.ScoreRepository
             this._dartsX01Repository = dartsX01Repository;
         }
 
+
         public void InsertScore(Score score)
         {
             _scoreContext.Score.InsertOne(score);
         }
-        public void InsertScoreForAllPlayer(Game game)
+        public void InsertScoreForAllPlayers(Game game)
         {
             List<Team> teams = game.Teams;
             foreach (Team team in teams)
@@ -44,7 +45,7 @@ namespace GameRoomApp.providers.ScoreRepository
                 }
             }
         }
-        public IEnumerable<Score> GetScoresForGame(Game game)
+        public List<Score> GetScoresForGame(Game game)
         {
             var builder = Builders<Score>.Filter;
             var gameFilter = builder.Eq("Game", game);
@@ -62,7 +63,7 @@ namespace GameRoomApp.providers.ScoreRepository
                 Score score = GetScoreForTeam(team, game);
                 scores.Add(score);
             }
-            LeaderboardSort(scores);
+            scores = LeaderboardSort(scores);
             return scores;
 
         }
@@ -70,23 +71,27 @@ namespace GameRoomApp.providers.ScoreRepository
         {
             var builder = Builders<Score>.Filter;
             var gameFilter = builder.Eq("Game", game);
-            var teamFilter = builder.Eq("Player", team);
+            var teamFilter = builder.Eq("Team", team);
             var filter = gameFilter & teamFilter;
             var cursor = _scoreContext.Score.Find(filter);
             Score score = cursor.FirstOrDefault();
             return score;
         }
-        public void LeaderboardSort(List<Score> scores)
+        public List<Score> LeaderboardSort(List<Score> scores)
         {
-            for (int i = 1; i < scores.Count - 1; i++)
+            for (int i = 0; i < scores.Count - 1; i++)
             {
-                if (scores[i - 1].Value < scores[i].Value)
+                for (int j = i+1; j < scores.Count; j++)
                 {
-                    var aux = scores[i - 1];
-                    scores[i - 1] = scores[i];
-                    scores[i] = aux;
+                    if (scores[i].Value < scores[j].Value)
+                    {
+                        var aux = scores[i];
+                        scores[i] = scores[j];
+                        scores[j] = aux;
+                    }
                 }
             }
+            return scores;
         }
         public void GlobalLeaderboardForGameType(List<Game> games)
         {
@@ -134,7 +139,7 @@ namespace GameRoomApp.providers.ScoreRepository
                 Score score = GetScoreForTeam(team, oldGame);
                 if (score == null)
                 {
-                    InsertScoreForAllPlayer(newGame);
+                    InsertScoreForAllPlayers(newGame);
                 }
                 else {
                     score.Game = newGame;

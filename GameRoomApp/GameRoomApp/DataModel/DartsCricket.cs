@@ -19,6 +19,8 @@ namespace GameRoomApp.DataModel
         public string Id { get; set; }
         public Score Score { get; set; }
         public List<String> Hits { get; set; }
+        public List<String> CloseNumbers { get; set; }
+        public List<String> OpenNumbers { get; set; }
     }
    
 }

@@ -27,7 +27,7 @@ namespace GameRoomApp.Controller
         }
         [HttpGet]
         [ActionName(nameof(GetTeamByName))]
-        [ExactQueryParam("playerName")]
+        [ExactQueryParam("teamName")]
         public Team GetTeamByName(string teamName)
         {
             var team = default(Team);
@@ -67,20 +67,12 @@ namespace GameRoomApp.Controller
             return null;
         }
         [HttpPost]
-        public string Post([FromBody] Team team)
+        public Team Post([FromBody] Team team)
         {
             var result = string.Empty;
-            var existentTeam = _teamRepository.GetTeamByName(team.Name);
-            if (existentTeam == null)
-            {
-                _teamRepository.InsertTeam(team);
-                result = "Insert Working!";
-            }
-            else
-            {
-                result = $"Team {team.Name} exists!";
-            }
-            return result;
+            Team teamResult = _teamRepository.InsertTeam(team);
+            return team;
+   
         }
         [HttpPut]
         [ExactQueryParam("teamName")]
@@ -111,7 +103,7 @@ namespace GameRoomApp.Controller
             
             if (existentTeam != null)
             {
-                team.Id = idObject;
+                team.Id =teamId;
                 _teamRepository.UpdateTeam(team);
                 result = "Update Working!";
             }

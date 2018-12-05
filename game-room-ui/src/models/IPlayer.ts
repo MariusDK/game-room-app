@@ -1,6 +1,6 @@
-interface IPlayer 
+export interface IPlayer 
 {
-    _id?: string;
+    id?: string;
     name: string;
     username: string;
     password: string;

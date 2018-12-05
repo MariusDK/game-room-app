@@ -63,6 +63,17 @@ namespace GameRoomApp.providers.GameRepository
                 Set("EmbarrassingMoments", game.EmbarrassingMoments).Set("VictoryMoments", game.VictoryMoments);
             var cursor = _gameContext.Games.UpdateOne(nameFilter, updateDefinition);
         }
+        public void endGame(string name, Game game)
+        {
+            DateTime dateTime = DateTime.Today;
+            FilterDefinitionBuilder<Game> gFilter = Builders<Game>.Filter;
+            var uBuilder = Builders<Game>.Update;
+            var nameFilter = gFilter.Eq("Name", name);
+            var updateDefinition = uBuilder.Set("Name", game.Name).Set("Type", game.Type).Set("Teams", game.Teams).
+                Set("StartOn", game.StartOn).Set("EndOn", dateTime).
+                Set("EmbarrassingMoments", game.EmbarrassingMoments).Set("VictoryMoments", game.VictoryMoments);
+            var cursor = _gameContext.Games.UpdateOne(nameFilter, updateDefinition);
+        }
         public void RemoveGameById(ObjectId id)
         {
             var builder = Builders<Game>.Filter;
@@ -75,11 +86,11 @@ namespace GameRoomApp.providers.GameRepository
             var nameFilter = builder.Eq("Name", name);
             _gameContext.Games.DeleteOne(nameFilter);
         }
-        public IEnumerable<Game> GetGamesByPlayer(Player player)
+        public List<Game> GetGamesByTeam(Team team)
         {
             var builder = Builders<Game>.Filter;
-            var playerFilter = builder.Eq("Players", player);
-            var cursor = _gameContext.Games.Find(playerFilter);
+            var teamFilter = builder.Eq("Teams", team);
+            var cursor = _gameContext.Games.Find(teamFilter);
             List<Game> games = cursor.ToList();
             return games;
         }
