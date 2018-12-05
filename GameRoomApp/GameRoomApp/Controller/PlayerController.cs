@@ -45,10 +45,26 @@ namespace GameRoomApp.Controller
             }
             return player;
         }
+        [HttpGet]
+        [ActionName(nameof(GetPlayerByUsername))]
+        [ExactQueryParam("username")]
+        public Player GetPlayerByUsername(String username)
+        {
+            var player = default(Player);
+            if (!string.IsNullOrEmpty(username))
+            {
+                return _playerRepository.GetPlayerByUsername(username);
+            }
+            return player;
+        }
         [HttpPost]
         public string Post([FromBody]Player player)
         {
             var result = string.Empty;
+            string password = player.Password;
+            string passwordHash = _playerRepository.GetHashString(password);
+            string username = player.Username;
+            player.Password = passwordHash;
             var existentPlayer = _playerRepository.GetPlayerByName(player.Name);
             if (existentPlayer == null)
             {
@@ -61,10 +77,23 @@ namespace GameRoomApp.Controller
             }
             return result;
         }
+        [HttpPost("login")]
+        public Player Login([FromBody]Player player)
+        {
+            var result = string.Empty;
+            string password = player.Password;
+            string passwordHash = _playerRepository.GetHashString(password);
+            string username = player.Username;
+            var existentPlayer = _playerRepository.login(username,passwordHash);
+            return existentPlayer;
+        }
         [HttpPut]
         [ExactQueryParam("playerId")]
         public string PutById(string playerId, [FromBody] Player player)
         {
+            string password = player.Password;
+            string passwordHash = _playerRepository.GetHashString(password);
+            player.Password = passwordHash;
             ObjectId idObject = new ObjectId(playerId);
             var result = string.Empty;
             var existentPlayer = _playerRepository.GetPlayerById(idObject);

@@ -1,0 +1,10 @@
+.SPage{
+    text-align: center;
+    background-color: lightblue;
+    min-height: 100vh; 
+    min-width: 100vw;
+}
+.Links {
+    margin: 100px;
+    text-align: center;
+}

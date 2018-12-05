@@ -52,7 +52,7 @@ namespace GameRoomApp.DataModel
         public List<Byte[]> EmbarrassingMoments { get; set; }
         public List<Byte[]> VictoryMoments { get; set; }
         public DateTime StartOn { get; set; }
-        public DateTime EndOn { get; set; }
+        public DateTime? EndOn { get; set; }
 
         public override string ToString()
         {

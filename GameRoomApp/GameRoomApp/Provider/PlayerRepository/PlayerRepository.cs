@@ -3,6 +3,9 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace GameRoomApp.providers.PlayerRepository
 {
     public class PlayerRepository : IPlayerRepository
@@ -30,6 +33,16 @@ namespace GameRoomApp.providers.PlayerRepository
             var builder = Builders<Player>.Filter;
             var idFilter = builder.Eq("Id", id);
             var cursor = _playerContext.Player.Find(idFilter);
+            Player player = cursor.FirstOrDefault();
+            return player;
+        }
+        public Player login(string username,string password)
+        {
+            var builder = Builders<Player>.Filter;
+            var usernameFilter = builder.Eq("Username",username);
+            var passwordFilter = builder.Eq("Password",password);
+            var filter = usernameFilter & passwordFilter;
+            var cursor = _playerContext.Player.Find(filter);
             Player player = cursor.FirstOrDefault();
             return player;
         }
@@ -70,6 +83,29 @@ namespace GameRoomApp.providers.PlayerRepository
             var builder = Builders<Player>.Filter;
             var nameFilter = builder.Eq("Name", name);
             _playerContext.Player.DeleteOne(nameFilter);
+        }
+        public static byte[] GetHash(string inputString)
+        {
+            HashAlgorithm algorithm = MD5.Create();  
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
+        }
+
+        public Player GetPlayerByUsername(string Username)
+        {
+            var builder = Builders<Player>.Filter;
+            var usernameFilter = builder.Eq("Username", Username);
+            var cursor = _playerContext.Player.Find(usernameFilter);
+            Player player = cursor.FirstOrDefault();
+            return player;
         }
     }
 }

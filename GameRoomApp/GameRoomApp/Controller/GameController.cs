@@ -8,6 +8,7 @@ using GameRoomApp.providers.DartsX01Repository;
 using GameRoomApp.providers.GameRepository;
 using GameRoomApp.providers.PlayerRepository;
 using GameRoomApp.providers.ScoreRepository;
+using GameRoomApp.providers.TeamRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -21,12 +22,14 @@ namespace GameRoomApp.Controller
         private readonly IGameRepository _gameRepository;
         private readonly IScoreRepository _scoreRepository;
         private readonly IPlayerRepository _playerRepository;
+        private readonly ITeamRepository _teamRepository;
         public GameController(IScoreRepository scoreRepository, IGameRepository gameRepository,
-            IPlayerRepository playerRepository)
+            IPlayerRepository playerRepository, ITeamRepository teamRepository)
         {
             this._gameRepository = gameRepository;
             this._scoreRepository = scoreRepository;
             this._playerRepository = playerRepository;
+            this._teamRepository = teamRepository;
         }
         [HttpGet]
         public IEnumerable<Game> GetAllGames()
@@ -38,10 +41,12 @@ namespace GameRoomApp.Controller
         {
             return _gameRepository.GetGameHistory();
         }
-        [HttpGet("leaderboard/{id}",Name = "Leaderboard")]
-        public IEnumerable<Score> GetGameLeaderboard(string id)
+        [HttpGet]
+        [ActionName(nameof(GetGameLeaderboard))]
+        [ExactQueryParam("gameIdl")]
+        public IEnumerable<Score> GetGameLeaderboard(string gameIdl)
         {
-            ObjectId objectId = new ObjectId(id);
+            ObjectId objectId = new ObjectId(gameIdl);
             var existentGame = _gameRepository.GetGameById(objectId);
             if (existentGame != null)
             {
@@ -57,17 +62,62 @@ namespace GameRoomApp.Controller
             return _gameRepository.GetGamesByType(type);
         }
         [HttpGet]
-        [ActionName(nameof(GetGamesByPlayer))]
-        [ExactQueryParam("playerId")]
-        public IEnumerable<Game> GetGamesByPlayer(string playerId)
+        [ActionName(nameof(GetGamesUnfinishByPlayer))]
+        [ExactQueryParam("uplayerId")]
+        public IEnumerable<Game> GetGamesUnfinishByPlayer(string uplayerId)
         {
-            ObjectId idObject = new ObjectId(playerId);
+            ObjectId idObject = new ObjectId(uplayerId);
+            var player = _playerRepository.GetPlayerById(idObject);
+            List<Game> games = new List<Game>();
+            List<Game> gamesUnfinish = new List<Game>();
+            if (player != null)
+            {
+                List<Team> teams = _teamRepository.GetTeamByPlayer(player);
+                foreach (Team team in teams)
+                {
+                    foreach (Game game in _gameRepository.GetGamesByTeam(team))
+                    {
+                        games.Add(game);
+                    }
+                }
+                foreach (Game g in games)
+                {
+                    if (g.EndOn == null)
+                    {
+                        gamesUnfinish.Add(g);
+                    }
+                }
+            }
+            return gamesUnfinish;
+        }
+        [HttpGet]
+        [ActionName(nameof(GetGamesFinishByPlayer))]
+        [ExactQueryParam("fplayerId")]
+        public IEnumerable<Game> GetGamesFinishByPlayer(string fplayerId)
+        {
+            ObjectId idObject = new ObjectId(fplayerId);
+            List<Game> games = new List<Game>();
+            List<Game> gamesFinish = new List<Game>();
             var player = _playerRepository.GetPlayerById(idObject);
             if (player != null)
             {
-                return _gameRepository.GetGamesByPlayer(player);
+                List<Team> teams = _teamRepository.GetTeamByPlayer(player);
+                foreach (Team team in teams)
+                {
+                    foreach (Game game in _gameRepository.GetGamesByTeam(team))
+                    {
+                        games.Add(game);
+                    }
+                }
+                foreach (Game g in games)
+                {
+                    if (g.EndOn != null)
+                    {
+                        gamesFinish.Add(g);
+                    }
+                }
             }
-            return null;
+            return gamesFinish;
         }
         [HttpGet]
         [ActionName(nameof(GetGameById))]
@@ -92,7 +142,7 @@ namespace GameRoomApp.Controller
             if (existentGame == null)
             {
                 _gameRepository.InsertGame(game);
-                _scoreRepository.InsertScoreForAllPlayer(game);
+                _scoreRepository.InsertScoreForAllPlayers(game);
                 result = "Insert Working!";
             }
             else
@@ -132,7 +182,31 @@ namespace GameRoomApp.Controller
             if (existentGame != null)
             {
                 _gameRepository.UpdateGameByName(gameName,game);
-                _scoreRepository.UpdateScoreByGame(game,existentGame);
+                result = "Update Working!";
+            }
+            else
+            {
+                result = $"Game don't exists!";
+            }
+            return result;
+        }
+        [HttpPut]
+        [ExactQueryParam("name")]
+        public string finishGame(string name, [FromBody] Game game)
+        {
+            var result = string.Empty;
+            var existentGame = _gameRepository.GetGameByName(name);
+            game.EndOn = DateTime.Now;
+            if (existentGame != null)
+            {
+                List<Score> scores = _scoreRepository.GetScoresForGame(existentGame);
+                foreach (Score score in scores)
+                {
+                    score.Game = game;
+                    _scoreRepository.UpdateScore(score);
+                }
+                //_scoreRepository.UpdateScoreByGame(game,existentGame);
+                _gameRepository.UpdateGameById(game);
                 result = "Update Working!";
             }
             else
@@ -172,7 +246,7 @@ namespace GameRoomApp.Controller
 
             if (existentGame != null)
             {
-                _gameRepository.RemoveTeamFromGame(id, idTeam);
+                _gameRepository.RemoveTeamFromGame(gameId, idTeam);
                 Game game = _gameRepository.GetGameById(idObject);
                 _scoreRepository.UpdateScoreByGame(game,existentGame);
                 result = "Update Working!";

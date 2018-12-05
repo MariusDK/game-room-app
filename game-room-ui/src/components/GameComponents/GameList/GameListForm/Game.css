@@ -1,0 +1,12 @@
+.game{
+    border-color: black;
+    text-align: center;
+    padding: 19px;
+    margin: 20px;
+    border-style: solid;
+}
+.gameLi
+{
+    padding: 20px;
+    text-align: center;
+}
