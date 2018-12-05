@@ -1,6 +1,4 @@
 ﻿using GameRoomApp.DataModel;
-using GameRoomApp.providers;
-using GameRoomApp.providers.PlayerRepository;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using MongoDB.Bson;
@@ -17,7 +15,9 @@ namespace GameRoomApp
         {
             if (!DatabaseExists("gameRoom"))
             {
-                //GenerateDatabase();
+                List<Player> players = SeedPlayers();
+                List<Team> teams = SeedTeams(players);
+                SeedGames(teams);
             }
             CreateWebHostBuilder(args).Build().Run();
         }
@@ -32,150 +32,150 @@ namespace GameRoomApp
             var dbList = _client.ListDatabases().ToList().Select(db => db.GetValue("name").AsString);
             return dbList.Contains(database);
         }
-    //    public static void GenerateDatabase()
-    //    {
-    //        MongoClient client = new MongoClient();
-    //        IMongoDatabase mongoDatabase = client.GetDatabase("gameRoom");
-    //        IMongoCollection<Player> playerCol = mongoDatabase.GetCollection<Player>("Player");
-    //        IMongoCollection<Game> gameCol = mongoDatabase.GetCollection<Game>("Game");
-    //        IMongoCollection<Team> teamCol = mongoDatabase.GetCollection<Team>("Team");
-    //        IMongoCollection<Score> scoreCol = mongoDatabase.GetCollection<Score>("Score");
-    //        IMongoCollection<DartsCricket> dartsCricketCol = mongoDatabase.GetCollection<DartsCricket>("DartsCricket");
-    //        IMongoCollection<DartsX01> dartsX01Col = mongoDatabase.GetCollection<DartsX01>("DartsX01");
+        public static List<Player> SeedPlayers()
+        { 
+            MongoClient client = new MongoClient();   
+            IMongoDatabase mongoDatabase = client.GetDatabase("gameRoom");    
+            IMongoCollection<Player> playerCol = mongoDatabase.GetCollection<Player>("Player");
+            List<Player> playerList = new List<Player>();
+            Player player1 = new Player("5bec01f13b4a4a3cd81f456a", "Andrei Marian", "andreiM", "123456", 20);
+            Player player2 = new Player("5bec01f13b4a4a3cd81f456b", "Mihai Andrea", "mAndrea", "000000", 30);
+            Player player3 = new Player("5bec01f13b4a4a3cd81f456c", "Noris Rad", "noritsRad", "999999", 25);
+            Player player4 = new Player("5bec01f13b4a4a3cd81f456d", "Gicu Groza", "gicuggg", "172834", 28);
+            Player player5 = new Player("5bec01f13b4a4a3cd81f456e", "Aurel Mita", "mitaurel", "986344", 40);
+            playerList.Add(player1);
+            playerList.Add(player2);
+            playerList.Add(player3);
+            playerList.Add(player4);
+            playerList.Add(player5);
+            playerCol.InsertMany(playerList);
+            return playerList;
+        }
+        public static List<Team> SeedTeams(List<Player> players)
+        {
+            MongoClient client = new MongoClient();
+            IMongoDatabase mongoDatabase = client.GetDatabase("gameRoom");
+            IMongoCollection<Team> teamCol = mongoDatabase.GetCollection<Team>("Team");
 
-    //        Player player1 = new Player("5bec01f13b4a4a3cd81f456a", "Andrei Marian", "andreiM", "123456", 20);
-    //        Player player2 = new Player("5bec01f13b4a4a3cd81f456b", "Mihai Andrea", "mAndrea", "000000", 30);
-    //        Player player3 = new Player("5bec01f13b4a4a3cd81f456c", "Noris Rad", "noritsRad", "999999", 25);
-    //        Player player4 = new Player("5bec01f13b4a4a3cd81f456d", "Gicu Groza", "gicuggg", "172834", 28);
-    //        Player player5 = new Player("5bec01f13b4a4a3cd81f456e", "Aurel Mita", "mitaurel", "986344", 40);
+            List<Player> players1 = new List<Player>();
+            List<Player> players2 = new List<Player>();
+            List<Player> players3 = new List<Player>();
+            List<Player> players4 = new List<Player>();
+            List<Player> players5 = new List<Player>();
+            players1.Add(players[0]);
+            players1.Add(players[2]);
+            
+            players2.Add(players[3]);
+            players2.Add(players[4]);
 
-    //        playerCol.InsertOne(player1);
-    //        playerCol.InsertOne(player2);
-    //        playerCol.InsertOne(player3);
-    //        playerCol.InsertOne(player4);
-    //        playerCol.InsertOne(player5);
+            players3.Add(players[0]);
+            players4.Add(players[3]);
+            players5.Add(players[1]);
+            Team team1 = new Team("e746bc2083d589e0c3f879d5", "Fire", players1);
+            Team team2 = new Team("64259fe6ad8be15ab6a4ed84", "Air", players2);
+            Team team3 = new Team("63556a815f8f2b8792396f59","",players3);
+            Team team4 = new Team("cd4207c1b87e5c9e5bb96289", "", players4);
+            Team team5 = new Team("8cbc3d7f52393ababfa42f67", "", players5);
+            List<Team> teams = new List<Team>();
+            teams.Add(team1);
+            teams.Add(team2);
+            teams.Add(team3);
+            teams.Add(team4);
+            teams.Add(team5);
+            teamCol.InsertMany(teams);
+            return teams;
+        }
+        public static void SeedGames(List<Team> teams)
+        {
+            MongoClient client = new MongoClient();
+            IMongoDatabase mongoDatabase = client.GetDatabase("gameRoom");
+            IMongoCollection<Game> gameCol = mongoDatabase.GetCollection<Game>("Game");
+            IMongoCollection<Score> scoreCol = mongoDatabase.GetCollection<Score>("Score");
+            IMongoCollection<DartsCricket> dartsCricketCol = mongoDatabase.GetCollection<DartsCricket>("DartsCricket");
+            IMongoCollection<DartsX01> dartsX01Col = mongoDatabase.GetCollection<DartsX01>("DartsX01");
 
-    //        List<Player> players1 = new List<Player>();
-    //        players1.Add(player1);
-    //        players1.Add(player3);
-    //        players1.Add(player5);
+            List<Team> teams1 = new List<Team>();
+            teams1.Add(teams[0]);
+            teams1.Add(teams[1]);
 
-    //        List<Player> players2 = new List<Player>();
-    //        players2.Add(player2);
-    //        players2.Add(player4);
-    //        players2.Add(player5);
+            List<Team> teams2 = new List<Team>();
+            teams2.Add(teams[2]);
+            teams2.Add(teams[3]);
 
-    //        List<Player> players3 = new List<Player>();
-    //        players2.Add(player1);
-    //        players2.Add(player2);
-    //        players2.Add(player4);
+            List<Team> teams3 = new List<Team>();
+            teams3.Add(teams[2]);
+            teams3.Add(teams[4]);
 
-    //        Game game1 = new Game("5bec01f13b4a4a3cd81f456f", "Joc1", "Fifa", players1);
-    //        Game game2 = new Game("994f8881011ea98668f4f090", "Joc2", "Darts/Cricket", players1);
-    //        Game game3 = new Game("df8b4518c1f279c812c3e9c6", "Joc3", "Darts/X01", players1);
-    //        Game game4 = new Game("92acbcb8d9e3b016f147973b", "Joc4", "Darts/Cricket", players2);
-    //        Game game5 = new Game("e65909d50566e7da93c18a34", "Joc5", "Darts/X01", players2);
-    //        Game game6 = new Game("480231d988cc45af532b0465", "Joc6", "Foosball", players3);
+            Game game1 = new Game("5bec01f13b4a4a3cd81f456f", "Joc1", "Fifa", teams1);
+            Game game2 = new Game("994f8881011ea98668f4f090", "Joc2", "Darts/Cricket", teams1);
+            Game game3 = new Game("df8b4518c1f279c812c3e9c6", "Joc3", "Darts/X01", teams1);
+            Game game4 = new Game("92acbcb8d9e3b016f147973b", "Joc4", "Darts/Cricket", teams2);
+            Game game5 = new Game("e65909d50566e7da93c18a34", "Joc5", "Darts/X01", teams3);
+            Game game6 = new Game("480231d988cc45af532b0465", "Joc6", "Foosball", teams2);
 
-    //        gameCol.InsertOne(game1);
-    //        gameCol.InsertOne(game2);
-    //        gameCol.InsertOne(game3);
-    //        gameCol.InsertOne(game4);
-    //        gameCol.InsertOne(game5);
-    //        gameCol.InsertOne(game6);
+            List<Game> games = new List<Game>();
+            games.Add(game1);
+            games.Add(game2);
+            games.Add(game3);
+            games.Add(game4);
+            games.Add(game5);
+            games.Add(game6);
 
-    //        Score score1 = new Score(player1, game1);
-    //        Score score2 = new Score(player3, game1);
-    //        Score score3 = new Score(player5, game1);
+            gameCol.InsertMany(games);
+            List<Score> scores = new List<Score>();
+            List<DartsCricket> dartsCrickets = new List<DartsCricket>();
+            List<DartsX01> dartsX01s = new List<DartsX01>();
 
-    //        scoreCol.InsertOne(score1);
-    //        scoreCol.InsertOne(score2);
-    //        scoreCol.InsertOne(score3);
+            Score score1 = new Score("53a6f7fe7203d6e6a544b65c",teams[0],game1);
+            scores.Add(score1);
+            Score score2 = new Score("a039dae78caf276e5195e6f9", teams[1], game1);
+            scores.Add(score2);
 
-    //        Score score4 = new Score("f02785b16d8d5c567b0d0b21", player1, game2);
-    //        DartsCricket dartsCricket1 = new DartsCricket(score4);
-    //        Score score5 = new Score("e81f7af2971a9e3cf9baa2a3", player3, game2);
-    //        DartsCricket dartsCricket2 = new DartsCricket(score5);
-    //        Score score6 = new Score("f1fd02e940bf041c3c613e4e", player5, game2);
-    //        DartsCricket dartsCricket3 = new DartsCricket(score6);
+            Score score3 = new Score("917dd10d4e37a4bab350fdb1", teams[0], game2);
+            scores.Add(score3);
+            DartsCricket dartsCricket1 = new DartsCricket(score3);
+            dartsCrickets.Add(dartsCricket1);
+            Score score4 = new Score("606f58a9d9ae17388095735e", teams[1], game2);
+            scores.Add(score4);
+            DartsCricket dartsCricket2 = new DartsCricket(score4);
+            dartsCrickets.Add(dartsCricket2);
 
-    //        scoreCol.InsertOne(score4);
-    //        scoreCol.InsertOne(score5);
-    //        scoreCol.InsertOne(score6);
-    //        dartsCricketCol.InsertOne(dartsCricket1);
-    //        dartsCricketCol.InsertOne(dartsCricket2);
-    //        dartsCricketCol.InsertOne(dartsCricket3);
+            Score score5 = new Score("e44af887fa698eba93860929", teams[0], game3);
+            scores.Add(score5);
+            DartsX01 dartsX011 = new DartsX01(score5);
+            dartsX01s.Add(dartsX011);
+            Score score6 = new Score("f9dfc49456e924f75b873bfd", teams[1], game3);
+            scores.Add(score6);
+            DartsX01 dartsX012 = new DartsX01(score6);
+            dartsX01s.Add(dartsX012);
 
-    //        Score score7 = new Score("c031f962f4782a69c1928f0f", player1, game3);
-    //        DartsX01 dartsX011 = new DartsX01(score7);
-    //        Score score8 = new Score("fa72b3eaac0910eb73ce0fc6", player3, game3);
-    //        DartsX01 dartsX012 = new DartsX01(score8);
-    //        Score score9 = new Score("2f27f16ae307d1a2e1fc025c", player5, game3);
-    //        DartsX01 dartsX013 = new DartsX01(score9);
+            Score score7 = new Score("cac8fc99190916d692418dd6", teams[2], game4);
+            scores.Add(score7);
+            DartsCricket dartsCricket3 = new DartsCricket(score7);
+            dartsCrickets.Add(dartsCricket3);
+            Score score8 = new Score("c4c356e866fc99a89723113e", teams[3], game4);
+            scores.Add(score8);
+            DartsCricket dartsCricket4 = new DartsCricket(score8);
+            dartsCrickets.Add(dartsCricket4);
 
-    //        scoreCol.InsertOne(score7);
-    //        scoreCol.InsertOne(score8);
-    //        scoreCol.InsertOne(score9);
-    //        dartsX01Col.InsertOne(dartsX011);
-    //        dartsX01Col.InsertOne(dartsX012);
-    //        dartsX01Col.InsertOne(dartsX013);
+            Score score9 = new Score("d96a906662e793726bd6f644", teams[2], game5);
+            scores.Add(score9);
+            DartsX01 dartsX013 = new DartsX01(score9);
+            dartsX01s.Add(dartsX013);
+            Score score10 = new Score("dcc57e854a7754536115b626", teams[4], game5);
+            scores.Add(score10);
+            DartsX01 dartsX014 = new DartsX01(score10);
+            dartsX01s.Add(dartsX014);
 
-    //        Score score10 = new Score("98dc1188f7ea24cf2bb28a38", player2, game4);
-    //        DartsCricket dartsCricket4 = new DartsCricket(score10);
-    //        Score score11 = new Score("790dc716dc076918629bc0d3", player4, game4);
-    //        DartsCricket dartsCricket5 = new DartsCricket(score11);
-    //        Score score12 = new Score("58700907d483abdfa78cd959", player5, game4);
-    //        DartsCricket dartsCricket6 = new DartsCricket(score12);
+            Score score11 = new Score("33a00ae166d60fde092ed876", teams[2], game6);
+            scores.Add(score11);
+            Score score12 = new Score("52a2a2d08b5a6aab9d7953a3", teams[3], game6);
+            scores.Add(score12);
 
-    //        scoreCol.InsertOne(score10);
-    //        scoreCol.InsertOne(score11);
-    //        scoreCol.InsertOne(score12);
-    //        dartsCricketCol.InsertOne(dartsCricket4);
-    //        dartsCricketCol.InsertOne(dartsCricket5);
-    //        dartsCricketCol.InsertOne(dartsCricket6);
+            scoreCol.InsertMany(scores);
+            dartsCricketCol.InsertMany(dartsCrickets);
+            dartsX01Col.InsertMany(dartsX01s);
 
-    //        Score score13 = new Score("8a604e6bd9940cff639a5077", player2, game5);
-    //        DartsX01 dartsX014 = new DartsX01(score13);
-    //        Score score14 = new Score("d08a0f8e89e1290a09e7a893", player4, game5);
-    //        DartsX01 dartsX015 = new DartsX01(score14);
-    //        Score score15 = new Score("9ee4c0cc347302f5c0fad0bc", player5, game5);
-    //        DartsX01 dartsX016 = new DartsX01(score15);
-
-    //        scoreCol.InsertOne(score13);
-    //        scoreCol.InsertOne(score14);
-    //        scoreCol.InsertOne(score15);
-    //        dartsX01Col.InsertOne(dartsX014);
-    //        dartsX01Col.InsertOne(dartsX015);
-    //        dartsX01Col.InsertOne(dartsX016);
-
-    //        Score score16 = new Score(player1, game6);
-    //        Score score17 = new Score(player2, game6);
-    //        Score score18 = new Score(player4, game6);
-
-    //        scoreCol.InsertOne(score16);
-    //        scoreCol.InsertOne(score17);
-    //        scoreCol.InsertOne(score18);
-
-    //        List<Player> players4 = new List<Player>();
-    //        players4.Add(player1);
-    //        players4.Add(player3);
-    //        players4.Add(player2);
-    //        players4.Add(player4);
-
-    //        Game game7 = new Game("3ca9cd88b2f2580351e1ab5f", "Joc7", "Fifa", players4);
-    //        gameCol.InsertOne(game7);
-
-    //        List<Player> players5 = new List<Player>();
-    //        players5.Add(player1);
-    //        players5.Add(player3);
-    //        List<Player> players6 = new List<Player>();
-    //        players6.Add(player2);
-    //        players6.Add(player4);
-
-    //        Team team1 = new Team("Fire", players5, game7);
-    //        Team team2 = new Team("Air", players6, game7);
-    //        teamCol.InsertOne(team1);
-    //        teamCol.InsertOne(team2);
-    //    }
+        }
     }
 }

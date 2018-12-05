@@ -8,9 +8,11 @@ namespace GameRoomApp.providers.TeamRepository
 {
     public interface ITeamRepository
     {
-        void InsertTeam(Team a);
+        Team InsertTeam(Team a);
         Team GetTeam(ObjectId id);
         Team GetTeamByName(string name);
+        Team GetTeamByPlayers(Player[] players);
+        List<Team> GetTeamByPlayer(Player player);
         IEnumerable<Team> GetAllTeams();
         void UpdateTeam(Team team);
         void UpdateTeamByName(string name,Team team);

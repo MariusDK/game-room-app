@@ -9,23 +9,28 @@ namespace GameRoomApp.DataModel
     [BsonIgnoreExtraElements]
     public class Team
     {
-
-        public Team(string Name, List<Player> players,Game game)
+        public Team()
+        { }
+        public Team(string Name, List<Player> Players)
         {
             this.Name = Name;
-            this.Players = players;
-            this.Game = game;
+            this.Players = Players;
         }
-
+        public Team(string id,string name, List<Player> players)
+        {
+            this.Id = Id;
+            this.Name = name;
+            this.Players = players;
+        }
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<Player> Players { get; set; }
-        public Game Game { get; set; }
 
         public override string ToString()
         {
-            return this.Name + " " + this.Players + " "+this.Game;
+            return this.Name + " " + this.Players;
         }
 
     }

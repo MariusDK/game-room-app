@@ -48,7 +48,7 @@ namespace GameRoomApp.providers.DartsCricketRepository
             FilterDefinitionBuilder<DartsCricket> gFilter = Builders<DartsCricket>.Filter;
             var uBuilder = Builders<DartsCricket>.Update;
             var idFilter = gFilter.Eq("Id", dartsCricket.Id);
-            var updateDefinition = uBuilder.Set("Score", dartsCricket.Score).Set("Hits", dartsCricket.Hits);
+            var updateDefinition = uBuilder.Set("Score", dartsCricket.Score).Set("Hits", dartsCricket.Hits).Set("CloseNumbers",dartsCricket.CloseNumbers).Set("OpenNumbers",dartsCricket.OpenNumbers);
             var cursor = _dartsCricketContext.dartsCricket.UpdateOne(idFilter, updateDefinition);
         }
         public void RemoveDartsCricket(string id)

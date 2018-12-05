@@ -15,9 +15,10 @@ namespace GameRoomApp.providers.TeamRepository
         {
             _teamContext = teamContext;
         }
-        public void InsertTeam(Team a)
+        public Team InsertTeam(Team team)
         {
-            _teamContext.Team.InsertOne(a);
+            _teamContext.Team.InsertOne(team);
+            return team;
         }
         public Team GetTeam(ObjectId id)
         {
@@ -26,6 +27,22 @@ namespace GameRoomApp.providers.TeamRepository
             var idFilter = builder.Eq("Id",id);
             var cursor = _teamContext.Team.Find(idFilter);
             Team team = cursor.FirstOrDefault();
+            return team;
+        }
+        public Team GetTeamByPlayers(Player[] players)
+        {
+            var builder = Builders<Team>.Filter;
+            var playersFilter = builder.Eq("Players", players);
+            var cursor = _teamContext.Team.Find(playersFilter);
+            Team team = cursor.FirstOrDefault();
+            return team;
+        }
+        public List<Team> GetTeamByPlayer(Player player)
+        {
+            var builder = Builders<Team>.Filter;
+            var playerFilter = builder.Eq("Players", player);
+            var cursor = _teamContext.Team.Find(playerFilter);
+            List<Team> team = cursor.ToList();
             return team;
         }
         public Team GetTeamByName(string name)
@@ -49,7 +66,7 @@ namespace GameRoomApp.providers.TeamRepository
             FilterDefinitionBuilder<Team> fBuilder = Builders<Team>.Filter;
             var uBuilder = Builders<Team>.Update;
             var idFilter = fBuilder.Eq("Id", team.Id);
-            var updateDefinition = uBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game",team.Game);
+            var updateDefinition = uBuilder.Set("Name", team.Name).Set("Players", team.Players);
             var cursor = _teamContext.Team.UpdateOne(idFilter,updateDefinition);
         }
         public void UpdateTeamByName(string name,Team team)
@@ -57,7 +74,7 @@ namespace GameRoomApp.providers.TeamRepository
             FilterDefinitionBuilder<Team> fBuilder = Builders<Team>.Filter;
             var uBuilder = Builders<Team>.Update;
             var nameFilter = fBuilder.Eq("Name", team.Name);
-            var updateDefinition = uBuilder.Set("Name", team.Name).Set("Players", team.Players).Set("Game", team.Game);
+            var updateDefinition = uBuilder.Set("Name", team.Name).Set("Players", team.Players);
             var cursor = _teamContext.Team.UpdateOne(nameFilter, updateDefinition);
         }
         public void RemoveTeam(ObjectId id)

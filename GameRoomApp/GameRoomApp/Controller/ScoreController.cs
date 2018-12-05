@@ -6,6 +6,7 @@ using GameRoomApp.DataModel;
 using GameRoomApp.providers.ScoreRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using GameRoomApp.providers.GameRepository;
 
 namespace GameRoomApp.Controller
 {
@@ -14,9 +15,11 @@ namespace GameRoomApp.Controller
     public class ScoreController : ControllerBase
     {
         private readonly IScoreRepository _scoreRepository;
-        public ScoreController(IScoreRepository scoreRepository)
+        private readonly IGameRepository _gameRepository;
+        public ScoreController(IScoreRepository scoreRepository,IGameRepository gameRepository)
         {
             this._scoreRepository = scoreRepository;
+            this._gameRepository = gameRepository;
         }
         [HttpGet]
         [ActionName("GetScore")]
@@ -25,9 +28,20 @@ namespace GameRoomApp.Controller
         {
             return _scoreRepository.GetScoreById(scoreId);
         }
+        [HttpGet]
+        [ActionName("GetScoresOfGame")]
+        [ExactQueryParam("gameName")]
+        public IEnumerable<Score> GetScoresOfGame(string gameName)
+        {
+           
+            Game game = _gameRepository.GetGameByName(gameName);
+            return _scoreRepository.GetScoresForGame(game);
+       
+        }
+
         [HttpPut]
         [ExactQueryParam("scoreId")]
-        public string PutScore(string scoreId, [FromBody] Score score)
+        public string Put(string scoreId, [FromBody] Score score)
         {
 
             var result = string.Empty;

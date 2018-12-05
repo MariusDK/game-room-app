@@ -1,4 +1,5 @@
 import * as React from 'react';
+import '../RegisterPlayer.css';
 
 export interface IPlayerFormProps {
     handleChange(e: any): void;
