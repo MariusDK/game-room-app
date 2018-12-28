@@ -5,6 +5,8 @@ import PlayerForm from './PlayerForm/PlayerForm';
 import { IPlayer } from 'src/models/IPlayer';
 import { SpinnerComponent } from 'src/components/Spinner/Spinner';
 import './RegisterPlayer.css';
+import Header from 'src/components/StartPage/Header/Header';
+import Footer from 'src/components/Footer/Footer';
 
 export interface IRegisterPlayerState {
     infoMessage: string;
@@ -18,6 +20,7 @@ export interface IRegisterPlayerState {
     ageError: string;
     loading: boolean;
     redirect: boolean;
+    ageString: string;
 }
 
 export interface IRegisterPlayerProps extends RouteComponentProps<any>{}
@@ -38,7 +41,8 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             infoMessage:'',
             ageError: '',
             loading: false,
-            redirect: false
+            redirect: false,
+            ageString:''
             
         }
     }
@@ -52,6 +56,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             }
         ));
     }
+    
     handleValidation (){
         let name = this.state.name;
         let username = this.state.username;
@@ -65,20 +70,20 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
         if (!name)
         {
             formIsValid = false;
-            nameError = "Name field cannot be empty";
+            nameError = "Name field cannot be empty!";
         }
         else if (typeof name !== "undefined")
         {
             if (!name.match(/^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$/))
             {
                 formIsValid = false;
-                nameError = "Only letters";
+                nameError = "Only letters!";
             }
         }
         if (!username)
         {
             formIsValid = false;
-            nameError = "Username field cannot be empty!";
+            usernameError = "Username field cannot be empty!";
         }
         else if (username.length < 6)
         {
@@ -107,6 +112,8 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
         this.setState({loading:true});
         if (this.handleValidation())
         {
+            var age = parseInt(this.state.ageString , 10 )
+            this.setState({age:age})
             console.log("Aici");
                 const newPlayer: IPlayer = {
                     name: this.state.name,
@@ -140,24 +147,28 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             <Redirect to='/'/>
         }
         return (
-            <div className="Register">
+            <div>
+                <Header/>
+            <div className="registerPanel">
                 <PlayerForm
                     name={this.state.name}
                     username={this.state.username}
                     password={this.state.password}
-                    age={this.state.age}
+                    ageString={this.state.ageString}
                     handleChange = {this.handleChange}
                     nameError={this.state.nameError}
                     usernameError={this.state.usernameError}
                     passwordError={this.state.passwordError}
                     ageError={this.state.ageError}
-                    title = "Register"
+                    title = "Create your account"
                 />
                 <SpinnerComponent
                     loading = {this.state.loading}
                 />
                 <button onClick={this.addPlayer}>Register</button><br/>
-                <span style={{color: "red"}}>{this.state.infoMessage}</span>
+                
+            </div>
+            <Footer/>
             </div>
         )
     }

@@ -25,7 +25,8 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
             ageError: '',
             loading: false,
             redirect: false,
-            infoMessage: ''
+            infoMessage: '',
+            ageString:''
         }
     }
     handleChange = (e: any) => {
@@ -126,7 +127,7 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
                     name={this.state.name}
                     username={this.state.username}
                     password={this.state.password}
-                    age={this.state.age}
+                    ageString={this.state.ageString}
                     handleChange={this.handleChange}
                     nameError={this.state.nameError}
                     usernameError={this.state.usernameError}
