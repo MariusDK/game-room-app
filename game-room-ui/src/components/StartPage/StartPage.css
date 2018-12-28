@@ -1,10 +1,26 @@
 .SPage{
-    text-align: center;
-    background-color: lightblue;
-    min-height: 100vh; 
-    min-width: 100vw;
+    background-image:url('./wallpaper.jpg');
+    height: 79vh;
+  overflow: auto;  
+  background-size: 100% 100%;
 }
-.Links {
-    margin: 100px;
-    text-align: center;
+.SPage h2{
+    display: block;
+    color:#FFE4C2;
+    margin:10% 14% 10% 14%;
+    font:25px cursive, sans-serif;
+    text-indent: 50px;
+}
+.registerButton{
+    display: block;
+    text-align: left;
+    margin-left: 14%;
+    
+}
+.registerButton a{
+    text-decoration: none;
+    padding: 15px 30px 15px 30px;
+    border: 3px solid #FFE4C2;
+    border-radius: 5px;
+    color: #FFE4C2;
 }

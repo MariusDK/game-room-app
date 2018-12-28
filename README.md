@@ -10,6 +10,7 @@ Checkpoint 1
 
 # 
 Checkpoint 2
+- se adauga in run comanda: chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
 - Proiectul dedicat acestui checkpoint este \game-room-app\game-room-ui
 - Programul are ca pagina principala: http://localhost:3000/
 - Trebui creat un cont cu care se face logarea
