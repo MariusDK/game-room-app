@@ -1,0 +1,37 @@
+footer{
+display: inline-block;
+width:100%;
+background-color: #1C150D;
+box-shadow: 0px -4px #1F160D;
+}
+.about{
+    display: inline-block;
+    width: calc(50% - 160px);
+    padding: 35px 35px 35px 70px;
+    text-align: left;
+    vertical-align: top;
+}
+.about a{
+    text-decoration: none;
+    color:#FFE4C2;
+}
+.conditions{
+    display: inline-block;
+    width: calc(50% - 160px);
+    padding: 35px 70px 35px 35px;
+    right: 0px;
+    text-align: right;
+    vertical-align: top;
+}
+.conditions a{
+    text-decoration: none;
+    color:#FFE4C2;
+}
+.m-year{
+    display: inline-block;
+}
+.m-year img{
+    height: auto;
+    width: 110px;
+
+}

@@ -3,8 +3,6 @@ import * as React from 'react';
 import StartPage from '../StartPage/StartPage';
 import ProfilePlayer from '../PlayerComponents/ProfilePlayer/ProfilePlayer';
 
-
-
 export default function Home()
 {
    let json = localStorage.getItem("currentUser");
