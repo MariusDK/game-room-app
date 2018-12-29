@@ -7,7 +7,7 @@ import PlayerService from 'src/services/PlayerService';
 import { IPlayer } from 'src/models/IPlayer';
 import { ITeam } from 'src/models/ITeam';
 import { IGame } from 'src/models/IGame';
-import Suggestions from 'src/components/SearchBar/Suggestions';
+import Suggestions from 'src/components/PlayerCard/Suggestions';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateGameSolo.css";
 

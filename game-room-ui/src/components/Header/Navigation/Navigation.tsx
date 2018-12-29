@@ -4,6 +4,7 @@ import "./Navigation.css";
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
 
+
 export default class Navigation extends React.Component<any, any>
 {
     constructor(props: any)
@@ -16,10 +17,22 @@ export default class Navigation extends React.Component<any, any>
     }
     showDropdown=(e:any)=> {
         e.preventDefault();
-        this.setState({displayMenu:true});
-      }
+        if (this.state.displayMenu)
+        {
+            this.setState({displayMenu:false});
+        }
+        else
+        {
+            this.setState({displayMenu:true},() => {
+                document.addEventListener('click', this.cancelDropdown);
+              });
+        }
+    }
+
     cancelDropdown=(e:any)=> {
-        this.setState({displayMenu:false});
+        this.setState({displayMenu:false},() => {
+            document.removeEventListener('click', this.cancelDropdown);
+          });
       }
     logout = () =>
     {
@@ -34,26 +47,35 @@ export default class Navigation extends React.Component<any, any>
         if (redirect){
             return <Redirect to='/'/>
         }
+        
         return (
-            <div>
+            <div className="menuNav">
                 <nav>
                     <ul>
                         <li>
                             <Link to=''>Home</Link><br />
                         </li>
-                        <li onFocus={this.showDropdown} onBlur={this.cancelDropdown} >
-                            <DropdownMenu
-                                
-                                />
-                        </li>
                         <li>
                             <Link to='/createTeam'>Create Team</Link><br />
-                        </li>
-                        <li className="logoutButton">
-                            <button onClick={this.logout}>Logout</button>
-                        </li>                        
+                        </li>                              
                     </ul>
                 </nav>
+                <div className="dropdown">
+                <button onClick={this.showDropdown} className="dropdownBtn">Games</button>
+                <div className="myDropdown" id="idDropdown">
+                <DropdownMenu
+                            displayMenu={this.state.displayMenu}
+                        />
+                        </div>
+                        </div>
+                <div className="m-logo">
+                    <img src={require('src/Resurces/logo.png')}/>
+                </div>
+                <div className="logoutButton">
+                <button onClick={this.logout}>Logout</button>
+                </div>
+                         
+            
             </div>
         )
     }
