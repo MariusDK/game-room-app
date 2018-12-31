@@ -9,6 +9,7 @@ import LoginPlayer from './components/PlayerComponents/LoginPlayer/LoginPlayer';
 import CreateGameSolo from './components/GameComponents/CreateGameSolo/CreateGameSolo';
 import CreateTeamGame from './components/GameComponents/CreateTeamGame/CreateTeamGame';
 import GameList from './components/GameComponents/GameList/GameList';
+import ImageComponent from './components/ImageAIComponent/ImageComponent';
 
 
 const Root = () => (
@@ -23,6 +24,7 @@ const Root = () => (
           <Route path="/createTeamGame" component={CreateTeamGame}/>
           <Route path="/gameTeamPage" component={TeamGamePage}/>
           <Route path="/games" component={GameList}/>
+          <Route path="/imageAnalyzer" component={ImageComponent}/>
         </Switch>
     </BrowserRouter>
 )

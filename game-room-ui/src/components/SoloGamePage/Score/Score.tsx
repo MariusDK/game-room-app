@@ -6,6 +6,7 @@ export interface IScoreProps {
     score: IScore;
     typeOfGame: string;
     scoreValue: number;
+    onChange(): any;
 }
 export interface IScoreState {
     id: string;
@@ -44,6 +45,14 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
         }
 
     }
+    componentWillReceiveProps(props:IScoreProps){
+        
+        let idScore = props.score.id;
+        let score = props.score.value;
+        if (idScore != undefined) {
+            this.setState({ id: idScore, currentScore: score })
+        }
+    }
     updateScore = () => {
         var currentScore = this.state.currentScore + "";
         var addPoints = this.state.points + "";
@@ -54,13 +63,14 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
             ScoreService.updateScore(this.state.id, score);
             this.setState({ points: 0, currentScore: total });
         })
+        this.props.onChange();
     }
     render() {
 
         if (this.props.typeOfGame == "solo") {
             return (
                 <div key={this.props.score.id}>
-                    <span className="score">{`${this.props.score.team.players[0].name}-${this.props.score.value}`} </span>
+                    <span className="score">{`${this.props.score.team.players[0].name}-${this.state.currentScore}`} </span>
                     <input type="number" name="points" onChange={this.handleChange} value={this.state.points} />
                     <button onClick={this.updateScore}>Update Score</button>
                 </div>

@@ -10,6 +10,7 @@ import { IGame } from 'src/models/IGame';
 import Suggestions from 'src/components/PlayerCard/Suggestions';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateGameSolo.css";
+import Footer from 'src/components/Footer/Footer';
 
 export interface ICreateGameState {
     name: string;
@@ -24,6 +25,8 @@ export interface ICreateGameState {
     username: string;
     search: boolean;
     teamName: string;
+    error: string;
+    duplicate:boolean;
 }
 export interface ICreateGameProps extends RouteComponentProps<any> { }
 export default class CreateGameSolo extends React.Component<ICreateGameProps, ICreateGameState>
@@ -43,7 +46,9 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             insertError: '',
             username: '',
             search: false,
-            teamName: ''
+            teamName: '',
+            error: '',
+            duplicate:false
         }
     }
     handleChange = (e: any) => {
@@ -55,15 +60,38 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             }
         ));
     }
+    handleDuplicate=(player:IPlayer)=>
+    {
+        const playerList: IPlayer[] = this.state.players;
+        playerList.forEach(element => {
+            if (element.id==player.id)
+            {
+                this.setState({duplicate:true});
+            }
+            else{
+                this.setState({duplicate:false});
+            }
+        });
+    }
     handleValidation = () => {
         let name = this.state.name;
+        let players = this.state.players;
         let nameError = '';
+        let error = '';
+        
+        
         let formIsValid = true;
         if (!name) {
             formIsValid = false;
             nameError = "Name field cannot be empty";
         }
+        if (players.length<2)
+        {
+            formIsValid = false;
+            error = "Need more players!"
+        }
         this.setState({ nameError: nameError });
+        this.setState({ error: error });
         return formIsValid;
     };
     addPlayerToList = () => {
@@ -72,6 +100,9 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
             if (player.name != null) {
                 console.log(player);
+                this.handleDuplicate(player);
+                if (!this.state.duplicate)
+                {
                 playerList.push(player);
                 this.setState({ players: playerList })
                 const newTeam: ITeam = {
@@ -84,6 +115,11 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                     this.setState({ teams: teamsList });
                     console.log(this.state.teams);
                 });
+                }
+                else
+                {
+                    this.setState({error:"Player already exists"});
+                }
             }
         });
     }
@@ -94,6 +130,8 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                 name: this.state.name,
                 type: this.state.type,
                 teams: this.state.teams,
+                victoryMoments:[],
+                embarrassingMoments:[]
             }
             localStorage.setItem('currentGame', newGame.name);
             console.log(newGame);
@@ -116,7 +154,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         if (redirect) {
             return <Redirect to='/gameSoloPage' />
         }
-        return (
+        return (<div>
             <div className="soloGameC">
                 <Navigation />
                 <GameForm
@@ -127,12 +165,16 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
 
                 />
                 <br/>
-                <input placeholder="Search using Username..." type="text" name="username" onChange={this.handleChange} />
-                <button onClick={this.addPlayerToList}>Search</button>
+                <input className="searchUsername" placeholder="Search using Username..." type="text" name="username" onChange={this.handleChange} />
+                <button className="searchBtn" onClick={this.addPlayerToList}>Search</button>
 
                 <Suggestions results={this.state.players}
                 />
-                <button onClick={this.createGame}>Start</button>
+                <span style={{color: "red"}}>{this.state.error}</span><br/>
+                <button className="startBtn" onClick={this.createGame}>Start</button>
+                
+                </div>
+                <Footer/>
             </div>)
     }
 

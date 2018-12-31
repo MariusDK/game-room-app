@@ -28,7 +28,9 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
             insertError: '',
             username:'',
             search:false,
-            teamName:''
+            teamName:'',
+            error: '',
+            duplicate:false
         }
     }
     handleChange = (e: any) => {
@@ -70,6 +72,8 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
                 name: this.state.name,
                 type: this.state.type,
                 teams: this.state.teams,
+                victoryMoments:[],
+                embarrassingMoments:[]
             }
             localStorage.setItem('currentGame',newGame.name);
             console.log(newGame);

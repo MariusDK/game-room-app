@@ -70,8 +70,8 @@ namespace GameRoomApp.providers.ScoreRepository
         public Score GetScoreForTeam(Team team, Game game)
         {
             var builder = Builders<Score>.Filter;
-            var gameFilter = builder.Eq("Game", game);
-            var teamFilter = builder.Eq("Team", team);
+            var gameFilter = builder.Eq("Game.Id", game.Id);
+            var teamFilter = builder.Eq("Team.Id", team.Id);
             var filter = gameFilter & teamFilter;
             var cursor = _scoreContext.Score.Find(filter);
             Score score = cursor.FirstOrDefault();

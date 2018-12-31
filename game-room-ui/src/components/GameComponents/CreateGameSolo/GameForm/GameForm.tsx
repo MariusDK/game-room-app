@@ -1,4 +1,5 @@
 import * as React from 'react';
+import "./GameForm.css";
 
 export interface IGameFormProps{
     handleChange(e: any): void;
@@ -8,14 +9,12 @@ export interface IGameFormProps{
 }
 const GameForm = (props: IGameFormProps) => {
     return (
-        <div>
+        <div className="gameForm">
             <h1>Create Game</h1>
-            <label htmlFor="name">Name</label>
-            <input type="text" name="name" onChange={props.handleChange} value={props.name}/><br/>
+            <input type="text" name="name" onChange={props.handleChange} placeholder="Name" value={props.name}/><br/>
             <span style={{color: "red"}}>{props.nameError}</span><br/>
 
-            <label htmlFor="type">Type</label>
-            <input type="text" name="type" onChange={props.handleChange} value={props.type}/><br/>
+            <input type="text" name="type" onChange={props.handleChange} placeholder="Type (Ex:Darts/X01,Darts/Cricket)" value={props.type}/><br/>
 
         </div>
     );

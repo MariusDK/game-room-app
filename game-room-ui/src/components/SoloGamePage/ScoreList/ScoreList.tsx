@@ -46,7 +46,11 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
             refresh: true
         }
     }
-    public componentDidMount() {
+    public componentDidMount()
+    {
+        this.getData();
+    }
+    getData=()=>{
         let finishGame = localStorage.getItem("finishGame")
         if (finishGame != null) {
             this.setState({ finishGame: finishGame });
@@ -89,6 +93,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
 
             }
             else {
+                console.log(this.props.gameName);
                 this.setState({ scores: result, loading: false });
             }
         });
@@ -129,6 +134,11 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                 DartsX01Service.updateDartsX01(element.id, element);
             }
         });
+    }
+    onChange=()=>
+    {
+        console.log("hello");
+        this.getData();
     }
     public render() {
         if (this.props.gameType == "Darts/X01") {
@@ -197,6 +207,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                                 score={item}
                                 typeOfGame={this.props.typeOfGame}
                                 scoreValue={item.value}
+                                onChange={this.onChange}
                             >
                             </Score>
                         )

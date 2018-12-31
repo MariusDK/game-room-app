@@ -1,0 +1,40 @@
+.soloGamePage{
+    background: url(./gamePageWallpaper.jpg);
+    min-height: 79vh; 
+    background-size: 100% 100%;
+    display: block;
+    color: #B4498D;
+}
+.soloGamePage button{
+    background: transparent;
+    color: #B4498D;
+    text-decoration: none;
+    border: 3px solid #B4498D;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.soloGamePage input{
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #B4498D;
+    border-radius: 5px;
+}
+.leftGamePage
+{
+    margin-left: 10%;
+    width: 40%;
+    display: inline-block;
+}
+.rightGamePage
+{
+    margin-right: 10%;
+    width: 40%;
+    height: 100%;
+    display: inline-block;
+}
+.finishGame{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}

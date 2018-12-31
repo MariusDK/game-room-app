@@ -35,4 +35,11 @@ export default class GameService {
         .get(`https://localhost:44333/api/game?fplayerId=${playerId}`)
         .then((result: AxiosResponse) => result.data)
     }
+    public static updateGame = (gameName:string,game:IGame):Promise<string>=>
+    {
+
+        return axios
+        .put(`https://localhost:44333/api/game?gameName=${gameName}`,game)
+        .then((result: AxiosResponse) => result.data)
+    }
 }

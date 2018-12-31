@@ -15,6 +15,8 @@ export default class TeamGamePage extends React.Component<ISoloGameProps, ISoloG
             type: '',
             loading: true,
             redirect: false,
+            victoryMoments:[],
+            embarrassingMoments:[]
         }
     }
     public componentDidMount() {
