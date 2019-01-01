@@ -21,8 +21,11 @@ namespace GameRoomApp.providers.GameRepository
         void RemoveGameByName(string id);
         void AddPlayerToGame(string id, Team team);
         void RemoveTeamFromGame(string id, string teamId);
+        void RemoveSelectedGame(Game games);
         void EndGame(string name, Game game);
         string GetImage(string imgData);
+        IEnumerable<Game> PaginationFinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams);
+        IEnumerable<Game> PaginationUnfinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams);
     }
 }
 

@@ -29,10 +29,10 @@ export default class GameService {
         .get(`https://localhost:44333/api/game?uplayerId=${playerId}`)
         .then((result: AxiosResponse) => result.data)
     }
-    public static getGamesFinishOfPlayer = (playerId:string):Promise<IGame[]> =>
+    public static getGamesFinishOfPlayer = (page:number,playerId:string):Promise<IGame[]> =>
     {
         return axios
-        .get(`https://localhost:44333/api/game?fplayerId=${playerId}`)
+        .get(`https://localhost:44333/api/game?page=${page}&userIdf=${playerId}`)
         .then((result: AxiosResponse) => result.data)
     }
     public static updateGame = (gameName:string,game:IGame):Promise<string>=>
@@ -48,5 +48,11 @@ export default class GameService {
         return axios
         .get(`https://localhost:44333/api/game?imgAbout=${infoAboutImg}`)
         .then((result: AxiosResponse) => result.data)
+    }
+    public static deleteGame = (gameId:string):Promise<string> =>
+    {
+        return axios
+        .delete(`https://localhost:44333/api/game?gameId=${gameId}`)
+        .then((result: AxiosResponse) => result.data)       
     }
 }

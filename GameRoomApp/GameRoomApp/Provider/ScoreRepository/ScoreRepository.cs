@@ -185,6 +185,14 @@ namespace GameRoomApp.providers.ScoreRepository
             Score score = cursor.FirstOrDefault();
             return score;
         }
+
+        public void RemoveScoresOfGames(List<Game> games)
+        {
+            foreach (Game game in games)
+            {
+                RemoveScoreByGame(game);
+            }
+        }
     }
 }
 

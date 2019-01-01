@@ -22,7 +22,7 @@ namespace GameRoomApp.providers.GameRepository
         public Game GetGameById(ObjectId objectId)
         {
             var builder = Builders<Game>.Filter;
-            var idFilter = builder.Eq("Id",objectId);
+            var idFilter = builder.Eq("Id", objectId);
             var cursor = _gameContext.Games.Find(idFilter);
             Game game = cursor.FirstOrDefault();
             return game;
@@ -48,12 +48,12 @@ namespace GameRoomApp.providers.GameRepository
             FilterDefinitionBuilder<Game> gFilter = Builders<Game>.Filter;
             var uBuilder = Builders<Game>.Update;
             var idFilter = gFilter.Eq("Id", game.Id);
-            var updateDefinition = uBuilder.Set("Name",game.Name).Set("Type",game.Type).Set("Teams",game.Teams).
-                Set("StartOn",game.StartOn).Set("EndOn",game.EndOn).
-                Set("EmbarrassingMoments",game.EmbarrassingMoments).Set("VictoryMoments",game.VictoryMoments);
-            var cursor = _gameContext.Games.UpdateOne(idFilter,updateDefinition);
+            var updateDefinition = uBuilder.Set("Name", game.Name).Set("Type", game.Type).Set("Teams", game.Teams).
+                Set("StartOn", game.StartOn).Set("EndOn", game.EndOn).
+                Set("EmbarrassingMoments", game.EmbarrassingMoments).Set("VictoryMoments", game.VictoryMoments);
+            var cursor = _gameContext.Games.UpdateOne(idFilter, updateDefinition);
         }
-        public void UpdateGameByName(string name,Game game)
+        public void UpdateGameByName(string name, Game game)
         {
             FilterDefinitionBuilder<Game> gFilter = Builders<Game>.Filter;
             var uBuilder = Builders<Game>.Update;
@@ -77,7 +77,7 @@ namespace GameRoomApp.providers.GameRepository
         public void RemoveGameById(ObjectId id)
         {
             var builder = Builders<Game>.Filter;
-            var idFilter = builder.Eq("Id",id);
+            var idFilter = builder.Eq("Id", id);
             _gameContext.Games.DeleteOne(idFilter);
         }
         public void RemoveGameByName(string name)
@@ -156,7 +156,7 @@ namespace GameRoomApp.providers.GameRepository
                 listMoments = game.EmbarrassingMoments;
             }
             int position;
-            int.TryParse(imgPosition,out position);
+            int.TryParse(imgPosition, out position);
             for (int i = 0; i < listMoments.Capacity; i++)
             {
                 if (position == i)
@@ -166,6 +166,80 @@ namespace GameRoomApp.providers.GameRepository
             }
             return null;
         }
+
+        public IEnumerable<Game> PaginationUnfinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams)
+        {
+            List<Game> games = (List<Game>)GetUnfinishGamesOfUser(teams);
+            List<Game> paginateGames = new List<Game>();
+            int startPosition = limitOfElementsInPage * (pageNumber-1);
+            int finishPosition = (limitOfElementsInPage + 1) * (pageNumber-1);
+            for (int i = startPosition; i < finishPosition + 1; i++)
+            {
+                paginateGames.Add(games[i]);
+            }
+            return paginateGames;
+        }
+        public IEnumerable<Game> PaginationFinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams)
+        {
+            pageNumber++;
+            List<Game> games = (List<Game>)GetFinishGamesOfUser(teams);
+            List<Game> paginateGames = new List<Game>();
+            int startPosition = limitOfElementsInPage * (pageNumber - 1);
+            int finishPosition = (limitOfElementsInPage - 1) + limitOfElementsInPage * (pageNumber - 1);
+            for (int i = startPosition; i < finishPosition + 1; i++)
+            {
+                if (i == games.Count)
+                { break; }
+                paginateGames.Add(games[i]);
+            }
+            return paginateGames;
+        }
+
+        public IEnumerable<Game> GetUnfinishGamesOfUser(List<Team> teams)
+        {
+            List<Game> teamGames = new List<Game>();
+            List<Game> unfinishGames = new List<Game>();
+            foreach (Team team in teams)
+            {
+                foreach (Game game in GetGamesByTeam(team))
+                {
+                    teamGames.Add(game);
+                }
+            }
+            foreach (Game g in teamGames)
+            {
+                if (g.EndOn == null)
+                {
+                    unfinishGames.Add(g);
+                }
+            }
+            return unfinishGames;
+        }
+        public IEnumerable<Game> GetFinishGamesOfUser(List<Team> teams)
+        {
+            List<Game> teamGames = new List<Game>();
+            List<Game> finishGames = new List<Game>();
+            foreach (Team team in teams)
+            {
+                foreach (Game game in GetGamesByTeam(team))
+                {
+                    teamGames.Add(game);
+                }
+            }
+            foreach (Game g in teamGames)
+            {
+                if (g.EndOn != null)
+                {
+                    finishGames.Add(g);
+                }
+            }
+            return finishGames;
+        }
+
+        public void RemoveSelectedGame(Game game)
+        {
+           ObjectId objectId = new ObjectId(game.Id);
+           RemoveGameById(objectId);    
+        }
     }
-    
 }

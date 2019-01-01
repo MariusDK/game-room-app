@@ -24,6 +24,7 @@ export default class DropdownMenu extends React.Component<IDropdownProps, any>
          <li><Link to="/createGameSolo">Create Game Solo</Link></li>
          <li><Link to="/createTeamGame">Create Game Team</Link></li>
          <li><Link to="/games">Game List</Link></li>
+         <li><Link to="/finishGames">Finish Game List</Link></li>
           </ul>
 
        </div>

@@ -34,9 +34,6 @@ export default class GameList extends React.Component<any, IGameListState>
             GameService.getGamesUnfinishOfPlayer(obj.id).then((result: IGame[]) => {
                 this.setState({ ugames: result, loading1: false });
             });
-            GameService.getGamesFinishOfPlayer(obj.id).then((result: IGame[]) => {
-                this.setState({ fgames: result, loading2: false });
-            });
         }
     }
     public selectGame = (game: IGame) => {
@@ -80,6 +77,7 @@ export default class GameList extends React.Component<any, IGameListState>
                             key={index}
                             game={item}
                             selectGame={this.selectGame}
+                            listSelectedGames = {this.state.fgames}
                         >
                         </Game>
                     )
@@ -91,11 +89,12 @@ export default class GameList extends React.Component<any, IGameListState>
                 {!this.state.loading2 &&
                     this.state.fgames.map((item, index) => (
                         <Game
-                            key={index}
-                            game={item}
-                            selectGame={this.selectGame}
-                        >
-                        </Game>
+                        key={index}
+                        game={item}
+                        selectGame={this.selectGame}
+                        listSelectedGames = {this.state.fgames}
+                    >
+                    </Game> 
                     )
                     )}
             </div>

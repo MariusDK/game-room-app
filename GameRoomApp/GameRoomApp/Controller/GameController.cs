@@ -57,7 +57,20 @@ namespace GameRoomApp.Controller
                 return _scoreRepository.LeaderboardForGame(existentGame);
             }
             return null;
-        }       
+        }
+        [HttpGet]
+        [ActionName(nameof(GetGameLeaderboard))]
+        [ExactQueryParam("page")]
+        public IEnumerable<Score> GetGame(string gameIdl)
+        {
+            ObjectId objectId = new ObjectId(gameIdl);
+            var existentGame = _gameRepository.GetGameById(objectId);
+            if (existentGame != null)
+            {
+                return _scoreRepository.LeaderboardForGame(existentGame);
+            }
+            return null;
+        }
         [HttpGet]
         [ActionName(nameof(GetGamesByType))]
         [ExactQueryParam("type")]
@@ -67,61 +80,34 @@ namespace GameRoomApp.Controller
         }
         [HttpGet]
         [ActionName(nameof(GetGamesUnfinishByPlayer))]
-        [ExactQueryParam("uplayerId")]
-        public IEnumerable<Game> GetGamesUnfinishByPlayer(string uplayerId)
+        [ExactQueryParam("page","userIdu")]
+        public IEnumerable<Game> GetGamesUnfinishByPlayer(int page, string userId)
         {
-            ObjectId idObject = new ObjectId(uplayerId);
+            ObjectId idObject = new ObjectId(userId);
             var player = _playerRepository.GetPlayerById(idObject);
-            List<Game> games = new List<Game>();
-            List<Game> gamesUnfinish = new List<Game>();
+            List<Game> unfinishGames = new List<Game>();
+
             if (player != null)
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
-                foreach (Team team in teams)
-                {
-                    foreach (Game game in _gameRepository.GetGamesByTeam(team))
-                    {
-                        games.Add(game);
-                    }
-                }
-                foreach (Game g in games)
-                {
-                    if (g.EndOn == null)
-                    {
-                        gamesUnfinish.Add(g);
-                    }
-                }
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page,10,teams);
             }
-            return gamesUnfinish;
+            return unfinishGames;
         }
         [HttpGet]
         [ActionName(nameof(GetGamesFinishByPlayer))]
-        [ExactQueryParam("fplayerId")]
-        public IEnumerable<Game> GetGamesFinishByPlayer(string fplayerId)
+        [ExactQueryParam("page", "userIdf")]
+        public IEnumerable<Game> GetGamesFinishByPlayer(int page, string userIdf)
         {
-            ObjectId idObject = new ObjectId(fplayerId);
-            List<Game> games = new List<Game>();
-            List<Game> gamesFinish = new List<Game>();
+            ObjectId idObject = new ObjectId(userIdf);
+            List<Game> finishGames = new List<Game>();
             var player = _playerRepository.GetPlayerById(idObject);
             if (player != null)
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
-                foreach (Team team in teams)
-                {
-                    foreach (Game game in _gameRepository.GetGamesByTeam(team))
-                    {
-                        games.Add(game);
-                    }
-                }
-                foreach (Game g in games)
-                {
-                    if (g.EndOn != null)
-                    {
-                        gamesFinish.Add(g);
-                    }
-                }
+                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesOfUser(page,2,teams);
             }
-            return gamesFinish;
+            return finishGames;
         }
         [HttpGet]
         [ActionName(nameof(GetGameById))]
@@ -291,6 +277,12 @@ namespace GameRoomApp.Controller
                 result = $"Game don't exists!";
             }
             return result;
+        }
+        [HttpDelete]
+        public void DeleteGame([FromBody] Game selectedGameList)
+        {
+            _scoreRepository.RemoveScoreByGame(selectedGameList);
+            _gameRepository.RemoveSelectedGame(selectedGameList);
         }
         [HttpDelete("name/{name}")]
         [ExactQueryParam("gameName")]
