@@ -16,10 +16,13 @@ function imagesLoaded(parentNode:any)
     }
 export interface GalleryProps {
     moments:string[];
+    listType:string;
+    gameName:any;
 }
 export interface GalleryState {
     loading: boolean;
     moments: string[];
+    imgPosition: number;
 }
 export default class Gallery extends React.Component<GalleryProps,GalleryState>{
     galleryElement: HTMLDivElement | null;
@@ -29,7 +32,8 @@ export default class Gallery extends React.Component<GalleryProps,GalleryState>{
         super(props);
         this.state ={
             loading : true,
-            moments : []
+            moments : [],
+            imgPosition: 0
         };
     }
     componentDidMount()
@@ -37,14 +41,29 @@ export default class Gallery extends React.Component<GalleryProps,GalleryState>{
         this.setState({moments:this.props.moments});
     }
     componentWillReceiveProps(props:GalleryProps) {
-        console.log("dupa");
         this.setState({loading:true});
         this.setState({moments:this.props.moments});
       }
+    clickImg=(moment:string)=>
+    {
+        var i=0;
+        this.props.moments.forEach(element => {
+            //console.log(i);
+            if (element==moment)
+            {
+
+                console.log(i);
+                localStorage.setItem('ImgPositionAndListType', i+","+this.props.listType+","+this.props.gameName);
+                localStorage.setItem('clickedImg',`data:image/png;base64,${moment}`);
+                
+            }
+            i++;
+        });
+    }
     renderImage(moment:string){
         var address = `data:image/png;base64,${moment}`;
         return (
-            <div className="imgGallery" onClick={()=>localStorage.setItem('clickedImg', address)}>
+            <div className="imgGallery" onClick={()=>this.clickImg(moment)}>
         
                 <Link to='/imageAnalyzer' className="Links" > 
                     <img src={address} onLoad={this.handleStateChange} onError={this.handleStateChange}/>

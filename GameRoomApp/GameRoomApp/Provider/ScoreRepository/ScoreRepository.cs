@@ -48,7 +48,7 @@ namespace GameRoomApp.providers.ScoreRepository
         public List<Score> GetScoresForGame(Game game)
         {
             var builder = Builders<Score>.Filter;
-            var gameFilter = builder.Eq("Game", game);
+            var gameFilter = builder.Eq("Game.Id", game.Id);
             var cursor = _scoreContext.Score.Find(gameFilter);
             List<Score> scores = cursor.ToList();
             return scores;

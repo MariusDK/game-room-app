@@ -113,11 +113,15 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
                     <h2>Victory Moments</h2>
                 <Gallery
                     moments = {this.state.victoryMoments}
+                    listType = "vicMoments"
+                    gameName={this.state.name}
                 />
                 
                 <h2>Embarrassing Moments</h2>
                 <Gallery
                     moments = {this.state.embarrassingMoments}
+                    listType = "embMoments"
+                    gameName={this.state.name}
                 />
                 </div>
                 

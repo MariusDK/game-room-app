@@ -42,4 +42,11 @@ export default class GameService {
         .put(`https://localhost:44333/api/game?gameName=${gameName}`,game)
         .then((result: AxiosResponse) => result.data)
     }
+    public static getPredictionGame = (infoAboutImg:string):Promise<string> =>
+    {
+        console.log(infoAboutImg);
+        return axios
+        .get(`https://localhost:44333/api/game?imgAbout=${infoAboutImg}`)
+        .then((result: AxiosResponse) => result.data)
+    }
 }

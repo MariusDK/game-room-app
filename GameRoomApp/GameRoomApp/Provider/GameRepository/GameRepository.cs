@@ -63,7 +63,7 @@ namespace GameRoomApp.providers.GameRepository
                 Set("EmbarrassingMoments", game.EmbarrassingMoments).Set("VictoryMoments", game.VictoryMoments);
             var cursor = _gameContext.Games.UpdateOne(nameFilter, updateDefinition);
         }
-        public void endGame(string name, Game game)
+        public void EndGame(string name, Game game)
         {
             DateTime dateTime = DateTime.Today;
             FilterDefinitionBuilder<Game> gFilter = Builders<Game>.Filter;
@@ -137,5 +137,35 @@ namespace GameRoomApp.providers.GameRepository
             game.Teams = teams;
             UpdateGameById(game);
         }
+        public string GetImage(string imgData)
+        {
+            string[] imgDataSplit = imgData.Split(",");
+            string imgPosition = imgDataSplit[0];
+            string listType = imgDataSplit[1];
+            string gameName = imgDataSplit[2];
+            List<string> listMoments;
+            var builder = Builders<Game>.Filter;
+            var nameFilter = builder.Eq("Name", gameName);
+            var cursor = _gameContext.Games.Find(nameFilter);
+            Game game = cursor.FirstOrDefault();
+            if (listType.Equals("vicMoments"))
+            {
+                listMoments = game.VictoryMoments;
+            }
+            else {
+                listMoments = game.EmbarrassingMoments;
+            }
+            int position;
+            int.TryParse(imgPosition,out position);
+            for (int i = 0; i < listMoments.Capacity; i++)
+            {
+                if (position == i)
+                {
+                    return listMoments[i];
+                }
+            }
+            return null;
+        }
     }
+    
 }

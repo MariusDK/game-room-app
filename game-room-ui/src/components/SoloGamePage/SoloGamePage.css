@@ -3,13 +3,13 @@
     min-height: 79vh; 
     background-size: 100% 100%;
     display: block;
-    color: #B4498D;
+    color: #FFFFF3;
 }
 .soloGamePage button{
     background: transparent;
-    color: #B4498D;
+    color: #FFFFF3;
     text-decoration: none;
-    border: 3px solid #B4498D;
+    border: 3px solid #FFFFF3;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
@@ -18,7 +18,7 @@
 .soloGamePage input{
     background: transparent;
     border: none;
-    border-bottom: 3px solid #B4498D;
+    border-bottom: 3px solid #FFFFF3;
     border-radius: 5px;
 }
 .leftGamePage
@@ -29,6 +29,7 @@
 }
 .rightGamePage
 {
+    color: #FEE9B0;
     margin-right: 10%;
     width: 40%;
     height: 100%;

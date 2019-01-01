@@ -21,7 +21,8 @@ namespace GameRoomApp.providers.GameRepository
         void RemoveGameByName(string id);
         void AddPlayerToGame(string id, Team team);
         void RemoveTeamFromGame(string id, string teamId);
-        void endGame(string name, Game game);
+        void EndGame(string name, Game game);
+        string GetImage(string imgData);
     }
 }
 

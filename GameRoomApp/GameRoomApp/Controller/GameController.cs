@@ -9,6 +9,7 @@ using GameRoomApp.providers.GameRepository;
 using GameRoomApp.providers.PlayerRepository;
 using GameRoomApp.providers.ScoreRepository;
 using GameRoomApp.providers.TeamRepository;
+using GameRoomApp.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -23,6 +24,7 @@ namespace GameRoomApp.Controller
         private readonly IScoreRepository _scoreRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly ITeamRepository _teamRepository;
+        private PredictionGame _predicitonGame;
         public GameController(IScoreRepository scoreRepository, IGameRepository gameRepository,
             IPlayerRepository playerRepository, ITeamRepository teamRepository)
         {
@@ -30,6 +32,8 @@ namespace GameRoomApp.Controller
             this._scoreRepository = scoreRepository;
             this._playerRepository = playerRepository;
             this._teamRepository = teamRepository;
+            _predicitonGame = new PredictionGame();
+  
         }
         [HttpGet]
         public IEnumerable<Game> GetAllGames()
@@ -134,6 +138,17 @@ namespace GameRoomApp.Controller
         {
             return _gameRepository.GetGameByName(gameName);
         }
+        [HttpGet]
+        [ActionName(nameof(GetPredictionGameAsync))]
+        [ExactQueryParam("imgAbout")]
+        public async Task<string> GetPredictionGameAsync(string imgAbout)
+        {
+            string img = _gameRepository.GetImage(imgAbout);
+            string response = await _predicitonGame.MakePredictionRequest(img);
+            string result = _predicitonGame.ParseJsonToGetPrediction(response);
+            return result;
+        }
+
         [HttpPost]
         public string Post([FromBody] Game game)
         {
