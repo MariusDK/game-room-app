@@ -51,6 +51,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         this.getData();
     }
     getData=()=>{
+        this.setState({dartsX01: []});
         let finishGame = localStorage.getItem("finishGame")
         if (finishGame != null) {
             this.setState({ finishGame: finishGame });
@@ -64,12 +65,12 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                     if (element.id != undefined) {
                         DartsX01Service.getDartsX01ByScore(element.id).then((dartsX01: IDartsX01) => {
                             dartsX01List.push(dartsX01);
+                            console.log(dartsX01List.length);
                             if (dartsX01List.length == result.length) {
                                 let dartsX01Leaderboard = Util.leaderboardDartsX01(dartsX01List);
                                 this.setState({ dartsX01: dartsX01List });
                                 this.setState({ scores: result, loading: false });
                                 this.setState({ leaderboardDartsX01: dartsX01Leaderboard, loading2: false });
-
                             }
                         })
                     }
@@ -116,6 +117,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                 DartsX01Service.updateDartsX01(element.id, element).then(() => {
                     this.setState({ refresh: true });
                 });
+
             }
         });
     }
@@ -123,7 +125,10 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         this.state.dartsX01.forEach(element => {
             element.stateScore = 501;
             if (element.id != undefined) {
-                DartsX01Service.updateDartsX01(element.id, element);
+                DartsX01Service.updateDartsX01(element.id, element).then(() => {
+                    this.setState({ refresh: true });
+                });
+
             }
         });
     }
@@ -131,7 +136,10 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         this.state.dartsX01.forEach(element => {
             element.stateScore = 1001;
             if (element.id != undefined) {
-                DartsX01Service.updateDartsX01(element.id, element);
+                DartsX01Service.updateDartsX01(element.id, element).then(() => {
+                    this.setState({ refresh: true });
+                });
+
             }
         });
     }
@@ -141,6 +149,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         this.getData();
     }
     public render() {
+        console.log(this.props.typeOfGame);
         if (this.props.gameType == "Darts/X01") {
             return (
                 <div>
@@ -148,7 +157,10 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                     <button onClick={this.start301}>301</button>
                     <button onClick={this.start501}>501</button>
                     <button onClick={this.start1001}>1001</button>
-                    <h1>Players List</h1>
+                    {(this.props.typeOfGame=="multi") &&
+                    <h1>Team List</h1>}
+                    {(this.props.typeOfGame=="solo") &&
+                    <h1>Players List</h1>}
                     {!this.state.loading && this.state.finishGame != "true" &&
                         this.state.dartsX01.map((item, index) => (
 
@@ -158,6 +170,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                                 score={item.score}
                                 typeOfGame={this.props.typeOfGame}
                                 scoreValue={item.stateScore}
+                                onChange={this.onChange}
                             >
                             </DartsX01Score>
 
@@ -198,7 +211,10 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         else {
             return (
                 <div>
-                    <h1>Players List</h1>
+                    {(this.props.typeOfGame=="multi") &&
+                    <h1>Team List</h1>}
+                    {(this.props.typeOfGame=="solo") &&
+                    <h1>Players List</h1>}
                     {!this.state.loading && this.state.finishGame != "true" &&
                         this.state.scores.map((item, index) => (
 
