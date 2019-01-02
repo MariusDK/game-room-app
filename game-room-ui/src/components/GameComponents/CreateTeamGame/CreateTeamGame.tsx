@@ -6,9 +6,10 @@ import { ITeam } from 'src/models/ITeam';
 import { IGame } from 'src/models/IGame';
 import { ICreateGameProps, ICreateGameState } from '../CreateGameSolo/CreateGameSolo';
 import GameForm from '../CreateGameSolo/GameForm/GameForm';
-import Suggestions from 'src/components/PlayerCard/Suggestions';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateTeamGame.css";
+import Footer from 'src/components/Footer/Footer';
+import TeamCard from 'src/components/TeamCard/TeamCard';
 
 export default class CreateTeamGame extends React.Component<ICreateGameProps,ICreateGameState>
 {
@@ -59,6 +60,7 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
     {
         const teamsList:ITeam[]=this.state.teams;
         var name = this.state.teamName;
+        console.log(name);
         TeamService.getTeamByName(name).then((result:ITeam)=>{
             teamsList.push(result);
             this.setState({teams:teamsList});
@@ -97,9 +99,13 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
             {
                 return <Redirect to='/gameTeamPage'/>
             }
-            return(
-        <div className="multiGameC">
-            <Navigation/>
+            return(<div>
+                
+                <div>
+                    <Navigation/>
+                    </div>
+                    <div className="multiGameC">
+           <div>
             <GameForm 
                 name =  {this.state.name}
                 type = {this.state.type}
@@ -107,13 +113,18 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
                 handleChange = {this.handleChange}
                 
             />
+            </div>
             <br/>
             <input placeholder="Search using Team Name" type="text" name="teamName" onChange={this.handleChange}/>
             <button onClick={this.getTeamByName}>Search</button>
 
-            <Suggestions results={this.state.teams}           
+            <TeamCard results={this.state.teams}           
             />
             <button onClick={this.createGame}>Start</button>
-            </div>)
+            </div>
+            
+            <Footer/>
+            </div>
+            )
     }
 }

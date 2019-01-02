@@ -39,11 +39,12 @@ export default class Gallery extends React.Component<GalleryProps,GalleryState>{
     componentDidMount()
     {
         this.setState({moments:this.props.moments});
+        console.log(this.state.moments);
     }
     componentWillReceiveProps(props:GalleryProps) {
-        this.setState({loading:true});
-        this.setState({moments:this.props.moments});
-      }
+         this.setState({loading:true});
+         this.setState({moments:this.props.moments});
+       }
     clickImg=(moment:string)=>
     {
         var i=0;

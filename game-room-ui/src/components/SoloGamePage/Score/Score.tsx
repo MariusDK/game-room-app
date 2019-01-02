@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IScore } from 'src/models/IScore';
 import ScoreService from 'src/services/ScoreService';
+import "./Score.css"
 
 export interface IScoreProps {
     score: IScore;
@@ -37,39 +38,40 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
         ));
     }
     componentDidMount() {
-        console.log(this.state.id);
         let idScore = this.props.score.id;
         let score = this.props.score.value;
         if (idScore != undefined) {
             this.setState({ id: idScore, currentScore: score })
         }
-
     }
-    componentWillReceiveProps(props:IScoreProps){
-        
-        let idScore = props.score.id;
-        let score = props.score.value;
-        if (idScore != undefined) {
-            this.setState({ id: idScore, currentScore: score })
-        }
-    }
+    // componentWillReceiveProps(props:IScoreProps){
+    //     let idScore = props.score.id;
+    //     let score = props.score.value;
+    //     console.log(score);
+    //     if (idScore != undefined) {
+    //         this.setState({ id: idScore, currentScore: score })
+    //     }
+    // }
     updateScore = () => {
         var currentScore = this.state.currentScore + "";
         var addPoints = this.state.points + "";
-        console.log(this.state.id);
+        var total = parseInt(currentScore) + parseInt(addPoints);
+        this.setState({ points: 0, currentScore: total });
+        console.log(this.state.currentScore);
         ScoreService.getScoreById(this.state.id).then((score: IScore) => {
-            var total = parseInt(currentScore) + parseInt(addPoints);
             score.value = total;
             ScoreService.updateScore(this.state.id, score);
-            this.setState({ points: 0, currentScore: total });
+            this.props.onChange();
+            
         })
-        this.props.onChange();
+        //this.props.onChange();
+        
     }
     render() {
 
         if (this.props.typeOfGame == "solo") {
             return (
-                <div key={this.props.score.id}>
+                <div key={this.props.score.id} className="scoreForm">
                     <span className="score">{`${this.props.score.team.players[0].name}-${this.state.currentScore}`} </span>
                     <input type="number" name="points" onChange={this.handleChange} value={this.state.points} />
                     <button onClick={this.updateScore}>Update Score</button>
@@ -79,8 +81,8 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
         else {
             return (
 
-                <div>
-                    <span className="score">{`${this.props.score.team.name}-${this.props.score.value}`}</span>
+                <div key={this.props.score.id} className="scoreForm">
+                    <span className="score">{`${this.props.score.team.name}-${this.state.currentScore}`}</span>
                     <input type="number" name="points" onChange={this.handleChange} value={this.state.points} />
                     <button onClick={this.updateScore}>Update Score</button>
                 </div>

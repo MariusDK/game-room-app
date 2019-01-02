@@ -54,8 +54,9 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                 }
                 GameService.updateGame(this.props.gameName,result);
             }
+            this.onChange();
         })
-        this.onChange();
+        
     }
     }
     fileUploadEmbarrassingHandler=(e:any)=>
@@ -87,8 +88,8 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                 }
                 GameService.updateGame(this.props.gameName,result);
             }
+            this.onChange();
         })
-        this.onChange();
      }}
     onChange=()=>
     {

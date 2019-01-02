@@ -1,0 +1,22 @@
+
+.teamCard{
+
+    display: inline-block;
+    border: 3px solid #1F160D;
+    border-radius: 5px;
+    width: calc(100% / 8);
+    margin: 0 1%;
+}
+.teamCard article img{
+    text-align:center;
+    width: 80px;
+    height: auto;
+    box-sizing: border-box;
+    vertical-align: baseline;
+
+}
+.teamCard section{
+    font-weight: bold;
+    font-size: 13px;
+    border-top: 3px solid #1F160D;
+}
