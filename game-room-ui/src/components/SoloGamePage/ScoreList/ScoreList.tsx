@@ -49,9 +49,11 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
     public componentDidMount()
     {
         this.getData();
+        console.log("Da");
     }
     getData=()=>{
         this.setState({dartsX01: []});
+        this.setState({dartsCricket: []});
         let finishGame = localStorage.getItem("finishGame")
         if (finishGame != null) {
             this.setState({ finishGame: finishGame });
@@ -65,7 +67,6 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                     if (element.id != undefined) {
                         DartsX01Service.getDartsX01ByScore(element.id).then((dartsX01: IDartsX01) => {
                             dartsX01List.push(dartsX01);
-                            console.log(dartsX01List.length);
                             if (dartsX01List.length == result.length) {
                                 let dartsX01Leaderboard = Util.leaderboardDartsX01(dartsX01List);
                                 this.setState({ dartsX01: dartsX01List });
@@ -78,14 +79,17 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
 
             }
             else if (this.props.gameType == "Darts/Cricket") {
-                console.log("Aici vreau")
                 result.forEach(element => {
+                    
                     if (element.id != undefined) {
+
                         DartsCricketService.getDartsCricketByScore(element.id).then((dartsCricket: IDartsCricket) => {
+                            console.log(dartsCricket);
                             dartsCricketList.push(dartsCricket);
                             this.setState({ dartsCricket: dartsCricketList });
                             if (dartsCricketList.length == result.length) {
                                 this.setState({ scores: result, loading: false });
+                                
                             }
 
                         })
@@ -94,16 +98,12 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
 
             }
             else {
-                console.log(this.props.gameName);
                 this.setState({ scores: result, loading: false });
             }
         });
         GameService.getGameByName(this.props.gameName).then((result: IGame) => {
-            console.log(result);
             if (result.id != undefined) {
-                console.log(result.id);
                 ScoreService.getLeaderboard(result.id).then((listScore: IScore[]) => {
-                    console.log(listScore);
                     this.setState({ leaderboard: listScore, loading2: false })
                 })
             }
@@ -145,11 +145,21 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
     }
     onChange=()=>
     {
-        console.log("hello");
         this.getData();
     }
+    onChangeDartsCriket=(score1:number,score2:number)=>
+    {
+        console.log(score1);
+        var dartsCricket1 = this.state.dartsCricket[0];
+        var dartsCricket2 = this.state.dartsCricket[1];
+        dartsCricket1.score.value = score1;
+        dartsCricket2.score.value = score2;
+        var dartsCricket:IDartsCricket[] = [];
+        dartsCricket.push(dartsCricket1);
+        dartsCricket.push(dartsCricket2);
+        this.setState({dartsCricket:dartsCricket});
+    }
     public render() {
-        console.log(this.props.typeOfGame);
         if (this.props.gameType == "Darts/X01") {
             return (
                 <div>
@@ -202,10 +212,10 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                         typeOfGame={this.props.typeOfGame}
                         dartsCricket1={this.state.dartsCricket[0]}
                         dartsCricket2={this.state.dartsCricket[1]}
+                        onChange={this.onChangeDartsCriket}
                     >
-                    </DartsCricketScore>
-
-                </div>
+                    </DartsCricketScore>             
+            </div>
             );
         }
         else {

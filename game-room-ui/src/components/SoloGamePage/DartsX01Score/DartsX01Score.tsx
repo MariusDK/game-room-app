@@ -62,6 +62,7 @@ export default class DartsX01Score extends React.Component<IDartsX01Props,IDarts
             dartsX01.stateScore = total;
             DartsX01Service.updateDartsX01(this.state.id,dartsX01);
             this.props.onChange();
+            
         })
     }
     render()
