@@ -11,6 +11,7 @@ import CreateTeamGame from './components/GameComponents/CreateTeamGame/CreateTea
 import GameList from './components/GameComponents/GameList/GameList';
 import ImageComponent from './components/ImageAIComponent/ImageComponent';
 import FinishGames from './components/GameComponents/GameList/FinishGames/FinishGames';
+import UnfinishGames from './components/GameComponents/GameList/UnfinishGames/UnfinishGames';
 
 const Root = () => (
     <BrowserRouter>
@@ -26,6 +27,7 @@ const Root = () => (
           <Route path="/games" component={GameList}/>
           <Route path="/imageAnalyzer" component={ImageComponent}/>
           <Route path="/finishGames" component={FinishGames}/>
+          <Route path="/unfinishGames" component={UnfinishGames}/>
         </Switch>
     </BrowserRouter>
 )

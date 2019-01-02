@@ -31,7 +31,7 @@ export default class GameList extends React.Component<any, IGameListState>
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser != null) {
             var obj = JSON.parse(currentUser);
-            GameService.getGamesUnfinishOfPlayer(obj.id).then((result: IGame[]) => {
+            GameService.getGamesUnfinishOfPlayer(1,obj.id).then((result: IGame[]) => {
                 this.setState({ ugames: result, loading1: false });
             });
         }

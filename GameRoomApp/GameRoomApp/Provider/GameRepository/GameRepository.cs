@@ -102,15 +102,76 @@ namespace GameRoomApp.providers.GameRepository
             List<Game> games = cursor.ToList();
             return games;
         }
-        public IEnumerable<Game> GetGamesByType(string type)
+        public List<Game> GetGamesByType(string type, List<Game> games)
         {
-            var builder = Builders<Game>.Filter;
-            var historyFilter = builder.Ne("EndOn", 0);
-            var typeFilter = builder.Eq("Type", type);
-            var filter = typeFilter & historyFilter;
-            var cursor = _gameContext.Games.Find(filter);
-            List<Game> games = cursor.ToList();
-            return games;
+            List<Game> dartsCricketGames = new List<Game>();
+            List<Game> dartsX01Games = new List<Game>();
+            List<Game> foosballGames = new List<Game>();
+            List<Game> otherGames = new List<Game>();
+            foreach (Game game in games)
+            {
+                if (game.Type == "Darts/Cricket")
+                {
+                    dartsCricketGames.Add(game);
+                }
+                else if (game.Type == "Darts/X01")
+                {
+                    dartsX01Games.Add(game);
+                }
+                else if (game.Type == "Foosball")
+                {
+                    foosballGames.Add(game);
+                }
+                else
+                {
+                    otherGames.Add(game);
+                }
+            }
+            if (type == "Darts/Cricket")
+            {
+                return dartsCricketGames;
+            }
+            if (type == "Darts/X01")
+            {
+                return dartsX01Games;
+            }
+            if (type == "Foosball")
+            {
+                return foosballGames;
+            }
+            return otherGames;          
+        }
+        public IEnumerable<Game> PaginationUnfinishGamesByType(int pageNumber, string type, int limitOfElementsInPage, List<Team> teams)
+        {
+            pageNumber++;
+            List<Game> unfinishGames = (List<Game>)GetUnfinishGamesOfUser(teams);
+            List<Game> games = (List<Game>)GetGamesByType(type,unfinishGames);
+            List<Game> paginateGames = new List<Game>();
+            int startPosition = limitOfElementsInPage * (pageNumber - 1);
+            int finishPosition = (limitOfElementsInPage - 1) + limitOfElementsInPage * (pageNumber - 1);
+            for (int i = startPosition; i < finishPosition + 1; i++)
+            {
+                if (i == games.Count)
+                { break; }
+                paginateGames.Add(games[i]);
+            }
+            return paginateGames;
+        }
+        public IEnumerable<Game> PaginationFinishGamesByType(int pageNumber, string type, int limitOfElementsInPage, List<Team> teams)
+        {
+            pageNumber++;
+            List<Game> unfinishGames = (List<Game>)GetFinishGamesOfUser(teams);
+            List<Game> games = (List<Game>)GetGamesByType(type, unfinishGames);
+            List<Game> paginateGames = new List<Game>();
+            int startPosition = limitOfElementsInPage * (pageNumber - 1);
+            int finishPosition = (limitOfElementsInPage - 1) + limitOfElementsInPage * (pageNumber - 1);
+            for (int i = startPosition; i < finishPosition + 1; i++)
+            {
+                if (i == games.Count)
+                { break; }
+                paginateGames.Add(games[i]);
+            }
+            return paginateGames;
         }
         public void AddPlayerToGame(string id, Team team)
         {
@@ -167,22 +228,24 @@ namespace GameRoomApp.providers.GameRepository
             return null;
         }
 
-        public IEnumerable<Game> PaginationUnfinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams)
+        public IEnumerable<Game> PaginationUnfinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Game> games)
         {
-            List<Game> games = (List<Game>)GetUnfinishGamesOfUser(teams);
+            pageNumber++;
+
             List<Game> paginateGames = new List<Game>();
-            int startPosition = limitOfElementsInPage * (pageNumber-1);
-            int finishPosition = (limitOfElementsInPage + 1) * (pageNumber-1);
+            int startPosition = limitOfElementsInPage * (pageNumber - 1);
+            int finishPosition = (limitOfElementsInPage - 1) + limitOfElementsInPage * (pageNumber - 1);
             for (int i = startPosition; i < finishPosition + 1; i++)
             {
+                if (i == games.Count)
+                { break; }
                 paginateGames.Add(games[i]);
             }
             return paginateGames;
         }
-        public IEnumerable<Game> PaginationFinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams)
+        public IEnumerable<Game> PaginationFinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Game> games)
         {
             pageNumber++;
-            List<Game> games = (List<Game>)GetFinishGamesOfUser(teams);
             List<Game> paginateGames = new List<Game>();
             int startPosition = limitOfElementsInPage * (pageNumber - 1);
             int finishPosition = (limitOfElementsInPage - 1) + limitOfElementsInPage * (pageNumber - 1);
@@ -240,6 +303,31 @@ namespace GameRoomApp.providers.GameRepository
         {
            ObjectId objectId = new ObjectId(game.Id);
            RemoveGameById(objectId);    
+        }
+        public IEnumerable<Game> GetOrderedUnfinishGamesOfUser(List<Team> teams)
+        {
+            List<Game> unfinishGames = (List<Game>)GetUnfinishGamesOfUser(teams);
+            unfinishGames.Reverse();
+            return unfinishGames;
+        }
+        public IEnumerable<Game> GetOrderedFinishGamesOfUser(List<Team> teams)
+        {
+            List<Game> finishGames = (List<Game>)GetFinishGamesOfUser(teams);
+            Game temp = null;
+
+            for (int i = 0; i < finishGames.Count; i++)
+            {
+                for (int j = 0; j < finishGames.Count - 1; j++)
+                {
+                    if (finishGames[j].EndOn < finishGames[j + 1].EndOn)
+                    {
+                        temp = finishGames[j + 1];
+                        finishGames[j + 1] = finishGames[j];
+                        finishGames[j] = temp;
+                    }
+                }
+            }
+            return finishGames;
         }
     }
 }

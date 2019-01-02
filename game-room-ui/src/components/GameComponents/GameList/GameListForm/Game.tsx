@@ -14,7 +14,21 @@ export default class Game extends React.Component<IGameProps, any>{
         }
     }
     onChange=()=>{
-        this.props.listSelectedGames.push(this.props.game);
+        var position=0;
+        for (var i=0;i<this.props.listSelectedGames.length;i++)
+        {
+            if (this.props.listSelectedGames[i].id==this.props.game.id)
+            {
+                position=i;                
+            }
+        }
+        if (position==0)
+        {
+            this.props.listSelectedGames.push(this.props.game);
+        }
+        else{
+            this.props.listSelectedGames.splice(i, 1)
+        }
         console.log(this.props.listSelectedGames);
     }
     render()

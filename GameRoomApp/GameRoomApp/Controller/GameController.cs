@@ -72,25 +72,51 @@ namespace GameRoomApp.Controller
             return null;
         }
         [HttpGet]
-        [ActionName(nameof(GetGamesByType))]
-        [ExactQueryParam("type")]
-        public IEnumerable<Game> GetGamesByType(string type)
+        [ActionName(nameof(GetGamesUnfinishByPlayerAndType))]
+        [ExactQueryParam("page", "type", "userIdu")]
+        public IEnumerable<Game> GetGamesUnfinishByPlayerAndType(int page, string type, string userIdu)
         {
-            return _gameRepository.GetGamesByType(type);
-        }
-        [HttpGet]
-        [ActionName(nameof(GetGamesUnfinishByPlayer))]
-        [ExactQueryParam("page","userIdu")]
-        public IEnumerable<Game> GetGamesUnfinishByPlayer(int page, string userId)
-        {
-            ObjectId idObject = new ObjectId(userId);
+            ObjectId idObject = new ObjectId(userIdu);
             var player = _playerRepository.GetPlayerById(idObject);
             List<Game> unfinishGames = new List<Game>();
 
             if (player != null)
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
-                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page,10,teams);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesByType(page,type,2,teams);
+            }
+            return unfinishGames;
+        }
+        [HttpGet]
+        [ActionName(nameof(GetGamesFinishByPlayerAndType))]
+        [ExactQueryParam("page", "type", "userIdf")]
+        public IEnumerable<Game> GetGamesFinishByPlayerAndType(int page, string type, string userIdf)
+        {
+            ObjectId idObject = new ObjectId(userIdf);
+            var player = _playerRepository.GetPlayerById(idObject);
+            List<Game> finishGames = new List<Game>();
+
+            if (player != null)
+            {
+                List<Team> teams = _teamRepository.GetTeamByPlayer(player);
+                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesByType(page, type, 2, teams);
+            }
+            return finishGames;
+        }
+        [HttpGet]
+        [ActionName(nameof(GetGamesUnfinishByPlayer))]
+        [ExactQueryParam("page","userIdu")]
+        public IEnumerable<Game> GetGamesUnfinishByPlayer(int page, string userIdu)
+        {
+            ObjectId idObject = new ObjectId(userIdu);
+            var player = _playerRepository.GetPlayerById(idObject);
+            List<Game> unfinishGames = new List<Game>();
+
+            if (player != null)
+            {
+                List<Team> teams = _teamRepository.GetTeamByPlayer(player);
+                List<Game> games = (List<Game>)_gameRepository.GetUnfinishGamesOfUser(teams);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page,2,games);
             }
             return unfinishGames;
         }
@@ -105,9 +131,44 @@ namespace GameRoomApp.Controller
             if (player != null)
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
-                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesOfUser(page,2,teams);
+                List<Game> games = (List<Game>)_gameRepository.GetFinishGamesOfUser(teams);
+                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesOfUser(page,2,games);
             }
             return finishGames;
+        }
+        [HttpGet]
+        [ActionName(nameof(GetOrderGamesUnfinishByPlayer))]
+        [ExactQueryParam("page", "userIduo")]
+        public IEnumerable<Game> GetOrderGamesUnfinishByPlayer(int page, string userIduo)
+        {
+            ObjectId idObject = new ObjectId(userIduo);
+            var player = _playerRepository.GetPlayerById(idObject);
+            List<Game> unfinishGames = new List<Game>();
+
+            if (player != null)
+            {
+                List<Team> teams = _teamRepository.GetTeamByPlayer(player);
+                List<Game> games = (List<Game>)_gameRepository.GetOrderedUnfinishGamesOfUser(teams);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page, 2, games);
+            }
+            return unfinishGames;
+        }
+        [HttpGet]
+        [ActionName(nameof(GetOrderGamesFinishByPlayer))]
+        [ExactQueryParam("page", "userIdfo")]
+        public IEnumerable<Game> GetOrderGamesFinishByPlayer(int page, string userIdfo)
+        {
+            ObjectId idObject = new ObjectId(userIdfo);
+            var player = _playerRepository.GetPlayerById(idObject);
+            List<Game> unfinishGames = new List<Game>();
+
+            if (player != null)
+            {
+                List<Team> teams = _teamRepository.GetTeamByPlayer(player);
+                List<Game> games = (List<Game>)_gameRepository.GetOrderedFinishGamesOfUser(teams);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page, 2, games);
+            }
+            return unfinishGames;
         }
         [HttpGet]
         [ActionName(nameof(GetGameById))]
@@ -277,12 +338,6 @@ namespace GameRoomApp.Controller
                 result = $"Game don't exists!";
             }
             return result;
-        }
-        [HttpDelete]
-        public void DeleteGame([FromBody] Game selectedGameList)
-        {
-            _scoreRepository.RemoveScoreByGame(selectedGameList);
-            _gameRepository.RemoveSelectedGame(selectedGameList);
         }
         [HttpDelete("name/{name}")]
         [ExactQueryParam("gameName")]

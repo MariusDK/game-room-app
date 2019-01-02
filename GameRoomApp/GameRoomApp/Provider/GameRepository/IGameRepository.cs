@@ -14,7 +14,14 @@ namespace GameRoomApp.providers.GameRepository
         IEnumerable<Game> GetAllGames();
         List<Game> GetGamesByTeam(Team team);
         IEnumerable<Game> GetGameHistory();
-        IEnumerable<Game> GetGamesByType(string type);
+        IEnumerable<Game> PaginationUnfinishGamesByType(int pageNumber, string type, int limitOfElementsInPage, List<Team> teams);
+        IEnumerable<Game> PaginationFinishGamesByType(int pageNumber, string type, int limitOfElementsInPage, List<Team> teams);
+        IEnumerable<Game> GetUnfinishGamesOfUser(List<Team> teams);
+        IEnumerable<Game> GetFinishGamesOfUser(List<Team> teams);
+        IEnumerable<Game> PaginationFinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Game> games);
+        IEnumerable<Game> PaginationUnfinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Game> games);
+        IEnumerable<Game> GetOrderedUnfinishGamesOfUser(List<Team> teams);
+        IEnumerable<Game> GetOrderedFinishGamesOfUser(List<Team> teams);
         void UpdateGameById(Game game);
         void UpdateGameByName(string name,Game game);
         void RemoveGameById(ObjectId id);
@@ -23,9 +30,7 @@ namespace GameRoomApp.providers.GameRepository
         void RemoveTeamFromGame(string id, string teamId);
         void RemoveSelectedGame(Game games);
         void EndGame(string name, Game game);
-        string GetImage(string imgData);
-        IEnumerable<Game> PaginationFinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams);
-        IEnumerable<Game> PaginationUnfinishGamesOfUser(int pageNumber, int limitOfElementsInPage, List<Team> teams);
+        string GetImage(string imgData);       
     }
 }
 
