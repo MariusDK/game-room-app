@@ -23,16 +23,61 @@ export default class GameService {
         .put(`https://localhost:44333/api/game?name=${gameName}`,game)
         .then((result: AxiosResponse) => result.data)
     }
-    public static getGamesUnfinishOfPlayer = (playerId:string):Promise<IGame[]> =>
+    public static getGamesUnfinishOfPlayer = (page:number,playerId:string):Promise<IGame[]> =>
     {
+        console.log(playerId);
         return axios
-        .get(`https://localhost:44333/api/game?uplayerId=${playerId}`)
+        .get(`https://localhost:44333/api/game?page=${page}&userIdu=${playerId}`)
         .then((result: AxiosResponse) => result.data)
     }
-    public static getGamesFinishOfPlayer = (playerId:string):Promise<IGame[]> =>
+    public static getGamesFinishOfPlayer = (page:number,playerId:string):Promise<IGame[]> =>
     {
         return axios
-        .get(`https://localhost:44333/api/game?fplayerId=${playerId}`)
+        .get(`https://localhost:44333/api/game?page=${page}&userIdf=${playerId}`)
         .then((result: AxiosResponse) => result.data)
+    }
+    public static getGamesUnfinishOfPlayerAndType = (page:number,type:string,playerId:string):Promise<IGame[]> =>
+    {
+        return axios
+        .get(`https://localhost:44333/api/game?page=${page}&type=${type}&userIdu=${playerId}`)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static getGamesFinishOfPlayerAndType = (page:number,type:string,playerId:string):Promise<IGame[]> =>
+    {
+        return axios
+        .get(`https://localhost:44333/api/game?page=${page}&type=${type}&userIdf=${playerId}`)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static getUnfinishGamesOrderByStartDate = (page:number,playerId:string):Promise<IGame[]> =>
+    {
+        return axios
+        .get(`https://localhost:44333/api/game?page=${page}&userIduo=${playerId}`)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static getFinishGamesOrderByEndDate = (page:number,playerId:string):Promise<IGame[]> =>
+    {
+        return axios
+        .get(`https://localhost:44333/api/game?page=${page}&userIdfo=${playerId}`)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static updateGame = (gameName:string,game:IGame):Promise<string>=>
+    {
+
+        return axios
+        .put(`https://localhost:44333/api/game?gameName=${gameName}`,game)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static getPredictionGame = (infoAboutImg:string):Promise<string> =>
+    {
+        console.log(infoAboutImg);
+        return axios
+        .get(`https://localhost:44333/api/game?imgAbout=${infoAboutImg}`)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static deleteGame = (gameId:string):Promise<string> =>
+    {
+        return axios
+        .delete(`https://localhost:44333/api/game?gameId=${gameId}`)
+        .then((result: AxiosResponse) => result.data)       
     }
 }

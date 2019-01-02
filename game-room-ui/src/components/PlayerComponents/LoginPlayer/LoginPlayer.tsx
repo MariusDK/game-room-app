@@ -5,6 +5,8 @@ import PlayerService from 'src/services/PlayerService';
 import { IPlayer } from 'src/models/IPlayer';
 import { SpinnerComponent } from 'src/components/Spinner/Spinner';
 import "../LoginPlayer/LoginPlayer.css";
+import Header from 'src/components/StartPage/Header/Header';
+import Footer from 'src/components/Footer/Footer';
 
 
 
@@ -42,7 +44,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
         let formIsValid = true;
         if (!username) {
             formIsValid = false;
-            usernameError = "Username cannot be empty";
+            usernameError = "Username cannot be empty!";
         }
         else if (username.length < 6) {
             formIsValid = false;
@@ -110,6 +112,8 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
             return <Redirect to='/' />
         }
         return (
+            <div>
+            <Header/>
             <div className="Login">
                 <LoginForm
                     username={this.state.username}
@@ -121,8 +125,10 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
                 <SpinnerComponent
                     loading={this.state.loading}
                 />
-                <button onClick={this.login}>Login</button><br />
+                <button onClick={this.login}>Sing in</button><br />
                 <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
+            </div>
+            <Footer/>
             </div>
         )
     }

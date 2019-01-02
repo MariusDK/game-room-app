@@ -1,0 +1,13 @@
+.imgGallery
+{
+    display: inline-block;
+    padding: 2%;
+}
+.imgGallery img{
+
+    width: 100px;
+    height: auto;
+}
+.submitImage{
+    margin-top: 20%;
+}

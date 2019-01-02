@@ -1,6 +1,19 @@
 .Login{
     text-align: center;
-    background-color: lightblue;
-    min-height: 100vh; 
-    min-width: 100vw;
+    background-image: url("./login_wallpaper.jpg");
+    min-height: 79vh; 
+    background-size: 100% 100%;
+}
+.Login button {
+
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 30px 10px 30px;
+    border: 3px solid #000000;
+    border-radius: 5px;
+    color: #000000;
+    background: transparent;
+    font-size: 17px;
+    outline: none;
+    margin-top: 2%;
 }

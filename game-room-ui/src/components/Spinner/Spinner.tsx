@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ClipLoader } from 'react-spinners';
 import './Spinner.css';
 
+
+
 export class SpinnerComponent extends React.Component<any,any>
 {
     constructor(props: any)

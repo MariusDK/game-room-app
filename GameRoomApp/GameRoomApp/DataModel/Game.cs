@@ -49,8 +49,8 @@ namespace GameRoomApp.DataModel
         public string Name { get; set; }
         public string Type { get; set; }
         public List<Team> Teams { get; set; }
-        public List<Byte[]> EmbarrassingMoments { get; set; }
-        public List<Byte[]> VictoryMoments { get; set; }
+        public List<string> EmbarrassingMoments { get; set; }
+        public List<string> VictoryMoments { get; set; }
         public DateTime StartOn { get; set; }
         public DateTime? EndOn { get; set; }
 

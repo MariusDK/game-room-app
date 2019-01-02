@@ -1,0 +1,10 @@
+.teamForm{
+    display: block;
+    text-align: center;
+}
+.teamNameInput{
+    
+    background: transparent;
+    border:none;
+    border-bottom: 1px solid black;
+}

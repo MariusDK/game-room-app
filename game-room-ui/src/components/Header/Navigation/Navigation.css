@@ -1,10 +1,34 @@
-nav {
-    
-    border: 1px solid #dedede;
+.menuNav
+{
     display: inline-block;
-    height: 100%; 
+    width: 100%;
+    background: #D6A074;
+}
+nav {
+    display: inline-block;
+    width: calc(33% - 54px); 
+    vertical-align: top;  
+    padding: 14px 0px; 
   }
-  
+.dropdown
+  {
+      vertical-align: top;
+      width: calc(17% - 126px);
+      display: inline-block;
+      padding: 11px 30px;
+      margin: 0px 20px;
+  }
+  .dropdownBtn{
+      background: transparent;
+      color: #1F160D;
+      text-decoration: none;
+      border: 3px solid #1F160D;
+      border-radius: 5px;
+      padding: 15px 30px;
+      cursor: pointer;
+      font-size: 15px;
+  }
+  .show {display:block;}  
 nav ul {
     margin: 0;
     padding: 0;
@@ -13,9 +37,46 @@ nav ul {
       nav ul li {
         display: inline-block;
         list-style-type: none;
-        padding: 4%;
+        width: calc(50% - 206px);
+        margin: 0px 20px;
+        padding: 15px 30px;
     }
+        nav ul li a{
+            color: #1F160D;
+            text-decoration: none;
+            border: 3px solid #1F160D;
+            border-radius: 5px;
+            white-space: nowrap;
+            padding: 15px 30px;
+        }
+        
+
 .logoutButton
 {
-    float:right;
+    display: inline-block; 
+    width: calc(50% - 114px);
+    vertical-align: top;
+    padding: 11px 30px;
+    text-align: right;
+}
+.logoutButton button{
+    background: transparent;
+      color: #1F160D;
+      text-decoration: none;
+      border: 3px solid #1F160D;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 15px 30px;
+}
+.m-logo{
+    display: inline-block;  
+    
+}
+.m-logo img{
+    height: auto;
+    width: 108px;
+}
+.myDropdown{
+    background: transparent;
 }

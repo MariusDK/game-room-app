@@ -1,12 +1,12 @@
 import * as React from 'react';
-import '../RegisterPlayer.css';
+import './PlayerForm.css';
 
 export interface IPlayerFormProps {
     handleChange(e: any): void;
     name: string;
     username: string;
     password: string;
-    age: number;
+    ageString: string;
     nameError: string;
     usernameError: string;
     passwordError: string;
@@ -16,22 +16,18 @@ export interface IPlayerFormProps {
 
 const PlayerForm = (props: IPlayerFormProps) => {
     return (
-        <div>
+        <div className="playerForm">
             <h1>{props.title}</h1>
-            <label htmlFor="name">Name</label>
-            <input type="text" name="name" onChange={props.handleChange} value={props.name}/><br/>
+            <input type="text" name="name"  placeholder="Name" onChange={props.handleChange} value={props.name}/><br/>
             <span style={{color: "red"}}>{props.nameError}</span><br/>
 
-            <label htmlFor="username">Username</label>
-            <input type="text" name="username" onChange={props.handleChange} value={props.username}/><br/>
+            <input type="text" name="username" placeholder="Username" onChange={props.handleChange} value={props.username}/><br/>
             <span style={{color: "red"}}>{props.usernameError}</span><br/>
 
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" onChange={props.handleChange} value={props.password}/><br/>
+            <input type="password" name="password" placeholder="Password"  onChange={props.handleChange} value={props.password}/><br/>
             <span style={{color: "red"}}>{props.passwordError}</span><br/>
 
-            <label htmlFor="age">Age</label>
-            <input type="number" name="age" onChange={props.handleChange} value={props.age}/><br/>
+            <input type="text" name="age" placeholder="Age"  onChange={props.handleChange} value={props.ageString}/><br/>
             <span style={{color: "red"}}>{props.ageError}</span><br/>
         </div>
     );

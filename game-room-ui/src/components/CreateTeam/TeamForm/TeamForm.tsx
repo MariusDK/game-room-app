@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './TeamForm.css';
 
 export interface ITeamFormProps {
     handleChange(e:any):void;
@@ -8,9 +9,9 @@ export interface ITeamFormProps {
 
 const TeamForm = (props: ITeamFormProps) =>{
     return (
-        <div>
+        <div className="teamForm">
             <h1>Create Team</h1>
-            <input type="text" name="name" onChange={props.handleChange} value={props.name}/><br/>
+            <input className="teamNameInput" type="text" name="name" placeholder ="Team Name" onChange={props.handleChange} value={props.name}/><br/>
             <span style={{color: "red"}}>{props.nameError}</span><br/>
         </div>
     );

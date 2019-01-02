@@ -7,6 +7,7 @@ import { IPlayer } from 'src/models/IPlayer';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import { SpinnerComponent } from 'src/components/Spinner/Spinner';
 import "./ProfilePlayer.css"
+import Footer from 'src/components/Footer/Footer';
 
 export interface IProfilePlayerProps extends RouteComponentProps<any> { }
 export default class ProfilePlayer extends React.Component<any, IRegisterPlayerState>
@@ -25,7 +26,8 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
             ageError: '',
             loading: false,
             redirect: false,
-            infoMessage: ''
+            infoMessage: '',
+            ageString:''
         }
     }
     handleChange = (e: any) => {
@@ -120,24 +122,41 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
 
     public render() {
         return (
-            <div className="Profile">
+            <div>
+            <div>
                 <Navigation />
+            </div>
+            <div className="profile">
+
+            <div className="playerForm">
                 <PlayerForm
                     name={this.state.name}
                     username={this.state.username}
                     password={this.state.password}
-                    age={this.state.age}
+                    ageString={this.state.ageString}
                     handleChange={this.handleChange}
                     nameError={this.state.nameError}
                     usernameError={this.state.usernameError}
                     passwordError={this.state.passwordError}
                     ageError={this.state.ageError}
-                    title="User Profile"
+                    title="Profile"
                 />
+                </div>
+                <div>
                 <SpinnerComponent
                     loading={this.state.loading}
                 />
+                </div>
+                
                 <button onClick={this.updatePlayer}>Update</button>
-            </div>)
+                </div>
+                <div>
+                    <Footer/>
+                </div>
+                </div>
+                
+            
+        
+            )
     }
 }

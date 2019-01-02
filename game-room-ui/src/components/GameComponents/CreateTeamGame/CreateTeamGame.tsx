@@ -6,7 +6,7 @@ import { ITeam } from 'src/models/ITeam';
 import { IGame } from 'src/models/IGame';
 import { ICreateGameProps, ICreateGameState } from '../CreateGameSolo/CreateGameSolo';
 import GameForm from '../CreateGameSolo/GameForm/GameForm';
-import Suggestions from 'src/components/SearchBar/Suggestions';
+import Suggestions from 'src/components/PlayerCard/Suggestions';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateTeamGame.css";
 
@@ -28,7 +28,9 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
             insertError: '',
             username:'',
             search:false,
-            teamName:''
+            teamName:'',
+            error: '',
+            duplicate:false
         }
     }
     handleChange = (e: any) => {
@@ -70,6 +72,8 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps,ICr
                 name: this.state.name,
                 type: this.state.type,
                 teams: this.state.teams,
+                victoryMoments:[],
+                embarrassingMoments:[]
             }
             localStorage.setItem('currentGame',newGame.name);
             console.log(newGame);

@@ -5,6 +5,10 @@ import { ITeam } from 'src/models/ITeam';
 import TeamService from 'src/services/TeamService';
 import TeamForm from './TeamForm/TeamForm';
 import PlayerService from 'src/services/PlayerService';
+import Navigation from '../Header/Navigation/Navigation';
+import Footer from '../Footer/Footer';
+import './CreateTeam.css';
+import Suggestions from '../PlayerCard/Suggestions';
 
 export interface ITeamState{
     name:string;
@@ -13,6 +17,7 @@ export interface ITeamState{
     redirect: boolean;
     nameError: string;
     username: string;
+    errorMessage: string;
 }
 export interface ITeamProps extends RouteComponentProps<any>{}
 
@@ -27,7 +32,8 @@ export default class CreateTeam extends React.Component<ITeamProps,ITeamState>
             loading:false,
             redirect:false,
             nameError:'',
-            username:''
+            username:'',
+            errorMessage:''
         }
     }
 
@@ -63,6 +69,9 @@ export default class CreateTeam extends React.Component<ITeamProps,ITeamState>
                 playerList.push(player);
                 this.setState({players:playerList});
             }
+            else{
+                this.setState({errorMessage:"Player not found!"});
+            }
         });
     }
     
@@ -81,7 +90,7 @@ export default class CreateTeam extends React.Component<ITeamProps,ITeamState>
                 this.setState({redirect:true});
         }
         else{
-            console.log("Error");
+            this.setState({errorMessage:"Creation Failed!"});
         }
         this.setState({loading:false})
     }
@@ -93,15 +102,24 @@ export default class CreateTeam extends React.Component<ITeamProps,ITeamState>
             <Redirect to='/'/>
         }
     return (
-    <div className="App">
+        <div>
+            <Navigation/>
+    <div className="createTeam">
             <TeamForm
                 name = {this.state.name}
                 nameError = {this.state.nameError}
                 handleChange = {this.handleChange}
             />
-            <input placeholder="Search for..." type="text" name="username" onChange={this.handleChange}/>
-            <button onClick={this.addPlayerToList}>Search</button><br></br>
-            <button onClick={this.addTeam}>Save</button>
+            <input className="searchInput" placeholder="Search for..." type="text" name="username" onChange={this.handleChange}/>
+            <button className="searchBtn" onClick={this.addPlayerToList}>Search</button><br></br>
+            <span style={{color: "red"}}>{this.state.errorMessage}</span><br/>
+            <Suggestions results={this.state.players}
+                />
+            
+            <button  className="saveBtn" onClick={this.addTeam}>Save</button>
+    
+        </div>
+        <Footer/>
         </div>
     )
     }

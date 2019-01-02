@@ -1,0 +1,32 @@
+.imageAnalyzer{
+    background: url(./imgComp_wallpaper.jpg);
+    min-height: 79vh; 
+    background-size: 100% 100%;
+    display: block;
+    text-align: center;
+}
+.imageAnalyzer img {
+    width: 400px;
+    height: auto;
+    margin-top: 10%; 
+}
+.imageAnalyzer button{
+    margin-top: 3%;
+}
+.spinner{
+    margin-top: 3%; 
+}
+.resultIA
+{
+    color: #B4498D;
+}
+.probabiltyBtn
+{
+    cursor: pointer;
+    background: transparent;
+    color: #B4498D;
+    text-decoration: none;
+    padding: 10px 20px 10px 20px;
+    border: 3px solid #B4498D;
+    border-radius: 5px;
+}
