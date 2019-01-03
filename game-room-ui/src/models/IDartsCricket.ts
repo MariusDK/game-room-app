@@ -4,7 +4,7 @@ export interface IDartsCricket
 {
     id?:string;
     score:IScore;
-    Hits:string[];
+    hits:string[];
     closeNumbers:string[];
     openNumbers:string[];
 }

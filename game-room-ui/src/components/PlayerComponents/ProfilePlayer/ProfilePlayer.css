@@ -1,7 +1,25 @@
-.Profile
+.profile
 {
-    text-align: center;
-    background-color: lightblue;
-    min-height: 100vh; 
-    min-width: 100vw;
+    background-image: url("./profile_wallpaper.jpg");
+    background-size: 100% 100%;
+    min-height: 79vh; 
+}
+.playerForm{
+    display: inline-block;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 1%;
+}
+.profile button{
+    display: inline-block;
+    margin-left: calc(13% + 61px);
+    text-decoration: none;
+    padding: 15px 30px 15px 30px;
+    border: 3px solid #000000;
+    border-radius: 5px;
+    color: #000000;
+    background: transparent;
+    font-size: 17px;
+    outline: none;
+    cursor: pointer;
 }

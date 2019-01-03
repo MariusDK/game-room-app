@@ -1,12 +1,31 @@
-.game{
-    border-color: black;
-    text-align: center;
-    padding: 19px;
-    margin: 20px;
-    border-style: solid;
-}
+
 .gameLi
 {
-    padding: 20px;
+    background: transparent;
     text-align: center;
+    display: inline-block;
+    border: 3px solid greenyellow;
+    margin: 2%;   
+}
+.gameBox{
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    border-left: 3px solid greenyellow;
+    
+}
+.gameLi section{
+    color: greenyellow;
+    border: none;
+    border-top: 3px solid greenyellow;
+    font-size: 20px;
+}
+.gameLi img{
+    width: 100px;
+    height: auto;
+}
+.game{
+
+    text-align: center;
+    border-style: solid;
 }

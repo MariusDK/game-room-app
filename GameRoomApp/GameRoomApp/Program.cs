@@ -43,11 +43,13 @@ namespace GameRoomApp
             Player player3 = new Player("5bec01f13b4a4a3cd81f456c", "Noris Rad", "noritsRad", "999999", 25);
             Player player4 = new Player("5bec01f13b4a4a3cd81f456d", "Gicu Groza", "gicuggg", "172834", 28);
             Player player5 = new Player("5bec01f13b4a4a3cd81f456e", "Aurel Mita", "mitaurel", "986344", 40);
+            Player player6 = new Player("5bec01f13b4a4a3cd81f4566", "Admin123", "admin123", "0192023A7BBD73250516F069DF18B500", 25);
             playerList.Add(player1);
             playerList.Add(player2);
             playerList.Add(player3);
             playerList.Add(player4);
             playerList.Add(player5);
+            playerList.Add(player6);
             playerCol.InsertMany(playerList);
             return playerList;
         }
@@ -62,6 +64,8 @@ namespace GameRoomApp
             List<Player> players3 = new List<Player>();
             List<Player> players4 = new List<Player>();
             List<Player> players5 = new List<Player>();
+            List<Player> players6 = new List<Player>();
+            List<Player> players7 = new List<Player>();
             players1.Add(players[0]);
             players1.Add(players[2]);
             
@@ -71,17 +75,25 @@ namespace GameRoomApp
             players3.Add(players[0]);
             players4.Add(players[3]);
             players5.Add(players[1]);
+
+            players6.Add(players[5]);
+            players7.Add(players[1]);
+            players7.Add(players[5]);
             Team team1 = new Team("e746bc2083d589e0c3f879d5", "Fire", players1);
             Team team2 = new Team("64259fe6ad8be15ab6a4ed84", "Air", players2);
             Team team3 = new Team("63556a815f8f2b8792396f59","",players3);
             Team team4 = new Team("cd4207c1b87e5c9e5bb96289", "", players4);
             Team team5 = new Team("8cbc3d7f52393ababfa42f67", "", players5);
+            Team team6 = new Team("8cbc3d7f52393ababfa42f62", "", players6);
+            Team team7 = new Team("8cbc3d7f52393ababfa42f63", "Phonex", players7);
             List<Team> teams = new List<Team>();
             teams.Add(team1);
             teams.Add(team2);
             teams.Add(team3);
             teams.Add(team4);
             teams.Add(team5);
+            teams.Add(team6);
+            teams.Add(team7);
             teamCol.InsertMany(teams);
             return teams;
         }
@@ -96,22 +108,25 @@ namespace GameRoomApp
 
             List<Team> teams1 = new List<Team>();
             teams1.Add(teams[0]);
-            teams1.Add(teams[1]);
+            teams1.Add(teams[6]);
 
             List<Team> teams2 = new List<Team>();
-            teams2.Add(teams[2]);
-            teams2.Add(teams[3]);
+            teams2.Add(teams[6]);
+            teams2.Add(teams[1]);
+
 
             List<Team> teams3 = new List<Team>();
+            teams3.Add(teams[5]);
             teams3.Add(teams[2]);
-            teams3.Add(teams[4]);
 
-            Game game1 = new Game("5bec01f13b4a4a3cd81f456f", "Joc1", "Fifa", teams1);
-            Game game2 = new Game("994f8881011ea98668f4f090", "Joc2", "Darts/Cricket", teams1);
-            Game game3 = new Game("df8b4518c1f279c812c3e9c6", "Joc3", "Darts/X01", teams1);
-            Game game4 = new Game("92acbcb8d9e3b016f147973b", "Joc4", "Darts/Cricket", teams2);
-            Game game5 = new Game("e65909d50566e7da93c18a34", "Joc5", "Darts/X01", teams3);
-            Game game6 = new Game("480231d988cc45af532b0465", "Joc6", "Foosball", teams2);
+
+            Game game1 = new Game("5bec01f13b4a4a3cd81f456f", "Joc1", "Fifa", teams1, DateTime.Now);
+            Game game2 = new Game("994f8881011ea98668f4f090", "Joc2", "Darts/Cricket", teams1, DateTime.Now);
+            Game game3 = new Game("df8b4518c1f279c812c3e9c6", "Joc3", "Darts/X01", teams1, DateTime.Now);
+            Game game4 = new Game("92acbcb8d9e3b016f147973b", "Joc4", "Darts/Cricket", teams2, DateTime.Now);
+            Game game5 = new Game("e65909d50566e7da93c18a34", "Joc5", "Darts/X01", teams3, DateTime.Now);
+            Game game6 = new Game("480231d988cc45af532b0465", "Joc6", "Foosball", teams2, DateTime.Now);
+
 
             List<Game> games = new List<Game>();
             games.Add(game1);

@@ -48,7 +48,7 @@ namespace GameRoomApp.providers.ScoreRepository
         public List<Score> GetScoresForGame(Game game)
         {
             var builder = Builders<Score>.Filter;
-            var gameFilter = builder.Eq("Game", game);
+            var gameFilter = builder.Eq("Game.Id", game.Id);
             var cursor = _scoreContext.Score.Find(gameFilter);
             List<Score> scores = cursor.ToList();
             return scores;
@@ -70,8 +70,8 @@ namespace GameRoomApp.providers.ScoreRepository
         public Score GetScoreForTeam(Team team, Game game)
         {
             var builder = Builders<Score>.Filter;
-            var gameFilter = builder.Eq("Game", game);
-            var teamFilter = builder.Eq("Team", team);
+            var gameFilter = builder.Eq("Game.Id", game.Id);
+            var teamFilter = builder.Eq("Team.Id", team.Id);
             var filter = gameFilter & teamFilter;
             var cursor = _scoreContext.Score.Find(filter);
             Score score = cursor.FirstOrDefault();
@@ -184,6 +184,14 @@ namespace GameRoomApp.providers.ScoreRepository
             var cursor = _scoreContext.Score.Find(idFilter);
             Score score = cursor.FirstOrDefault();
             return score;
+        }
+
+        public void RemoveScoresOfGames(List<Game> games)
+        {
+            foreach (Game game in games)
+            {
+                RemoveScoreByGame(game);
+            }
         }
     }
 }

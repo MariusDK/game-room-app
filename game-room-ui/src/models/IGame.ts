@@ -8,4 +8,6 @@ export interface IGame
     teams:ITeam[];
     startOn?:Date;
     endOn?:Date;
+    victoryMoments:string[];
+    embarrassingMoments:string[];
 }

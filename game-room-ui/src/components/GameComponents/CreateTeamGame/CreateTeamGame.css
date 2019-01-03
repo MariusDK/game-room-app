@@ -1,6 +1,37 @@
 .multiGameC{
     text-align: center;
-    background-color: lightblue;
-    min-height: 100vh; 
-    min-width: 100vw;
+    background: url('./createTeamGameWallpaper.jpg');
+    min-height: 79vh; 
+    background-size: 100% 100%;
+}
+.multiGameC h1{
+    color: greenyellow;
+}
+.multiGameC input{
+    color: greenyellow;
+    background: transparent;
+    margin-right: 1%;
+    border: none;
+    border-bottom: 3px solid greenyellow;
+    padding: 5px 5px;
+    font-size: 20px;    
+    outline: none;   
+    font-weight: bold;
+}
+::placeholder{
+    color: white;
+}
+.multiGameC button{
+    background: transparent;
+    color: greenyellow;
+    border: 3px solid greenyellow;
+    border-radius: 5px;
+    padding: 5px 30px;
+    font-size: 20px;     
+    outline: none;   
+    cursor: pointer;
+    font-weight: bold;
+}
+.startBtnMulti{
+    margin-top: 3%;
 }

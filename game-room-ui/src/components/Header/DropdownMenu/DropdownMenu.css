@@ -1,0 +1,23 @@
+.dropDownMenu
+{
+    background: transparent;
+    position: absolute;
+}
+.dropDownMenu ul{
+    list-style-type: none;
+    text-align: center;
+}
+.dropDownMenu ul li{
+    background-color: #D6A074;
+    color: #1F160D;
+    text-decoration: none;
+    border: 3px solid #1F160D;
+    border-radius: 5px;
+    padding: 15px 30px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.dropDownMenu ul li a{
+    text-decoration: none;
+    color: #1F160D;
+}

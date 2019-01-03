@@ -38,7 +38,7 @@ namespace GameRoomApp.providers.DartsCricketRepository
         public DartsCricket GetDartsCricketByScore(Score score)
         {
             var builder = Builders<DartsCricket>.Filter;
-            var scoreFilter = builder.Eq("Score", score);
+            var scoreFilter = builder.Eq("Score.Id", score.Id);
             var cursor = _dartsCricketContext.dartsCricket.Find(scoreFilter);
             DartsCricket dartsCricket = cursor.FirstOrDefault();
             return dartsCricket;

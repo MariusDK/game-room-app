@@ -1,15 +1,35 @@
+.menuNav
+{
+    display: inline-block;
+    width: 100%;
+    background: #D6A074;
+    box-shadow: 0px 4px #1F160D;
+}
 nav {
-    background-color: greenyellow;
-    border: 1px solid #dedede;
-    border-radius: 4px;
-    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.055);
-    color: #888;
-    display: block;
-    margin: 8px 22px 8px 22px;
-    overflow: hidden;
-    width: 90%; 
+    display: inline-block;
+    width: calc(33% - 54px); 
+    vertical-align: top;  
+    padding: 14px 0px; 
   }
-  
+.dropdown
+  {
+      vertical-align: top;
+      width: calc(17% - 126px);
+      display: inline-block;
+      padding: 11px 30px;
+      margin: 0px 20px;
+  }
+  .dropdownBtn{
+      background: transparent;
+      color: #1F160D;
+      text-decoration: none;
+      border: 3px solid #1F160D;
+      border-radius: 5px;
+      padding: 15px 30px;
+      cursor: pointer;
+      font-size: 15px;
+  }
+  .show {display:block;}  
 nav ul {
     margin: 0;
     padding: 0;
@@ -18,10 +38,46 @@ nav ul {
       nav ul li {
         display: inline-block;
         list-style-type: none;
-        
-        margin: 20px;
+        width: calc(40% - 166px);
+        margin: 0px 10%;
+        padding: 15px 30px;
     }
+        nav ul li a{
+            color: #1F160D;
+            text-decoration: none;
+            border: 3px solid #1F160D;
+            border-radius: 5px;
+            white-space: nowrap;
+            padding: 15px 30px;
+        }
+        
+
 .logoutButton
 {
-    float:right;
+    display: inline-block; 
+    width: calc(50% - 114px);
+    vertical-align: top;
+    padding: 11px 30px;
+    text-align: right;
+}
+.logoutButton button{
+    background: transparent;
+      color: #1F160D;
+      text-decoration: none;
+      border: 3px solid #1F160D;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 15px 30px;
+}
+.m-logo{
+    display: inline-block;  
+    
+}
+.m-logo img{
+    height: auto;
+    width: 108px;
+}
+.myDropdown{
+    background: transparent;
 }

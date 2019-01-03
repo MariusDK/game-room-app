@@ -44,7 +44,7 @@ export default class PlayerService {
     public static updatePlayer = (playerId: string, player: IPlayer): Promise<String> =>
     {
         return axios
-        .put(`https://localhost:44333/api/player?scoreId=${playerId}`,player)
+        .put(`https://localhost:44333/api/player?playerId=${playerId}`,player)
         .then((result: AxiosResponse)=>result.data)
     }
 }

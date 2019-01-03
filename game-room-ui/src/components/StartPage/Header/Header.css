@@ -1,0 +1,61 @@
+header{
+    display: inline-block;
+    background-color: #D6A074;
+    width: 100%;
+    box-shadow: 0px 4px #1F160D;
+}
+.StartPgNav{
+    display: inline-block;
+    @media screen and (min-width: 700px) {
+        display: inline-block;
+        width: calc(100% - 500px);
+        min-width: 300px;
+      }
+}
+.m-logo{
+    display: inline-block;  
+    
+}
+.m-logo img{
+    height: auto;
+    width: 108px;
+
+}
+
+.logInButton{
+    position: relative;
+    display: inline-block;
+    width: calc(50% - 154px);
+    padding: 29px 70px 29px 30px;
+    vertical-align: top;
+    text-align: right;
+    white-space: nowrap;
+}
+.logInButton a{
+    color: #1F160D;
+    text-decoration: none;
+    padding: 15px 30px 15px 30px;
+    border: 3px solid #1F160D;
+    border-radius: 5px;
+    margin-right: 23%;
+    @media screen and (min-width: 700px) {
+        margin-right:0%;
+      }
+}
+
+.homeButton{
+    display: inline-block;
+    position: relative;
+    width: calc(50% - 154px);
+    padding: 29px 30px 29px 70px;
+    vertical-align: top;
+    text-align: left;
+}
+.homeButton a {
+    color: #1F160D;
+    text-decoration: none;
+    padding: 15px 30px 15px 30px;
+    border: 3px solid #1F160D;
+    border-radius: 5px;
+    margin-left: 23%;
+}

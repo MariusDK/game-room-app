@@ -1,0 +1,41 @@
+.teamGamePage{
+    background: url(./teamGamePage_wallpaper.jpg);
+    min-height: 79vh; 
+    background-size: 100% 100%;
+    display: block;
+    color: #FFFFF3;
+}
+.teamGamePage button{
+    background: transparent;
+    color: #FFFFF3;
+    text-decoration: none;
+    border: 3px solid #FFFFF3;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.teamGamePage input{
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #FFFFF3;
+    border-radius: 5px;
+}
+.leftGamePage
+{
+    margin-left: 10%;
+    width: 40%;
+    display: inline-block;
+}
+.rightGamePage
+{
+    color: #FEE9B0;
+    margin-right: 10%;
+    width: 40%;
+    height: 100%;
+    display: inline-block;
+}
+.finishGame{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}

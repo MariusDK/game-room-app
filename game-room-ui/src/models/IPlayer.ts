@@ -5,4 +5,5 @@ export interface IPlayer
     username: string;
     password: string;
     age: number;
+    token?: string;
 }

@@ -23,13 +23,21 @@ namespace GameRoomApp.DataModel
             this.StartOn = DateTime.Today;
             this.EndOn = DateTime.Today;
         }
-        public Game(string Name, string Type,List<Team> teams)
+        public Game(string Name, string Type, List<Team> Teams)
         {
             this.Name = Name;
             this.Type = Type;
             this.Teams = Teams;
             this.StartOn = DateTime.Today;
             this.EndOn = DateTime.Today;
+        }
+        public Game(string Id ,string Name, string Type, List<Team> Teams, DateTime StartOn)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Type = Type;
+            this.Teams = Teams;
+            this.StartOn = StartOn;
         }
         public Game(string Name, string Type)
         {
@@ -49,14 +57,10 @@ namespace GameRoomApp.DataModel
         public string Name { get; set; }
         public string Type { get; set; }
         public List<Team> Teams { get; set; }
-        public List<Byte[]> EmbarrassingMoments { get; set; }
-        public List<Byte[]> VictoryMoments { get; set; }
+        public List<string> EmbarrassingMoments { get; set; }
+        public List<string> VictoryMoments { get; set; }
         public DateTime StartOn { get; set; }
         public DateTime? EndOn { get; set; }
 
-        public override string ToString()
-        {
-            return this.Name + " " + this.Type + " " + this.StartOn + " " + this.EndOn;
-        }
     }
 }
