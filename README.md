@@ -27,8 +27,8 @@ Checkpoint 2
 - Fiind prima aplicatie facuta in React lucrurile au mers mai greu.(Am urmărit mai mult functionalitatiile principale).
 - Au fost modificate rutele si nu toate au fost actualizate in Postman.
 
-
-#Checkpoint 3
+#
+Checkpoint 3
 - Se adauga in run comanda: chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
 - Proiectul dedicat acestui checkpoint este \game-room-app\game-room-ui
 - Programul are ca pagina principala: http://localhost:3000/
