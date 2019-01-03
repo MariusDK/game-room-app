@@ -36,6 +36,7 @@ Checkpoint 3
 - Contul ce care se va face logarea este: username: admin123 si password: admin123 
 - Dupa ce sa facut logarea avem pagina de profil. (Inca nu am adaugat incarcare a pozei utilizatorului dar o sa fac acest lucru)
 - In aceasta parte de profil se pot actualiza datele utilizatorului.
+    -Update-ul nu este facut corect, trebuie refacut.	 
 - In navigator avem legaturile la celelalte pagini:
 	- Linkul Home ne trimite cate Pagina profilului.
 	- Linkul Create Team ne duce catre pagina de creare a echipelor.
@@ -130,7 +131,6 @@ si extragerea de date intre Custom Vison AI si aplicatia noastra.
 
 - Nu am implementat inca partea de social media integration si conectarea pe sesiune.
 
-	 
 
 		
 					
