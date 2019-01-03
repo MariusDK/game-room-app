@@ -2,7 +2,7 @@
 .teamCard{
 
     display: inline-block;
-    border: 3px solid #1F160D;
+    border: 3px solid greenyellow;
     border-radius: 5px;
     width: calc(100% / 8);
     margin: 0 1%;
@@ -16,7 +16,8 @@
 
 }
 .teamCard section{
+    color: greenyellow;
     font-weight: bold;
-    font-size: 13px;
-    border-top: 3px solid #1F160D;
+    font-size: 15px;
+    border-top: 3px solid greenyellow;
 }

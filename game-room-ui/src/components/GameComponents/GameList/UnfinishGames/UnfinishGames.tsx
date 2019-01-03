@@ -229,7 +229,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                     <button className="searchBtn" onClick={this.searchGame}>Search</button>
                     </div>
                     <div className="dropdownFilter">
-                <button onClick={this.showDropdown} className="dropdownFilterBtn">Games</button>
+                <button onClick={this.showDropdown} className="dropdownFilterBtn">Filters for the game list</button>
                 <div className="myFilterDropdown" id="idDropdownFilter">
                 <DropdownFilter
                             displayMenu={this.state.displayMenu}
@@ -257,18 +257,18 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                     )
                 )}
                 </div>
-                <div>
+                <div className="clipLoader">
                     <ClipLoader
                     color={'#123abc'}
                     loading={this.state.loading}
                      />
                 </div>
                 {!this.state.loading &&  
-                    this.state.ugames.length==2 && this.state.pageNumber >= 0 && (
+                    this.state.ugames.length==4 && this.state.pageNumber >= 0 && (
                     <button className="nextAndBackBtn" onClick={this.nextPage} >Next</button>
                 )}
                 {(!this.state.loading && 
-                    this.state.ugames.length<=2 && this.state.pageNumber >= 1 &&
+                    this.state.ugames.length<=4 && this.state.pageNumber >= 1 &&
                         <button className="nextAndBackBtn" onClick={this.backPage}>Back</button>
                 )}
                 {(!this.state.loading && 

@@ -11,120 +11,127 @@ import "./CreateTeamGame.css";
 import Footer from 'src/components/Footer/Footer';
 import TeamCard from 'src/components/TeamCard/TeamCard';
 
-export default class CreateTeamGame extends React.Component<ICreateGameProps,ICreateGameState>
+export default class CreateTeamGame extends React.Component<ICreateGameProps, ICreateGameState>
 {
-    
-    constructor(props:ICreateGameProps)
-    {
+
+    constructor(props: ICreateGameProps) {
         super(props);
         this.state = {
-            size:0,
-            name:'',
-            type:'',
-            players:[],
-            teams:[],
-            nameError:'',
+            size: 0,
+            name: '',
+            type: '',
+            players: [],
+            teams: [],
+            nameError: '',
             loading: true,
             redirect: false,
             insertError: '',
-            username:'',
-            search:false,
-            teamName:'',
+            username: '',
+            search: false,
+            teamName: '',
             error: '',
-            duplicate:false
+            duplicate: false
         }
     }
     handleChange = (e: any) => {
         const { name, value } = e.target;
-        this.setState((prevState: any)=>(
+        this.setState((prevState: any) => (
             {
                 ...prevState,
-                [name]:value
+                [name]: value
             }
         ));
     }
-    handleValidation = ()=>{
-        let name = this.state.name;  
+    handleValidation = () => {
+        let name = this.state.name;
         let nameError = '';
         let formIsValid = true;
-        if (!name)
-        {
+        let teams = this.state.teams;
+        let error = '';
+        if (!name) {
             formIsValid = false;
             nameError = "Name field cannot be empty";
-        }  
-        this.setState({nameError:nameError});
+        }
+        if (teams.length < 2) {
+            formIsValid = false;
+            error = "Need more teams!"
+        }
+        this.setState({ nameError: nameError });
+        this.setState({ error: error });
+        return formIsValid;
+        this.setState({ nameError: nameError });
         return formIsValid;
     };
-    
-    getTeamByName=()=>
-    {
-        const teamsList:ITeam[]=this.state.teams;
+
+    getTeamByName = () => {
+        const teamsList: ITeam[] = this.state.teams;
         var name = this.state.teamName;
-        console.log(name);
-        TeamService.getTeamByName(name).then((result:ITeam)=>{
-            teamsList.push(result);
-            this.setState({teams:teamsList});
+        TeamService.getTeamByName(name).then((result: ITeam) => {
+            if (result.id != undefined) {
+                teamsList.push(result);
+                this.setState({ teams: teamsList });
+            }
+            else {
+                this.setState({ error: "Team don't exist!" });
+            }
         });
     }
-    createGame = () =>
-    {
-        if (this.handleValidation())
-        {
+    createGame = () => {
+        if (this.handleValidation()) {
             const newGame: IGame = {
                 name: this.state.name,
                 type: this.state.type,
                 teams: this.state.teams,
-                victoryMoments:[],
-                embarrassingMoments:[]
+                victoryMoments: [],
+                embarrassingMoments: []
             }
-            localStorage.setItem('currentGame',newGame.name);
-            console.log(newGame);
-            
+            localStorage.setItem('currentGame', newGame.name);
+
             GameService.insertGame(newGame)
-            .then((insertErrorM:string)=>{
-                this.setState({insertError:insertErrorM});
-                localStorage.setItem("finishGame","false");
-                this.setState({redirect:true});
-            });
+                .then((insertErrorM: string) => {
+                    this.setState({ insertError: insertErrorM });
+                    localStorage.setItem("finishGame", "false");
+                    this.setState({ redirect: true });
+                });
         }
-        else{
+        else {
             console.log("Error")
         }
     }
     public render() {
-        
-        
-            const {redirect} = this.state;
-            if (redirect)
-            {
-                return <Redirect to='/gameTeamPage'/>
-            }
-            return(<div>
-                
-                <div>
-                    <Navigation/>
-                    </div>
-                    <div className="multiGameC">
-           <div>
-            <GameForm 
-                name =  {this.state.name}
-                type = {this.state.type}
-                nameError = {this.state.nameError}
-                handleChange = {this.handleChange}
-                
-            />
-            </div>
-            <br/>
-            <input placeholder="Search using Team Name" type="text" name="teamName" onChange={this.handleChange}/>
-            <button onClick={this.getTeamByName}>Search</button>
 
-            <TeamCard results={this.state.teams}           
-            />
-            <button onClick={this.createGame}>Start</button>
+
+        const { redirect } = this.state;
+        if (redirect) {
+            return <Redirect to='/gameTeamPage' />
+        }
+        return (<div>
+
+            <div>
+                <Navigation />
             </div>
-            
-            <Footer/>
+            <div className="multiGameC">
+                <div>
+                    <GameForm
+                        name={this.state.name}
+                        type={this.state.type}
+                        nameError={this.state.nameError}
+                        handleChange={this.handleChange}
+
+                    />
+                </div>
+                <br />
+                <input placeholder="Search using Team Name" type="text" name="teamName" onChange={this.handleChange} />
+                <button onClick={this.getTeamByName}>Search</button>
+
+                <TeamCard results={this.state.teams}
+                />
+                <span style={{ color: "red" }}>{this.state.error}</span><br />
+                <button className="startBtnMulti" onClick={this.createGame}>Start</button>
             </div>
-            )
+
+            <Footer />
+        </div>
+        )
     }
 }

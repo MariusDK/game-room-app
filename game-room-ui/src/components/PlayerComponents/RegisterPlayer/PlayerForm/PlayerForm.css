@@ -1,6 +1,5 @@
 .playerForm {
     display:inline-block;
-
     position: relative;
     margin-top: 8%;
     padding: 2%;
@@ -17,9 +16,10 @@
     border-bottom: 1px solid #000000;
     padding: 5px 5px;
     font-size: 17px;    
-    outline: none;   
+    outline: none;
+    color: #000000;   
 }
-::placeholder {
+.playerForm input ::placeholder {
     color: #000000;
 }
 span{

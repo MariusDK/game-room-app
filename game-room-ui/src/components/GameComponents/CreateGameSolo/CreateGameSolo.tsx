@@ -26,7 +26,7 @@ export interface ICreateGameState {
     search: boolean;
     teamName: string;
     error: string;
-    duplicate:boolean;
+    duplicate: boolean;
 }
 export interface ICreateGameProps extends RouteComponentProps<any> { }
 export default class CreateGameSolo extends React.Component<ICreateGameProps, ICreateGameState>
@@ -48,7 +48,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             search: false,
             teamName: '',
             error: '',
-            duplicate:false
+            duplicate: false
         }
     }
     handleChange = (e: any) => {
@@ -60,16 +60,14 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             }
         ));
     }
-    handleDuplicate=(player:IPlayer)=>
-    {
+    handleDuplicate = (player: IPlayer) => {
         const playerList: IPlayer[] = this.state.players;
         playerList.forEach(element => {
-            if (element.id==player.id)
-            {
-                this.setState({duplicate:true});
+            if (element.id == player.id) {
+                this.setState({ duplicate: true });
             }
-            else{
-                this.setState({duplicate:false});
+            else {
+                this.setState({ duplicate: false });
             }
         });
     }
@@ -78,15 +76,14 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         let players = this.state.players;
         let nameError = '';
         let error = '';
-        
-        
+
+
         let formIsValid = true;
         if (!name) {
             formIsValid = false;
             nameError = "Name field cannot be empty";
         }
-        if (players.length<2)
-        {
+        if (players.length < 2) {
             formIsValid = false;
             error = "Need more players!"
         }
@@ -99,27 +96,25 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         const playerList: IPlayer[] = this.state.players;
         PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
             if (player.name != null) {
-                console.log(player);
                 this.handleDuplicate(player);
-                if (!this.state.duplicate)
-                {
-                playerList.push(player);
-                this.setState({ players: playerList })
-                const newTeam: ITeam = {
-                    name: '',
-                    players: [player],
+                if (!this.state.duplicate) {
+                    playerList.push(player);
+                    this.setState({ players: playerList })
+                    const newTeam: ITeam = {
+                        name: '',
+                        players: [player],
+                    }
+                    TeamService.insertTeam(newTeam).then((result: ITeam) => {
+                        teamsList.push(result);
+                        this.setState({ teams: teamsList });
+                    });
                 }
-                console.log(newTeam);
-                TeamService.insertTeam(newTeam).then((result: ITeam) => {
-                    teamsList.push(result);
-                    this.setState({ teams: teamsList });
-                    console.log(this.state.teams);
-                });
+                else {
+                    this.setState({ error: "Player already exists" });
                 }
-                else
-                {
-                    this.setState({error:"Player already exists"});
-                }
+            }
+            else {
+                this.setState({ error: "Player don't exist!" });
             }
         });
     }
@@ -130,11 +125,10 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                 name: this.state.name,
                 type: this.state.type,
                 teams: this.state.teams,
-                victoryMoments:[],
-                embarrassingMoments:[]
+                victoryMoments: [],
+                embarrassingMoments: []
             }
             localStorage.setItem('currentGame', newGame.name);
-            console.log(newGame);
 
             GameService.insertGame(newGame)
                 .then((insertErrorM: string) => {
@@ -164,18 +158,18 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                     handleChange={this.handleChange}
 
                 />
-                <br/>
+                <br />
                 <input className="searchUsername" placeholder="Search using Username..." type="text" name="username" onChange={this.handleChange} />
-                <button className="searchBtn" onClick={this.addPlayerToList}>Search</button>
+                <button className="searchBtnSolo" onClick={this.addPlayerToList}>Search</button>
 
                 <Suggestions results={this.state.players}
                 />
-                <span style={{color: "red"}}>{this.state.error}</span><br/>
+                <span style={{ color: "red" }}>{this.state.error}</span><br />
                 <button className="startBtn" onClick={this.createGame}>Start</button>
-                
-                </div>
-                <Footer/>
-            </div>)
+
+            </div>
+            <Footer />
+        </div>)
     }
 
 

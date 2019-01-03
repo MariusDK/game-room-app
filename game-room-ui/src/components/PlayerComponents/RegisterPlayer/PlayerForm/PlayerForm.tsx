@@ -6,7 +6,7 @@ export interface IPlayerFormProps {
     name: string;
     username: string;
     password: string;
-    ageString: string;
+    age: number;
     nameError: string;
     usernameError: string;
     passwordError: string;
@@ -18,17 +18,17 @@ const PlayerForm = (props: IPlayerFormProps) => {
     return (
         <div className="playerForm">
             <h1>{props.title}</h1>
-            <input type="text" name="name"  placeholder="Name" onChange={props.handleChange} value={props.name}/><br/>
-            <span style={{color: "red"}}>{props.nameError}</span><br/>
+            <input type="text" name="name" placeholder="Name" onChange={props.handleChange} value={props.name} /><br />
+            <span style={{ color: "red" }}>{props.nameError}</span><br />
 
-            <input type="text" name="username" placeholder="Username" onChange={props.handleChange} value={props.username}/><br/>
-            <span style={{color: "red"}}>{props.usernameError}</span><br/>
+            <input type="text" name="username" placeholder="Username" onChange={props.handleChange} value={props.username} /><br />
+            <span style={{ color: "red" }}>{props.usernameError}</span><br />
 
-            <input type="password" name="password" placeholder="Password"  onChange={props.handleChange} value={props.password}/><br/>
-            <span style={{color: "red"}}>{props.passwordError}</span><br/>
+            <input type="password" name="password" placeholder="Password" onChange={props.handleChange} value={props.password} /><br />
+            <span style={{ color: "red" }}>{props.passwordError}</span><br />
 
-            <input type="text" name="age" placeholder="Age"  onChange={props.handleChange} value={props.ageString}/><br/>
-            <span style={{color: "red"}}>{props.ageError}</span><br/>
+            <input type="number" name="age" placeholder="Age" onChange={props.handleChange} value={props.age} /><br />
+            <span style={{ color: "red" }}>{props.ageError}</span><br />
         </div>
     );
 }

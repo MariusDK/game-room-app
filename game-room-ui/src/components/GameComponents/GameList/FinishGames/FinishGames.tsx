@@ -33,7 +33,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             loading: true,
             redirect: false,
             gameType: "solo",
-            pageNumber:0,
+            pageNumber: 0,
             gameName: "",
             errorMessage: "",
             filter: false,
@@ -43,19 +43,16 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         }
     }
     componentDidMount() {
-        this.setState({selectedGames:[]});
-        console.log(this.state.selectedGames);
+        this.setState({ selectedGames: [] });
         this.getGamesOfUser(0);
     }
-    getGamesOfUser(pageNumber:number)
-    {
-        this.setState({ fgames: []});
+    getGamesOfUser(pageNumber: number) {
+        this.setState({ fgames: [] });
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser != null) {
             var obj = JSON.parse(currentUser);
-            GameService.getGamesFinishOfPlayer(pageNumber,obj.id).then((result: IGame[]) => {
+            GameService.getGamesFinishOfPlayer(pageNumber, obj.id).then((result: IGame[]) => {
                 this.setState({ fgames: result, loading: false, pageNumber: pageNumber });
-                console.log(this.state.pageNumber);
             });
         }
     }
@@ -78,46 +75,41 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             localStorage.setItem("finishGame", "false");
         }
     }
-    nextPage=()=>
-    {
+    nextPage = () => {
         let pageNumber = this.state.pageNumber;
         pageNumber++;
-        this.setState({pageNumber : pageNumber});
-        
-        if (this.state.filter==true){
+        this.setState({ pageNumber: pageNumber });
+
+        if (this.state.filter == true) {
             this.getByFilter(this.state.filterType);
         }
-        else if (this.state.ordered==true){
-            console.log(pageNumber);
-            console.log(this.state.pageNumber);
+        else if (this.state.ordered == true) {
             this.orderByLastFinish(pageNumber);
-        }else{
+        } else {
             this.getGamesOfUser(pageNumber);
         }
     }
-    backPage=()=>
-    {
+    backPage = () => {
         let pageNumber = this.state.pageNumber;
         pageNumber--;
-        this.setState({pageNumber:pageNumber});
-        if (this.state.filter==true){
+        this.setState({ pageNumber: pageNumber });
+        if (this.state.filter == true) {
             this.getByFilter(this.state.filterType);
         }
-        else if (this.state.ordered==true){
+        else if (this.state.ordered == true) {
             this.orderByLastFinish(pageNumber);
-        }else{
+        } else {
             this.getGamesOfUser(pageNumber);
         }
     }
-    deleteGames=()=>
-    {
-        this.setState({loading:true});
+    deleteGames = () => {
+        this.setState({ loading: true });
         this.state.selectedGames.forEach(element => {
             GameService.deleteGame(element.id).then(() => {
             });
         });
         this.getGamesOfUser(this.state.pageNumber);
-        
+
     }
     handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -128,92 +120,79 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             }
         ));
     }
-    searchGame=()=>{
-        this.setState({errorMessage:""});
-        this.setState({fgames:[],loading:true});
-        var listGames:IGame[] = [];
-        if (this.state.gameName=="")
-        {
+    searchGame = () => {
+        this.setState({ errorMessage: "" });
+        this.setState({ fgames: [], loading: true });
+        var listGames: IGame[] = [];
+        if (this.state.gameName == "") {
             this.getGamesOfUser(0);
         }
-        else{
-        GameService.getGameByName(this.state.gameName).then((result: IGame) => {
-            console.log(result.id);
-            if (result.id==undefined)
-            {
-                console.log("aici");
-                this.setState({errorMessage:"Game not found!",loading: false});
-            }
-            else{
-            listGames.push(result)
-            this.setState({ fgames: listGames, loading: false, pageNumber: 0 });
-            }
-        });
-    }
-    }
-   
-    getByFilter=(filterType:string)=>{
-            this.setState({ fgames: []});
-            if (this.state.filter==false)
-            {
-                this.setState({pageNumber:0});
-            }
-            this.setState({ filter: true});
-            let currentUser = localStorage.getItem("currentUser");
-            if (currentUser != null) {
-                var obj = JSON.parse(currentUser);
-                GameService.getGamesFinishOfPlayerAndType(this.state.pageNumber,filterType,obj.id).then((result: IGame[]) => {
-                    this.setState({ fgames: result, loading: false, filterType:filterType });
-                    console.log(this.state.pageNumber);
-                });
+        else {
+            GameService.getGameByName(this.state.gameName).then((result: IGame) => {
+                if (result.id == undefined) {
+                    this.setState({ errorMessage: "Game not found!", loading: false });
                 }
-            }
-    unfilter=()=>{
-        this.setState({pageNumber:0,filter: false,ordered: false,filterType:""});
-        this.getGamesOfUser(0);
-    }
-    showDropdown=(e:any)=> {
-        e.preventDefault();
-        if (this.state.displayMenu)
-        {
-            this.setState({displayMenu:false});
-        }
-        else
-        {
-            this.setState({displayMenu:true},() => {
-                document.addEventListener('click', this.cancelDropdown);
-              });
+                else {
+                    listGames.push(result)
+                    this.setState({ fgames: listGames, loading: false, pageNumber: 0 });
+                }
+            });
         }
     }
 
-    cancelDropdown=(e:any)=> {
-        this.setState({displayMenu:false},() => {
-            document.removeEventListener('click', this.cancelDropdown);
-          });
-      }
-    orderByLastFinish=(pageNumber:number)=>{
-        
-        this.setState({ fgames: [], loading: true});
-        if (this.state.ordered==false)
-        {
-            this.setState({pageNumber:0});
-            pageNumber=0;
+    getByFilter = (filterType: string) => {
+        this.setState({ fgames: [] });
+        if (this.state.filter == false) {
+            this.setState({ pageNumber: 0 });
         }
-        this.setState({ ordered: true});
+        this.setState({ filter: true });
         let currentUser = localStorage.getItem("currentUser");
-        console.log(this.state.pageNumber);
         if (currentUser != null) {
             var obj = JSON.parse(currentUser);
-            GameService.getFinishGamesOrderByEndDate(pageNumber,obj.id).then((result: IGame[]) => {
-                this.setState({ fgames: result, loading: false, pageNumber:pageNumber});
-                console.log(this.state.pageNumber);
+            GameService.getGamesFinishOfPlayerAndType(this.state.pageNumber, filterType, obj.id).then((result: IGame[]) => {
+                this.setState({ fgames: result, loading: false, filterType: filterType });
             });
-            }
         }
+    }
+    unfilter = () => {
+        this.setState({ pageNumber: 0, filter: false, ordered: false, filterType: "" });
+        this.getGamesOfUser(0);
+    }
+    showDropdown = (e: any) => {
+        e.preventDefault();
+        if (this.state.displayMenu) {
+            this.setState({ displayMenu: false });
+        }
+        else {
+            this.setState({ displayMenu: true }, () => {
+                document.addEventListener('click', this.cancelDropdown);
+            });
+        }
+    }
+
+    cancelDropdown = (e: any) => {
+        this.setState({ displayMenu: false }, () => {
+            document.removeEventListener('click', this.cancelDropdown);
+        });
+    }
+    orderByLastFinish = (pageNumber: number) => {
+
+        this.setState({ fgames: [], loading: true });
+        if (this.state.ordered == false) {
+            this.setState({ pageNumber: 0 });
+            pageNumber = 0;
+        }
+        this.setState({ ordered: true });
+        let currentUser = localStorage.getItem("currentUser");
+        if (currentUser != null) {
+            var obj = JSON.parse(currentUser);
+            GameService.getFinishGamesOrderByEndDate(pageNumber, obj.id).then((result: IGame[]) => {
+                this.setState({ fgames: result, loading: false, pageNumber: pageNumber });
+            });
+        }
+    }
     render() {
-        console.log(this.state.pageNumber);
         if (this.state.redirect) {
-            console.log(this.state.gameType);
             if (this.state.gameType == "solo") {
                 return <Redirect to='/gameSoloPage' />
             }
@@ -225,61 +204,61 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             <div>
                 <div><Navigation /></div>
                 <div className="unfinishGameList">
-                <div className="searchAndDropdownPanel">
-                <div className="searchPanel">
-                    <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name"/>
-                    <button className="searchBtn" onClick={this.searchGame}>Search</button>
+                    <div className="searchAndDropdownPanel">
+                        <div className="searchPanel">
+                            <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name" />
+                            <button className="searchBtn" onClick={this.searchGame}>Search</button>
+                        </div>
+                        <div className="dropdownFilter">
+                            <button onClick={this.showDropdown} className="dropdownFilterBtn">Games</button>
+                            <div className="myFilterDropdown" id="idDropdownFilter">
+                                <DropdownFilter
+                                    displayMenu={this.state.displayMenu}
+                                    filter={this.getByFilter}
+                                    reset={this.unfilter}
+                                    orderByMostRecent={this.orderByLastFinish}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="dropdownFilter">
-                <button onClick={this.showDropdown} className="dropdownFilterBtn">Games</button>
-                <div className="myFilterDropdown" id="idDropdownFilter">
-                <DropdownFilter
-                            displayMenu={this.state.displayMenu}
-                            filter={this.getByFilter}
-                            reset={this.unfilter}
-                            orderByMostRecent={this.orderByLastFinish}
+                    <div className="title">
+                        <h1>Finish Game List</h1>
+                    </div>
+                    {this.state.loading && <h1>Loading</h1>}
+                    <div className="unfinishGameL">
+                        {!this.state.loading &&
+                            this.state.fgames.map((item, index) => (
+                                <Game
+                                    key={index}
+                                    game={item}
+                                    selectGame={this.selectGame}
+                                    listSelectedGames={this.state.selectedGames}
+                                >
+                                </Game>
+                            )
+                            )}
+                    </div>
+                    <div className="clipLoader">
+                        <ClipLoader
+                            color={'#123abc'}
+                            loading={this.state.loading}
                         />
-                        </div>
-                        </div>
-                </div>
-                <div className="title">
-                <h1>Finish Game List</h1>
-                </div>
-                {this.state.loading && <h1>Loading</h1>}
-                <div className="unfinishGameL">
-                {!this.state.loading &&
-                    this.state.fgames.map((item, index) => (
-                        <Game
-                            key={index}
-                            game={item}
-                            selectGame={this.selectGame}
-                            listSelectedGames = {this.state.selectedGames}
-                        >
-                        </Game>       
-                    )
-                )}
-                </div>
-                <div>
-                    <ClipLoader
-                    color={'#123abc'}
-                    loading={this.state.loading}
-                     />
-                </div>
-                {!this.state.loading &&  
-                    this.state.fgames.length==2 && this.state.pageNumber >= 0 && (
-                    <button className="nextAndBackBtn" onClick={this.nextPage} >Next</button>
-                )}
-                {(!this.state.loading && 
-                    this.state.fgames.length<=2 && this.state.pageNumber >= 1 &&
+                    </div>
+                    {!this.state.loading &&
+                        this.state.fgames.length == 4 && this.state.pageNumber >= 0 && (
+                            <button className="nextAndBackBtn" onClick={this.nextPage} >Next</button>
+                        )}
+                    {(!this.state.loading &&
+                        this.state.fgames.length <= 4 && this.state.pageNumber >= 1 &&
                         <button className="nextAndBackBtn" onClick={this.backPage}>Back</button>
-                )}
-                {(!this.state.loading && 
-                    this.state.fgames.length>0 &&
-                    <button className="nextAndBackBtn" onClick={this.deleteGames}>Delete Games</button>)}
-                <span style={{color: "red"}}>{this.state.errorMessage}</span><br/>
+                    )}
+                    {(!this.state.loading &&
+                        this.state.fgames.length > 0 &&
+                        <button className="nextAndBackBtn" onClick={this.deleteGames}>Delete Games</button>)}
+                    <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
                 </div>
-  
-                <div><Footer/></div>
+
+                <div><Footer /></div>
             </div>
         )
     }
