@@ -4,19 +4,20 @@
     background: transparent;
     text-align: center;
     display: inline-block;
-    border: 3px solid #1F160D;
+    border: 3px solid greenyellow;
     margin: 2%;   
 }
 .gameBox{
     background: transparent;
     cursor: pointer;
     border: none;
-    border-left: 3px solid #1F160D;
+    border-left: 3px solid greenyellow;
     
 }
 .gameLi section{
+    color: greenyellow;
     border: none;
-    border-top: 3px solid #1F160D;
+    border-top: 3px solid greenyellow;
     font-size: 20px;
 }
 .gameLi img{

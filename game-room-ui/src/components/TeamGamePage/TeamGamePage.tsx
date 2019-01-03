@@ -8,7 +8,7 @@ import SubmitComponent from '../ImageComponents/SubmitComponent';
 import Gallery from '../GalleryComponent/Gallery';
 import Footer from '../Footer/Footer';
 import './TeamGamePage.css';
-export interface ITeamGameState{
+export interface ITeamGameState {
     name: string;
     type: string;
     loading: boolean;
@@ -26,29 +26,27 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
             type: '',
             loading: true,
             redirect: false,
-            victoryMoments:[],
-            embarrassingMoments:[]
+            victoryMoments: [],
+            embarrassingMoments: []
         }
     }
-    onChange=(nameGame:string)=>
-    {
-        GameService.getGameByName(nameGame).then((result: IGame) => {    
+    onChange = (nameGame: string) => {
+        GameService.getGameByName(nameGame).then((result: IGame) => {
             this.setState({ name: result.name });
             this.setState({ type: result.type });
-            if (result.victoryMoments!=undefined){
-                this.setState({victoryMoments:result.victoryMoments});
+            if (result.victoryMoments != undefined) {
+                this.setState({ victoryMoments: result.victoryMoments });
             }
-            if (result.embarrassingMoments!=undefined){
-            this.setState({embarrassingMoments:result.embarrassingMoments});
+            if (result.embarrassingMoments != undefined) {
+                this.setState({ embarrassingMoments: result.embarrassingMoments });
             }
             this.setState({ loading: false });
-            console.log(this.state.victoryMoments);
         })
     }
     public componentDidMount() {
         let nameGame = localStorage.getItem('currentGame');
         if (nameGame != null) {
-           this.onChange(nameGame);
+            this.onChange(nameGame);
         }
     }
     finishGame = () => {
@@ -69,42 +67,42 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
             <div>
                 <Navigation />
                 <div className="teamGamePage">
-                <div className="leftGamePage">
-                <h1>Game name: {this.state.name}</h1>
-                <h3>Type of game: {this.state.type}</h3>
-                {!this.state.loading &&
-                    <ScoreList
-                        gameName={this.state.name}
-                        typeOfGame={"multi"}
-                        gameType={this.state.type} />
-                }
-                <button className = "finishGame" onClick={this.finishGame}>Finish Game</button>
-                </div>
-                <div className="rightGamePage">
-                <div className="submitImage">
-                <SubmitComponent
-                    gameName={this.state.name}
-                    onChange={this.onChange}
-                /> 
-                </div>
+                    <div className="leftGamePage">
+                        <h1>Game name: {this.state.name}</h1>
+                        <h3>Type of game: {this.state.type}</h3>
+                        {!this.state.loading &&
+                            <ScoreList
+                                gameName={this.state.name}
+                                typeOfGame={"multi"}
+                                gameType={this.state.type} />
+                        }
+                        <button className="finishGame" onClick={this.finishGame}>Finish Game</button>
+                    </div>
+                    <div className="rightGamePage">
+                        <div className="submitImage">
+                            <SubmitComponent
+                                gameName={this.state.name}
+                                onChange={this.onChange}
+                            />
+                        </div>
 
-                <h2>Victory Moments</h2>
-                <Gallery
-                    moments = {this.state.victoryMoments}
-                    listType = "vicMoments"
-                    gameName={this.state.name}
-                />
-                
-                <h2>Embarrassing Moments</h2>
-                <Gallery
-                    moments = {this.state.embarrassingMoments}
-                    listType = "embMoments"
-                    gameName={this.state.name}
-                />
+                        <h2>Victory Moments</h2>
+                        <Gallery
+                            moments={this.state.victoryMoments}
+                            listType="vicMoments"
+                            gameName={this.state.name}
+                        />
+
+                        <h2>Embarrassing Moments</h2>
+                        <Gallery
+                            moments={this.state.embarrassingMoments}
+                            listType="embMoments"
+                            gameName={this.state.name}
+                        />
+                    </div>
+
                 </div>
-                
-            </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }

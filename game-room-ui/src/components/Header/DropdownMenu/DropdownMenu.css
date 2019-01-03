@@ -7,7 +7,7 @@
     list-style-type: none;
     text-align: center;
 }
-.dropDownMenu li{
+.dropDownMenu ul li{
     background-color: #D6A074;
     color: #1F160D;
     text-decoration: none;
@@ -16,4 +16,8 @@
     padding: 15px 30px;
     cursor: pointer;
     font-size: 15px;
+}
+.dropDownMenu ul li a{
+    text-decoration: none;
+    color: #1F160D;
 }

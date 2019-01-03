@@ -83,7 +83,7 @@ namespace GameRoomApp.Controller
             if (player != null)
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
-                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesByType(page,type,2,teams);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesByType(page,type,4,teams);
             }
             return unfinishGames;
         }
@@ -99,7 +99,7 @@ namespace GameRoomApp.Controller
             if (player != null)
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
-                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesByType(page, type, 2, teams);
+                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesByType(page, type, 4, teams);
             }
             return finishGames;
         }
@@ -116,7 +116,7 @@ namespace GameRoomApp.Controller
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
                 List<Game> games = (List<Game>)_gameRepository.GetUnfinishGamesOfUser(teams);
-                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page,2,games);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page,4,games);
             }
             return unfinishGames;
         }
@@ -132,7 +132,7 @@ namespace GameRoomApp.Controller
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
                 List<Game> games = (List<Game>)_gameRepository.GetFinishGamesOfUser(teams);
-                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesOfUser(page,2,games);
+                finishGames = (List<Game>)_gameRepository.PaginationFinishGamesOfUser(page,4,games);
             }
             return finishGames;
         }
@@ -149,7 +149,7 @@ namespace GameRoomApp.Controller
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
                 List<Game> games = (List<Game>)_gameRepository.GetOrderedUnfinishGamesOfUser(teams);
-                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page, 2, games);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page, 4, games);
             }
             return unfinishGames;
         }
@@ -166,7 +166,7 @@ namespace GameRoomApp.Controller
             {
                 List<Team> teams = _teamRepository.GetTeamByPlayer(player);
                 List<Game> games = (List<Game>)_gameRepository.GetOrderedFinishGamesOfUser(teams);
-                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page, 2, games);
+                unfinishGames = (List<Game>)_gameRepository.PaginationUnfinishGamesOfUser(page, 4, games);
             }
             return unfinishGames;
         }

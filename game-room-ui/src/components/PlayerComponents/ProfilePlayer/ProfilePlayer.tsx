@@ -27,7 +27,6 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
             loading: false,
             redirect: false,
             infoMessage: '',
-            ageString:''
         }
     }
     handleChange = (e: any) => {
@@ -91,7 +90,6 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
         let id = currentUser.id;
         let password = currentUser.password;
         PlayerService.getPlayerById(id).then((user: IPlayer) => {
-            console.log(user.id);
             this.setState({
                 name: user.name,
                 username: user.username,
@@ -123,40 +121,37 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
     public render() {
         return (
             <div>
-            <div>
-                <Navigation />
-            </div>
-            <div className="profile">
+                <div>
+                    <Navigation />
+                </div>
+                <div className="profile">
 
-            <div className="playerForm">
-                <PlayerForm
-                    name={this.state.name}
-                    username={this.state.username}
-                    password={this.state.password}
-                    ageString={this.state.ageString}
-                    handleChange={this.handleChange}
-                    nameError={this.state.nameError}
-                    usernameError={this.state.usernameError}
-                    passwordError={this.state.passwordError}
-                    ageError={this.state.ageError}
-                    title="Profile"
-                />
+                    <div className="playerForm">
+                        <PlayerForm
+                            name={this.state.name}
+                            username={this.state.username}
+                            password={this.state.password}
+                            age={this.state.age}
+                            handleChange={this.handleChange}
+                            nameError={this.state.nameError}
+                            usernameError={this.state.usernameError}
+                            passwordError={this.state.passwordError}
+                            ageError={this.state.ageError}
+                            title="Profile"
+                        />
+                    </div>
+                    <div>
+                        <SpinnerComponent
+                            loading={this.state.loading}
+                        />
+                    </div>
+
+                    <button onClick={this.updatePlayer}>Update</button>
                 </div>
                 <div>
-                <SpinnerComponent
-                    loading={this.state.loading}
-                />
+                    <Footer />
                 </div>
-                
-                <button onClick={this.updatePlayer}>Update</button>
-                </div>
-                <div>
-                    <Footer/>
-                </div>
-                </div>
-                
-            
-        
-            )
+            </div>
+        )
     }
 }

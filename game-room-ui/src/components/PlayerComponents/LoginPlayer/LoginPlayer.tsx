@@ -78,7 +78,6 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
         if (this.handleValidation()) {
             var username = this.state.username;
             var password = this.state.password;
-            console.log(password);
             var response = PlayerService.login(username, password);
             response.then((player: IPlayer) => {
 
@@ -87,7 +86,6 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
                 }
                 else {
                     player.password = password;
-                    console.log(player);
                     localStorage.setItem('currentUser', JSON.stringify(player));
                     this.setState({ redirect: true });
                 }
@@ -97,12 +95,12 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
             //this.setState({redirect:true});
         } else {
             console.log("Error");
+            this.setState({ errorMessage: "Error" });
         }
         this.setState({ loading: false });
 
     }
     logout = () => {
-        console.log(localStorage.getItem('currentUser'));
         localStorage.removeItem('currentUser')
     }
 
@@ -113,22 +111,22 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
         }
         return (
             <div>
-            <Header/>
-            <div className="Login">
-                <LoginForm
-                    username={this.state.username}
-                    password={this.state.password}
-                    handleChange={this.handleChange}
-                    usernameError={this.state.usernameError}
-                    passwordError={this.state.passwordError}
-                />
-                <SpinnerComponent
-                    loading={this.state.loading}
-                />
-                <button onClick={this.login}>Sing in</button><br />
-                <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
-            </div>
-            <Footer/>
+                <Header />
+                <div className="Login">
+                    <LoginForm
+                        username={this.state.username}
+                        password={this.state.password}
+                        handleChange={this.handleChange}
+                        usernameError={this.state.usernameError}
+                        passwordError={this.state.passwordError}
+                    />
+                    <SpinnerComponent
+                        loading={this.state.loading}
+                    />
+                    <button onClick={this.login}>Sing in</button><br />
+                    <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
+                </div>
+                <Footer />
             </div>
         )
     }

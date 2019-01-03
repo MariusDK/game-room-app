@@ -3,19 +3,17 @@ import { Link, Redirect } from 'react-router-dom';
 import "./Header.css";
 export default class Header extends React.Component<any, any>
 {
-    constructor(props: any)
-    {
+    constructor(props: any) {
         super(props);
         this.state = {
         }
     }
 
-    public render()
-    {
-        
-        const {redirect} = this.state;
-        if (redirect){
-            return <Redirect to='/'/>
+    public render() {
+
+        const { redirect } = this.state;
+        if (redirect) {
+            return <Redirect to='/' />
         }
         return (
             <header>
@@ -23,11 +21,11 @@ export default class Header extends React.Component<any, any>
                     <Link to="/">Home</Link>
                 </div>
                 <div className="m-logo">
-                    <img src={require('src/Resurces/logo.png')}/>
+                    <img src={require('src/Resurces/logo.png')} />
                 </div>
                 <div className="logInButton">
-                            <Link to="/login">Log in</Link>
-                </div> 
+                    <Link to="/login">Log in</Link>
+                </div>
             </header>
         )
     }

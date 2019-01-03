@@ -1,26 +1,48 @@
 .soloGameC{
     text-align: center;
     background: url(./wallpaper_create_game.jpg);
-    min-height: 88vh; 
+    min-height: 89vh; 
     background-size: 100% 100%;
+    color: greenyellow;
 }
 .searchUsername{
     background: transparent;
     border: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 3px solid greenyellow;
     padding: 5px 5px;
     font-size: 17px;     
     outline: none;  
+    font-weight: bold;
+}
+.searchBtnSolo{
+    display: inline-block;
+    text-decoration: none;
+    margin-left: 2%;
+    padding: 5px 40px;
+    border-radius: 5px;
+    outline: none;
+    margin-top: 2%;
+    font-weight: bold;
+    border: 4px solid greenyellow;
+    background: transparent;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    outline: none;
+    color: greenyellow;
 }
 .startBtn{
     display: inline-block;
     text-decoration: none;
-    padding: 10px 30px 10px 30px;
-    border: 3px solid #FFE4C2;
+    padding: 5px 40px;
+    border: 4px solid greenyellow;
     border-radius: 5px;
-    color: #FFE4C2;
+    color: greenyellow;
     background: transparent;
-    font-size: 17px;
+    font-size: 20px;
     outline: none;
     margin-top: 1%;
+    margin-bottom: 3%;
+    cursor: pointer;
+    font-weight: bold;
 }

@@ -2,34 +2,32 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './DropdownMenu.css';
 export interface IDropdownProps {
-    displayMenu:boolean;
+    displayMenu: boolean;
 }
 export default class DropdownMenu extends React.Component<IDropdownProps, any>
 {
-    constructor(props:any)
-    {
+    constructor(props: any) {
         super(props);
         this.state = {
-            
+
         };
     };
-    render()
-    {
+    render() {
         return (
             <div>
-            {this.props.displayMenu ?(
-            <div className="dropDownMenu">
-          <ul>
+                {this.props.displayMenu ? (
+                    <div className="dropDownMenu">
+                        <ul>
 
-         <li><Link to="/createGameSolo">Create Game Solo</Link></li>
-         <li><Link to="/createTeamGame">Create Game Team</Link></li>
-         <li><Link to="/unfinishGames">Unfinish Game List</Link></li>
-         <li><Link to="/finishGames">Finish Game List</Link></li>
-          </ul>
+                            <li><Link to="/createGameSolo">Create Game Solo</Link></li>
+                            <li><Link to="/createTeamGame">Create Game Team</Link></li>
+                            <li><Link to="/unfinishGames">Unfinish Game List</Link></li>
+                            <li><Link to="/finishGames">Finish Game List</Link></li>
+                        </ul>
 
-       </div>
-       ):(null)}
-       </div>
+                    </div>
+                ) : (null)}
+            </div>
         )
     }
 }

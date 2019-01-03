@@ -15,7 +15,7 @@ export interface ISoloGameState {
     loading: boolean;
     redirect: boolean;
     victoryMoments: string[];
-    embarrassingMoments:string[];
+    embarrassingMoments: string[];
 
 }
 export interface ISoloGameProps extends RouteComponentProps<any> { }
@@ -28,43 +28,36 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
             type: '',
             loading: true,
             redirect: false,
-            victoryMoments:[],
-            embarrassingMoments:[]
+            victoryMoments: [],
+            embarrassingMoments: []
         }
     }
-    onChange=(nameGame:string)=>
-    {
-        console.log("aici");
+    onChange = (nameGame: string) => {
         GameService.getGameByName(nameGame).then((result: IGame) => {
-                
-                
             this.setState({ name: result.name });
             this.setState({ type: result.type });
-            if (result.victoryMoments!=undefined){
-                this.setState({victoryMoments:result.victoryMoments});
-                console.log(result.victoryMoments);
+            if (result.victoryMoments != undefined) {
+                this.setState({ victoryMoments: result.victoryMoments });
             }
-            if (result.embarrassingMoments!=undefined){
-            this.setState({embarrassingMoments:result.embarrassingMoments});
+            if (result.embarrassingMoments != undefined) {
+                this.setState({ embarrassingMoments: result.embarrassingMoments });
             }
             this.setState({ loading: false });
         })
-        console.log(this.state.victoryMoments);
     }
     public componentDidMount() {
         let nameGame = localStorage.getItem('currentGame');
         if (nameGame != null) {
             GameService.getGameByName(nameGame).then((result: IGame) => {
-                
-                
+
+
                 this.setState({ name: result.name });
                 this.setState({ type: result.type });
-                if (result.victoryMoments!=undefined){
-                    this.setState({victoryMoments:result.victoryMoments});
-                    console.log(result.victoryMoments);
+                if (result.victoryMoments != undefined) {
+                    this.setState({ victoryMoments: result.victoryMoments });
                 }
-                if (result.embarrassingMoments!=undefined){
-                this.setState({embarrassingMoments:result.embarrassingMoments});
+                if (result.embarrassingMoments != undefined) {
+                    this.setState({ embarrassingMoments: result.embarrassingMoments });
                 }
                 this.setState({ loading: false });
             })
@@ -73,8 +66,8 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
     finishGame = () => {
         var name = this.state.name;
         GameService.getGameByName(name).then((result: IGame) => {
-            GameService.finishGame(name, result).then(()=>{
-                this.setState({redirect:true});
+            GameService.finishGame(name, result).then(() => {
+                this.setState({ redirect: true });
             });
         })
     }
@@ -85,48 +78,48 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
         }
         return (
             <div>
-                <Navigation/>
-            <div className="soloGamePage">
-                <div className="leftGamePage">
-                <h1>Game name: {this.state.name}</h1>
-                <h3>Type of game: {this.state.type}</h3>
-                {console.log(1)}
-                {!this.state.loading &&
-                    <ScoreList
-                        gameName={this.state.name}
-                        typeOfGame={"solo"}
-                        gameType={this.state.type}
-                    />
-                }
+                <Navigation />
+                <div className="soloGamePage">
+                    <div className="leftGamePage">
+                        <h1>Game name: {this.state.name}</h1>
+                        <h3>Type of game: {this.state.type}</h3>
+                        {!this.state.loading &&
+                            <ScoreList
+                                gameName={this.state.name}
+                                typeOfGame={"solo"}
+                                gameType={this.state.type}
+                            />
+                        }
 
-                <button className="finishGame" onClick={this.finishGame}>Finish Game</button>
+                        <button className="finishGame" onClick={this.finishGame}>Finish Game</button>
+                    </div>
+                    <div className="rightGamePage">
+
+                        <div className="submitImage">
+                            <SubmitComponent
+                                gameName={this.state.name}
+                                onChange={this.onChange}
+                            />
+                        </div>
+                        <h5>Click the image for AI functionality!</h5>
+
+                        <h2>Victory Moments</h2>
+                        <Gallery
+                            moments={this.state.victoryMoments}
+                            listType="vicMoments"
+                            gameName={this.state.name}
+                        />
+
+                        <h2>Embarrassing Moments</h2>
+                        <Gallery
+                            moments={this.state.embarrassingMoments}
+                            listType="embMoments"
+                            gameName={this.state.name}
+                        />
+                    </div>
+
                 </div>
-                <div className="rightGamePage">
-                <div className="submitImage">
-                <SubmitComponent
-                    gameName={this.state.name}
-                    onChange={this.onChange}
-                />
-                </div>
-                
-                
-                    <h2>Victory Moments</h2>
-                <Gallery
-                    moments = {this.state.victoryMoments}
-                    listType = "vicMoments"
-                    gameName={this.state.name}
-                />
-                
-                <h2>Embarrassing Moments</h2>
-                <Gallery
-                    moments = {this.state.embarrassingMoments}
-                    listType = "embMoments"
-                    gameName={this.state.name}
-                />
-                </div>
-                
-            </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }
