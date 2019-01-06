@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 using GameRoomApp.DataModel;
 using GameRoomApp.providers.DartsCricketRepository;
 using GameRoomApp.providers.DartsX01Repository;
@@ -16,6 +17,7 @@ using MongoDB.Bson;
 
 namespace GameRoomApp.Controller
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class GameController : ControllerBase
