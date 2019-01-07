@@ -6,15 +6,15 @@
 .gameForm input{
     background: transparent;
     border: none;
-    color: greenyellow;
-    border-bottom: 3px solid greenyellow;
+    color: black;
+    border-bottom: 3px solid black;
     padding: 5px 5px;  
     outline: none;   
     font-size: 17px;
     font-weight: bold;
 }
 .gameForm input ::placeholder{
-    color: greenyellow;
+    color: black;
     font-size: 17px;
     font-weight: bold;
 }

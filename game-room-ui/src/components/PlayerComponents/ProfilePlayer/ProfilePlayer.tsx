@@ -125,7 +125,7 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
                     <Navigation />
                 </div>
                 <div className="profile">
-
+                    <div className="profilePanel">
                     <div className="playerForm">
                         <PlayerForm
                             name={this.state.name}
@@ -147,6 +147,7 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
                     </div>
 
                     <button onClick={this.updatePlayer}>Update</button>
+                </div>
                 </div>
                 <div>
                     <Footer />

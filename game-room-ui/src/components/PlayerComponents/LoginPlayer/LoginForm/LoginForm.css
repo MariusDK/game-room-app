@@ -1,7 +1,12 @@
 .loginForm
 {
     display: inline-block;
-    margin-top: 10%;
+    position: relative;
+    margin-top: 8%;
+    padding: 2%;
+    margin-right: 7%;
+    text-align: center;
+    white-space: nowrap;
 }
 .loginForm input{
     background: transparent;
@@ -10,6 +15,7 @@
     padding: 5px 5px;
     font-size: 17px;    
     outline: none;   
+    color: #000000;  
 }
 ::placeholder {
     color: #000000;

@@ -7,10 +7,10 @@ import PlayerService from 'src/services/PlayerService';
 import { IPlayer } from 'src/models/IPlayer';
 import { ITeam } from 'src/models/ITeam';
 import { IGame } from 'src/models/IGame';
-import Suggestions from 'src/components/PlayerCard/Suggestions';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateGameSolo.css";
 import Footer from 'src/components/Footer/Footer';
+import PlayerCard from 'src/components/PlayerCard/Suggestions';
 
 export interface ICreateGameState {
     name: string;
@@ -141,6 +141,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             console.log("Error")
         }
     }
+    removePlayerFromList=(player:IPlayer) =>{}
     public render() {
 
 
@@ -149,8 +150,9 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             return <Redirect to='/gameSoloPage' />
         }
         return (<div>
-            <div className="soloGameC">
                 <Navigation />
+                <div className="soloGameC">
+                <div className="createSoloPanel">
                 <GameForm
                     name={this.state.name}
                     type={this.state.type}
@@ -161,12 +163,17 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                 <br />
                 <input className="searchUsername" placeholder="Search using Username..." type="text" name="username" onChange={this.handleChange} />
                 <button className="searchBtnSolo" onClick={this.addPlayerToList}>Search</button>
-
-                <Suggestions results={this.state.players}
-                />
+                <div className="playerCardGame">
+                {this.state.players.map((item, index) => (
+                        <PlayerCard player={item}
+                                    removePlayerFromList={this.removePlayerFromList}
+                        />
+                        )
+                    )}
+                    </div>
                 <span style={{ color: "red" }}>{this.state.error}</span><br />
                 <button className="startBtn" onClick={this.createGame}>Start</button>
-
+                </div>
             </div>
             <Footer />
         </div>)

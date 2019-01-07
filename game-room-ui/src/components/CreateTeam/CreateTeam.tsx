@@ -18,6 +18,7 @@ export interface ITeamState {
     nameError: string;
     username: string;
     errorMessage: string;
+    playerExist: boolean;
 }
 export interface ITeamProps extends RouteComponentProps<any> { }
 
@@ -32,7 +33,8 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
             redirect: false,
             nameError: '',
             username: '',
-            errorMessage: ''
+            errorMessage: '',
+            playerExist: false
         }
     }
 
@@ -57,19 +59,56 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
         this.setState({ nameError: nameError });
         return formIsValid;
     }
+    checkIfPlayerExist = (searchPlayer:IPlayer) =>
+    {
+        this.setState({playerExist:false});
+        this.state.players.forEach( player=> {
+            if (searchPlayer.id==player.id)
+            {
+                this.setState({playerExist:true});
+            }            
+        });
+    }
     addPlayerToList = () => {
         const playerList: IPlayer[] = this.state.players;
         PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
             if (player.name != null) {
-                playerList.push(player);
+                this.checkIfPlayerExist(player);
+                if (this.state.playerExist==false)
+                {
+                    playerList.push(player);
                 this.setState({ players: playerList });
+                this.setState({ errorMessage: "" });
+                }
+                else{
+                    this.setState({ errorMessage: "Player was selected!" });
+                }
             }
             else {
                 this.setState({ errorMessage: "Player not found!" });
             }
         });
     }
-
+    removePlayerFromList=(player:IPlayer) =>{
+        
+        const playerList: IPlayer[] = this.state.players;
+        let positionOfElement=-1;
+        for (var i=0;i<playerList.length;i++)
+        {
+            if (playerList[i].id==player.id)
+            {
+                positionOfElement = i;
+                break;
+            }
+        }
+        if (positionOfElement!=-1)
+        {
+            console.log(playerList);
+            playerList.splice(positionOfElement,1);
+            this.setState({players:playerList});
+            console.log(positionOfElement);
+        }
+    }
     addTeam = () => {
         this.setState({ loading: true });
         if (this.handleValidation()) {
@@ -98,6 +137,7 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
             <div>
                 <Navigation />
                 <div className="createTeam">
+                <div className="teamPanel">
                     <div className="teamForm">
                         <TeamForm
                             name={this.state.name}
@@ -111,11 +151,15 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                     </div>
                     <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
                     <div className="playerCard">
-                        <Suggestions results={this.state.players}
+                    {this.state.players.map((item, index) => (
+                        <Suggestions player={item}
+                                    removePlayerFromList={this.removePlayerFromList}
                         />
+                        )
+                    )}
                     </div>
                     <button className="saveBtn" onClick={this.addTeam}>Save</button>
-
+                    </div>
                 </div>
                 <Footer />
             </div>
