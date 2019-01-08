@@ -24,6 +24,7 @@ export interface IUnfinishGamesState {
     displayMenu: boolean;
     ordered: boolean;
     blur:boolean;
+    blurNavDropdown:boolean;
 }
 export default class UnfinishGames extends React.Component<any, IUnfinishGamesState>
 {
@@ -42,7 +43,8 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             filterType: "",
             displayMenu: false,
             ordered: false,
-            blur: false
+            blur: false,
+            blurNavDropdown:false
         }
     }
     componentDidMount() {
@@ -65,6 +67,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         if (!game.id) return;
         var name = game.name;
         this.setState({gameName:name});
+        localStorage.setItem('gameState', 'unfinish');
         //localStorage.setItem('currentGame', name);
         var teams: ITeam[] = game.teams;
         teams.forEach(element => {
@@ -212,6 +215,14 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             });
             }
         }
+    onAddBlur=()=>
+    {
+        this.setState({blurNavDropdown:true});
+    }
+    onRemoveBlur=()=>
+    {
+        this.setState({blurNavDropdown:false});
+    }
     render() {
         console.log(this.state.pageNumber);
         if (this.state.redirect) {
@@ -226,9 +237,12 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         }
         return (
             <div>
-                <div><Navigation /></div>
+                <div><Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                /></div>
                 <div className="unfinishGameList">
-                <div className="unfinishGamePanel">
+                <div className={this.state.blurNavDropdown?"hideUnfinishGamePanel":"unfinishGamePanel"}>
                 <div className="searchAndDropdownPanel">
                 <div className="searchPanel">
                     <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name"/>

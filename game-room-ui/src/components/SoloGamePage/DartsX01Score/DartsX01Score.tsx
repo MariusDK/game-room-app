@@ -9,7 +9,7 @@ export interface IDartsX01Props {
     typeOfGame: string;
     scoreValue: number;
     dartsX01: IDartsX01;
-    onChange(): any;
+    onChangeDartsX01(): any;
 }
 export interface IDartsX01State {
     id: string;
@@ -61,7 +61,7 @@ export default class DartsX01Score extends React.Component<IDartsX01Props, IDart
             DartsX01Service.getDartsX01ById(id).then((dartsX01: IDartsX01) => {
                 dartsX01.stateScore = total;
                 DartsX01Service.updateDartsX01(this.state.id, dartsX01);
-                this.props.onChange();
+                this.props.onChangeDartsX01();
             })
         }
     }
@@ -80,12 +80,12 @@ export default class DartsX01Score extends React.Component<IDartsX01Props, IDart
         else {
             return (
 
-                <div>
-                    <div className="dartsScore">
+                <div key={this.props.score.id} className="dartsX01Form">
+                    <div className="dartsX01Score">
                     <span className="score">{`${this.props.score.team.name}-${this.props.dartsX01.stateScore}`}</span>
                     </div>
                     <input type="number" name="points" onChange={this.handleChange} value={this.state.points} className="dartsX01Score" />
-                    <button onClick={this.updateScore}>Update Score</button>
+                    <button className="updateDartsX01" onClick={this.updateScore}>Update Score</button>
                 </div>
             );
         }

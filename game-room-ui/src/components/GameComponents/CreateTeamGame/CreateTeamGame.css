@@ -4,6 +4,10 @@
     min-height: 79vh; 
     background-size: 100% 100%;
 }
+.hideTeamPanel
+{
+    display: hide;
+}
 .multiGameC h1{
     color: black;
 }
@@ -19,7 +23,7 @@
     font-weight: bold;
 }
 ::placeholder{
-    color: white;
+    color: black;
 }
 .searchMultiBtn{
     background: transparent;

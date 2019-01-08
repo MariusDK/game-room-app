@@ -22,13 +22,14 @@
     display: inline-block;
     top: 0;
     position: relative;
+    float: left;
 }
 .rightGamePage
 {
     text-align: left;
     color: #FEE9B0;
     margin-right: 2%;
-    width: 40%;
+    width: 48%;
     height: 100%;
     display: inline-block;
 }
@@ -44,7 +45,7 @@
     text-decoration: none;
     border: 3px solid #FFFFF3;
     border-radius: 5px;
-    padding: 5px 5px;
+    padding: 10px 20px;
     cursor: pointer;
     font-size: 15px;
 }
@@ -66,4 +67,10 @@
 }
 .submitImageComp{
     margin-top: 0;
+}
+.hideSoloGamePanel{
+    display: none;
+}
+.hideFinishButton{
+    display: none;
 }

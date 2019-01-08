@@ -27,6 +27,7 @@ export interface ICreateGameState {
     teamName: string;
     error: string;
     duplicate: boolean;
+    blur:boolean;
 }
 export interface ICreateGameProps extends RouteComponentProps<any> { }
 export default class CreateGameSolo extends React.Component<ICreateGameProps, ICreateGameState>
@@ -48,7 +49,8 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             search: false,
             teamName: '',
             error: '',
-            duplicate: false
+            duplicate: false,
+            blur:false
         }
     }
     handleChange = (e: any) => {
@@ -160,6 +162,13 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             console.log(positionOfElement);
         }
     }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
+    }
     public render() {
 
 
@@ -168,9 +177,12 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             return <Redirect to={`/gameSoloPage/${this.state.name}`} />
         }
         return (<div>
-                <Navigation />
+                <Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                />
                 <div className="soloGameC">
-                <div className="createSoloPanel">
+                <div className={this.state.blur?"hideSoloPanel":"createSoloPanel"}>
                 <GameForm
                     name={this.state.name}
                     type={this.state.type}

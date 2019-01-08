@@ -15,6 +15,9 @@
     display: inline-block;
     margin-bottom: 2%;
 }
+.hideSoloPanel{
+    display: none;
+}
 .searchUsername{
     background: transparent;
     border: none;

@@ -61,7 +61,9 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     public selectGame = (game: IGame) => {
         if (!game.id) return;
         var name = game.name;
-        localStorage.setItem('currentGame', name);
+        this.setState({gameName:name});
+        //localStorage.setItem('currentGame', name);
+        localStorage.setItem('gameState', 'finish');
         var teams: ITeam[] = game.teams;
         teams.forEach(element => {
             if (element.players.length > 1) {
@@ -195,20 +197,30 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             });
         }
     }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
+    }
     render() {
         if (this.state.redirect) {
             if (this.state.gameType == "solo") {
-                return <Redirect to='/gameSoloPage' />
+                return <Redirect to={`/gameSoloPage/${this.state.gameName}`} />
             }
             else {
-                return <Redirect to='/gameTeamPage' />
+                return <Redirect to={`/gameTeamPage/${this.state.gameName}`} />
             }
         }
         return (
             <div>
-                <div><Navigation /></div>
+                <div><Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                /></div>
                 <div className="unfinishGameList">
-                <div className="unfinishGamePanel">
+                <div className={this.state.blur?"hideUnfinishGamePanel":"unfinishGamePanel"}>
                     <div className="searchAndDropdownPanel">
                         <div className="searchPanel">
                             <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name" />

@@ -147,7 +147,18 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         console.log("aici");
         this.setState({dartsX01:dartsX01List});
     }
-    onChange = () => {
+    onChange = (score:IScore) => {
+        const scoreList:IScore[] = this.state.scores;
+        scoreList.forEach(element => {
+            if (score.id==element.id)
+            {
+                element.value = score.value;
+            }            
+        });
+        this.setState({scores:scoreList});
+        this.getData();
+    }
+    onChangeDartsX01 = () => {
         this.getData();
     }
     onChangeDartsCriket = (score1: number, score2: number) => {
@@ -182,7 +193,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                                 score={item.score}
                                 typeOfGame={this.props.typeOfGame}
                                 scoreValue={item.stateScore}
-                                onChange={this.onChange}
+                                onChangeDartsX01={this.onChangeDartsX01}
                             >
                             </DartsX01Score>
                         )

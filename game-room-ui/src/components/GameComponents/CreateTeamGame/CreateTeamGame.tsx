@@ -30,7 +30,8 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             search: false,
             teamName: '',
             error: '',
-            duplicate: false
+            duplicate: false,
+            blur: false
         }
     }
     handleChange = (e: any) => {
@@ -132,20 +133,30 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             this.setState({teams:teamList});
         }
     }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>
+    {
+        this.setState({blur:false});
+    }
     public render() {
 
 
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to='/gameTeamPage' />
+            return <Redirect to={`/gameTeamPage/${this.state.name}`} />
         }
         return (<div>
-
             <div>
-                <Navigation />
+                <Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                />
             </div>
             <div className="multiGameC">
-                <div className="createTeamPanel">
+                <div className={this.state.blur?"hideTeamPanel":"createTeamPanel"}>
                 <div>
                     <GameForm
                         name={this.state.name}

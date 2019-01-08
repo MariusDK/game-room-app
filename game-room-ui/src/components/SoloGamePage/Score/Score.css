@@ -10,10 +10,10 @@
 .normalScore{
     display: inline-block;
     text-align: left;
-    width: 50%;
+    width: 40%;
 }
 .scoreForm button{
-    width: 30%;
+    width: 40%;
 }
 .updateNormalScore{
     background: transparent;

@@ -44,6 +44,7 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                     result.victoryMoments = victoryMomentsList;
                     console.log(result.victoryMoments);
 
+
                 }
                 else{
                     console.log(result.victoryMoments);
@@ -53,9 +54,11 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                     console.log(result.victoryMoments);
                     
                 }
-                GameService.updateGame(this.props.gameName,result);
+                GameService.updateGame(this.props.gameName,result).then(()=>{
+                    this.onChange();
+                });
             }
-            this.onChange();
+            
         })
         
     }
@@ -87,9 +90,10 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                     result.embarrassingMoments = embarrassingMomentsList;
                     console.log(result.victoryMoments);
                 }
-                GameService.updateGame(this.props.gameName,result);
+                GameService.updateGame(this.props.gameName,result).then(()=>{
+                    this.onChange();
+                });;
             }
-            this.onChange();
         })
      }}
     onChange=()=>

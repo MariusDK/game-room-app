@@ -127,5 +127,10 @@
     margin-bottom: 2%;
 }
 .blurUnfinishGameL{
-    filter: blur(15px);
+    filter: blur(50px);
+    pointer-events:none;
+}
+.hideUnfinishGamePanel
+{
+    display: none;
 }

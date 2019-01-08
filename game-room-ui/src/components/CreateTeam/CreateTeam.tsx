@@ -19,6 +19,7 @@ export interface ITeamState {
     username: string;
     errorMessage: string;
     playerExist: boolean;
+    blur: boolean;
 }
 export interface ITeamProps extends RouteComponentProps<any> { }
 
@@ -34,7 +35,8 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
             nameError: '',
             username: '',
             errorMessage: '',
-            playerExist: false
+            playerExist: false,
+            blur:false
         }
     }
 
@@ -127,6 +129,13 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
         }
         this.setState({ loading: false })
     }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
+    }
     public render() {
 
         const { redirect } = this.state;
@@ -135,9 +144,12 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
         }
         return (
             <div>
-                <Navigation />
+                <Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                />
                 <div className="createTeam">
-                <div className="teamPanel">
+                <div className={this.state.blur?"hideTeamPanel":"teamPanel"}>
                     <div className="teamForm">
                         <TeamForm
                             name={this.state.name}

@@ -16,6 +16,10 @@
     display: inline-block;
     margin-bottom: 2%;
 }
+.hideTeamPanel
+{
+    display: none;
+}
 .searchBtn{
     margin-left: 10px;
     background: transparent;

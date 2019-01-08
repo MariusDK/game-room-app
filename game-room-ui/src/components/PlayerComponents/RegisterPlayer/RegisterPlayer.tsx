@@ -20,6 +20,7 @@ export interface IRegisterPlayerState {
     ageError: string;
     loading: boolean;
     redirect: boolean;
+    blur:boolean;
 }
 
 export interface IRegisterPlayerProps extends RouteComponentProps<any> { }
@@ -39,7 +40,8 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             infoMessage: '',
             ageError: '',
             loading: false,
-            redirect: false
+            redirect: false,
+            blur:false
         }
     }
 
@@ -66,12 +68,6 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
         if (!name) {
             formIsValid = false;
             nameError = "Name field cannot be empty!";
-        }
-        else if (typeof name !== "undefined") {
-            if (!name.match(/^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$/)) {
-                formIsValid = false;
-                nameError = "Only letters!";
-            }
         }
         if (!username) {
             formIsValid = false;
