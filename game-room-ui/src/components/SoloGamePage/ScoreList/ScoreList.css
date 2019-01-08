@@ -1,21 +1,20 @@
-.scoreForm{
-    margin:1% 0;
-}
-.scoreForm input{
-    color: #FFFFF3;
-    width: 15%;
-    margin-right: 5%;
-}
-
-.normalScore{
+.scoreList{
     display: inline-block;
-    text-align: left;
-    width: 50%;
 }
-.scoreForm button{
-    width: 30%;
+.scorePanel{
+    margin-bottom: 20%;
 }
-.updateNormalScore{
+.leaderboardPanel{
+    margin-bottom: 0%;
+}
+.startPoint{
+    display: block;
+    margin-right:8%;
+    margin-left:8%;
+}
+.startPoint button{
+    width: 29%;
+    margin: 2% 2%;
     background: transparent;
     color:#FFFFF3;
     text-decoration: none;

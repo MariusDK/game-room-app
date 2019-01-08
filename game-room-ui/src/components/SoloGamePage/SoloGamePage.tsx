@@ -1,6 +1,6 @@
 import * as React from 'react';
 import GameService from 'src/services/GameService';
-import { RouteComponentProps, Redirect } from 'react-router';
+import { RouteComponentProps, Redirect} from 'react-router';
 import ScoreList from './ScoreList/ScoreList';
 import { IGame } from 'src/models/IGame';
 import Navigation from '../Header/Navigation/Navigation';
@@ -46,7 +46,8 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
         })
     }
     public componentDidMount() {
-        let nameGame = localStorage.getItem('currentGame');
+        let nameGame = this.props.match.params.gameName;
+        //let nameGame = localStorage.getItem('currentGame');
         if (nameGame != null) {
             GameService.getGameByName(nameGame).then((result: IGame) => {
 
@@ -77,12 +78,14 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
             return <Redirect to='/' />
         }
         return (
+            
             <div>
                 <Navigation />
                 <div className="soloGamePage">
-                    <div className="leftGamePage">
-                        <h1>Game name: {this.state.name}</h1>
+                    <div className="soloGamePanel">
+                    <h1>Game name: {this.state.name}</h1>
                         <h3>Type of game: {this.state.type}</h3>
+                    <div className="leftGamePage">
                         {!this.state.loading &&
                             <ScoreList
                                 gameName={this.state.name}
@@ -91,11 +94,10 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
                             />
                         }
 
-                        <button className="finishGame" onClick={this.finishGame}>Finish Game</button>
+                       
                     </div>
                     <div className="rightGamePage">
-
-                        <div className="submitImage">
+                    <div className="submitImageComp">
                             <SubmitComponent
                                 gameName={this.state.name}
                                 onChange={this.onChange}
@@ -117,7 +119,10 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
                             gameName={this.state.name}
                         />
                     </div>
-
+                    <div className="finisButtonZone">
+                    <button className="finishGameBtn" onClick={this.finishGame}>Finish Game</button>  
+                    </div>    
+                </div>
                 </div>
                 <Footer />
             </div>

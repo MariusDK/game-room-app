@@ -1,23 +1,26 @@
-
 .gameLi
 {
+    text-align: left;
     background: transparent;
-    text-align: center;
     display: inline-block;
-    border: 3px solid greenyellow;
-    margin: 2%;   
+    border: 3px solid black;
+    margin: 2%;
+    width: calc(21% - 6px);   
 }
 .gameBox{
+    width: 100%;
     background: transparent;
     cursor: pointer;
     border: none;
-    border-left: 3px solid greenyellow;
-    
+    text-align: right;
+    padding: 0;
 }
 .gameLi section{
-    color: greenyellow;
+    text-align: center;
+    width: 100%;
+    color: black;
     border: none;
-    border-top: 3px solid greenyellow;
+    border-top: 3px solid black;
     font-size: 20px;
 }
 .gameLi img{
@@ -28,4 +31,19 @@
 
     text-align: center;
     border-style: solid;
+}
+.checkbox{
+    text-align: left;
+    display: inline-block;
+    height: 100%;
+    border: none;
+}
+.imgBtnDiv{
+    width: calc(100% - 23px);
+    display: inline-block;
+    text-align: center;
+    border-left: 3px solid black;
+}
+.gameArticle{
+    text-align: center;
 }

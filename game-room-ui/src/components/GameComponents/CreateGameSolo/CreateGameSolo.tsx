@@ -141,13 +141,31 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             console.log("Error")
         }
     }
-    removePlayerFromList=(player:IPlayer) =>{}
+    removePlayerFromList=(player:IPlayer) =>{
+        const playerList: IPlayer[] = this.state.players;
+        let positionOfElement=-1;
+        for (var i=0;i<playerList.length;i++)
+        {
+            if (playerList[i].id==player.id)
+            {
+                positionOfElement = i;
+                break;
+            }
+        }
+        if (positionOfElement!=-1)
+        {
+            console.log(playerList);
+            playerList.splice(positionOfElement,1);
+            this.setState({players:playerList});
+            console.log(positionOfElement);
+        }
+    }
     public render() {
 
 
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to='/gameSoloPage' />
+            return <Redirect to={`/gameSoloPage/${this.state.name}`} />
         }
         return (<div>
                 <Navigation />

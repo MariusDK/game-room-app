@@ -3,7 +3,7 @@ import './Suggestions.css';
 import { IPlayer } from 'src/models/IPlayer';
 
 export interface IPlayerProps{
-  player: IPlayer;
+  player : IPlayer;
   removePlayerFromList(player:IPlayer):any;
 }
 

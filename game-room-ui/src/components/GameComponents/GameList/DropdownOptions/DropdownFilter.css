@@ -1,16 +1,23 @@
 .dropdownFilter
 {
     background: transparent;
+    margin-top: -50px;
 }
 .dropdownFilter ul{
+    margin-top: -0.5%;
+    margin-left: -1%;
+    position: absolute;
     list-style-type: none;
-    text-align: left;
+    text-align: center;
+    padding: 0;
 }
 .dropdownFilter li button{
-background: transparent;
-text-align: left;
-border: 4px solid #1F160D;
-padding: 5px 30px;
-cursor: pointer;
-border-radius: 5px;
+    margin-bottom: 1%;
+    width: 100%;
+    background: transparent;
+    text-align: left;
+    border: 4px solid black;
+    padding: 5px 30px;
+    cursor: pointer;
+    border-radius: 5px;
 }

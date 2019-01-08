@@ -1,7 +1,8 @@
 .finishGameList{
     background: url(./finishGamesWallpaper.jpg);
     text-align: center;
-    min-height: 79vh; 
+    min-height: 78vh; 
+    display: block;
     background-size: 100% 100%;
 
 }

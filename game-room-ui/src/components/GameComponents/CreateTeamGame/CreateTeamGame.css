@@ -5,14 +5,14 @@
     background-size: 100% 100%;
 }
 .multiGameC h1{
-    color: greenyellow;
+    color: black;
 }
 .multiGameC input{
-    color: greenyellow;
+    color: black;
     background: transparent;
     margin-right: 1%;
     border: none;
-    border-bottom: 3px solid greenyellow;
+    border-bottom: 3px solid black;
     padding: 5px 5px;
     font-size: 20px;    
     outline: none;   
@@ -21,10 +21,10 @@
 ::placeholder{
     color: white;
 }
-.multiGameC button{
+.searchMultiBtn{
     background: transparent;
-    color: greenyellow;
-    border: 3px solid greenyellow;
+    color: black;
+    border: 3px solid black;
     border-radius: 5px;
     padding: 5px 30px;
     font-size: 20px;     
@@ -34,4 +34,28 @@
 }
 .startBtnMulti{
     margin-top: 3%;
+    background: transparent;
+    color: black;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 5px 30px;
+    font-size: 20px;     
+    outline: none;   
+    cursor: pointer;
+    font-weight: bold;
+}
+.createTeamPanel{
+    background:  -webkit-linear-gradient(#D6A074, #503C2C, #1C150D);
+    margin-top: 2%;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    padding-bottom:7%; 
+    display: inline-block;
+    margin-bottom: 2%;
+}
+.teamCardGame{
+    text-align: left;
+    display: block;
+    margin-top: 2%;
 }

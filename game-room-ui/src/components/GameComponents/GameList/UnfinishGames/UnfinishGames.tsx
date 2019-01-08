@@ -23,6 +23,7 @@ export interface IUnfinishGamesState {
     filterType: string;
     displayMenu: boolean;
     ordered: boolean;
+    blur:boolean;
 }
 export default class UnfinishGames extends React.Component<any, IUnfinishGamesState>
 {
@@ -40,12 +41,12 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             filter: false,
             filterType: "",
             displayMenu: false,
-            ordered: false
+            ordered: false,
+            blur: false
         }
     }
     componentDidMount() {
         this.setState({selectedGames:[]});
-        console.log(this.state.selectedGames);
         this.getGamesOfUser(0);
     }
     getGamesOfUser(pageNumber:number)
@@ -63,7 +64,8 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     public selectGame = (game: IGame) => {
         if (!game.id) return;
         var name = game.name;
-        localStorage.setItem('currentGame', name);
+        this.setState({gameName:name});
+        //localStorage.setItem('currentGame', name);
         var teams: ITeam[] = game.teams;
         teams.forEach(element => {
             if (element.players.length > 1) {
@@ -172,6 +174,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.getGamesOfUser(0);
     }
     showDropdown=(e:any)=> {
+        this.setState({blur:true});
         e.preventDefault();
         if (this.state.displayMenu)
         {
@@ -186,6 +189,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     }
 
     cancelDropdown=(e:any)=> {
+        this.setState({blur:false});
         this.setState({displayMenu:false},() => {
             document.removeEventListener('click', this.cancelDropdown);
           });
@@ -213,16 +217,18 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         if (this.state.redirect) {
             console.log(this.state.gameType);
             if (this.state.gameType == "solo") {
-                return <Redirect to='/gameSoloPage' />
+                console.log(this.state.gameName);
+                return <Redirect to={`/gameSoloPage/${this.state.gameName}`}/>
             }
             else {
-                return <Redirect to='/gameTeamPage' />
+                return <Redirect to={`/gameTeamPage/${this.state.gameName}`} />
             }
         }
         return (
             <div>
                 <div><Navigation /></div>
                 <div className="unfinishGameList">
+                <div className="unfinishGamePanel">
                 <div className="searchAndDropdownPanel">
                 <div className="searchPanel">
                     <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name"/>
@@ -230,7 +236,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                     </div>
                     <div className="dropdownFilter">
                 <button onClick={this.showDropdown} className="dropdownFilterBtn">Filters for the game list</button>
-                <div className="myFilterDropdown" id="idDropdownFilter">
+                <div className={"myFilterDropdown"} id="idDropdownFilter">
                 <DropdownFilter
                             displayMenu={this.state.displayMenu}
                             filter={this.getByFilter}
@@ -244,7 +250,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                 <h1>Unfinish Game List</h1>
                 </div>
                 {this.state.loading && <h1>Loading</h1>}
-                <div className="unfinishGameL">
+                <div className={this.state.blur?"blurUnfinishGameL":"unfinishGameL"}>
                 {!this.state.loading &&
                     this.state.ugames.map((item, index) => (
                         <Game
@@ -263,20 +269,24 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                     loading={this.state.loading}
                      />
                 </div>
-                {!this.state.loading &&  
-                    this.state.ugames.length==4 && this.state.pageNumber >= 0 && (
-                    <button className="nextAndBackBtn" onClick={this.nextPage} >Next</button>
-                )}
-                {(!this.state.loading && 
-                    this.state.ugames.length<=4 && this.state.pageNumber >= 1 &&
-                        <button className="nextAndBackBtn" onClick={this.backPage}>Back</button>
-                )}
+                <div className="deletePart">
                 {(!this.state.loading && 
                     this.state.ugames.length>0 &&
-                    <button className="nextAndBackBtn" onClick={this.deleteGames}>Delete Games</button>)}
+                    <button className="deleteBtn" onClick={this.deleteGames}>Delete Games</button>)}
+                </div>
+                <div className="nextAndBackPart">
+                {!this.state.loading &&  
+                    this.state.ugames.length==4 && this.state.pageNumber >= 0 && (
+                    <button className="nextBtn" onClick={this.nextPage} >Next</button>
+                )}                
+                {(!this.state.loading && 
+                    this.state.ugames.length<=4 && this.state.pageNumber >= 1 &&
+                        <button className="backBtn" onClick={this.backPage}>Back</button>
+                )}   
+                </div>            
                 <span style={{color: "red"}}>{this.state.errorMessage}</span><br/>
                 </div>
-  
+                </div>
                 <div><Footer/></div>
             </div>
         )

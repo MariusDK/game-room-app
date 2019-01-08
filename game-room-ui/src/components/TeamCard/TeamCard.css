@@ -1,11 +1,11 @@
 
 .teamCard{
-
+    text-align: center;
     display: inline-block;
-    border: 3px solid greenyellow;
+    border: 3px solid black;
     border-radius: 5px;
-    width: calc(100% / 8);
-    margin: 0 1%;
+    width: calc(22% - 6px);
+    margin: 2% 1%;
 }
 .teamCard article img{
     text-align:center;
@@ -13,11 +13,50 @@
     height: auto;
     box-sizing: border-box;
     vertical-align: baseline;
-
+    margin-bottom:calc(5% + 15px);
 }
 .teamCard section{
-    color: greenyellow;
+    color: black;
     font-weight: bold;
-    font-size: 15px;
-    border-top: 3px solid greenyellow;
+    font-size: 13px;
+    border-top: 3px solid black;
 }
+.button-block{
+    position: relative;
+    display: inline-block;
+    border: 15px solid #F0544E;
+    box-sizing: border-box;
+    width: 5%;
+    height: 5%;
+    margin-left: 88%;
+}
+.cancelButton{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: 0;
+    margin: -15px 0 0 -15px;
+    cursor: pointer;
+    padding: 0%;
+    border: none;
+}
+.mark{
+    background-color: #fff;
+    position: absolute;
+    height: 30px;
+    width: 4px;
+    display: block;
+    top: 0;
+}
+.mark.x{
+    right: 14px;
+    transform: rotate(45deg)
+}
+.mark.xx{
+    left: 12px;
+    transform: rotate(-45deg)
+}
+

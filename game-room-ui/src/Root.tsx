@@ -19,7 +19,7 @@ const Root = () => (
           <Route path="/register" component={RegisterPlayer}/>
           <Route path="/login" component={LoginPlayer}/>
           <Route path="/createGameSolo" component={CreateGameSolo}/>
-          <Route path="/gameSoloPage" component={SoloGamePage}/>
+          <Route path="/gameSoloPage/:gameName" component={SoloGamePage}/>
           <Route path="/createTeam" component={CreateTeam}/>
           <Route path="/createTeamGame" component={CreateTeamGame}/>
           <Route path="/gameTeamPage" component={TeamGamePage}/>
@@ -28,5 +28,6 @@ const Root = () => (
           <Route path="/unfinishGames" component={UnfinishGames}/>
         </Switch>
     </BrowserRouter>
+
 )
 export default Root;

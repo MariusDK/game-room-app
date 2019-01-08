@@ -61,9 +61,11 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
         if (this.props.typeOfGame == "solo") {
             return (
                 <div key={this.props.score.id} className="scoreForm">
-                    <span className="score">{`${this.props.score.team.players[0].name}-${this.state.currentScore}`} </span>
+                    <div className="normalScore">
+                    <span className="score">{`${this.props.score.team.players[0].name} - ${this.state.currentScore}`} </span>
+                    </div>
                     <input type="number" name="points" onChange={this.handleChange} value={this.state.points} />
-                    <button onClick={this.updateScore}>Update Score</button>
+                    <button className="updateNormalScore" onClick={this.updateScore}>Update Score</button>
                 </div>
             );
         }
@@ -71,9 +73,11 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
             return (
 
                 <div key={this.props.score.id} className="scoreForm">
-                    <span className="score">{`${this.props.score.team.name}-${this.state.currentScore}`}</span>
+                    <div className="multiScore">
+                    <span className="score">{`${this.props.score.team.name} - ${this.state.currentScore}`}</span>
+                    </div>
                     <input type="number" name="points" onChange={this.handleChange} value={this.state.points} />
-                    <button onClick={this.updateScore}>Update Score</button>
+                    <button className="updateNormalScore" onClick={this.updateScore}>Update Score</button>
                 </div>
             );
         }

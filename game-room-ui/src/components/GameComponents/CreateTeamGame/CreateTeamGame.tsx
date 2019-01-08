@@ -62,14 +62,31 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
         this.setState({ nameError: nameError });
         return formIsValid;
     };
-
+    checkDuplicate = (teamCheck:ITeam)=>
+    {
+        this.setState({duplicate:false});
+        const teamsList:ITeam[] = this.state.teams;
+        teamsList.forEach(team => {
+            if (team.id==teamCheck.id)
+            {
+                this.setState({duplicate:true});
+            }            
+        });
+    }
     getTeamByName = () => {
         const teamsList: ITeam[] = this.state.teams;
         var name = this.state.teamName;
+        this.setState({ error: "" });
         TeamService.getTeamByName(name).then((result: ITeam) => {
             if (result.id != undefined) {
-                teamsList.push(result);
+                this.checkDuplicate(result);
+                if (this.state.duplicate==false){
+                    teamsList.push(result);
                 this.setState({ teams: teamsList });
+                }
+                else{
+                    this.setState({ error: "Duplicate team!" });
+                }
             }
             else {
                 this.setState({ error: "Team don't exist!" });
@@ -98,6 +115,23 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             console.log("Error")
         }
     }
+    removeTeamFromList=(team:ITeam)=>{
+        const teamList: ITeam[] = this.state.teams;
+        let positionOfElement=-1;
+        for (var i=0;i<teamList.length;i++)
+        {
+            if (teamList[i].id==team.id)
+            {
+                positionOfElement = i;
+                break;
+            }
+        }
+        if (positionOfElement!=-1)
+        {
+            teamList.splice(positionOfElement,1);
+            this.setState({teams:teamList});
+        }
+    }
     public render() {
 
 
@@ -111,6 +145,7 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
                 <Navigation />
             </div>
             <div className="multiGameC">
+                <div className="createTeamPanel">
                 <div>
                     <GameForm
                         name={this.state.name}
@@ -122,12 +157,18 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
                 </div>
                 <br />
                 <input placeholder="Search using Team Name" type="text" name="teamName" onChange={this.handleChange} />
-                <button onClick={this.getTeamByName}>Search</button>
-
-                <TeamCard results={this.state.teams}
-                />
+                <button className="searchMultiBtn" onClick={this.getTeamByName}>Search</button>
+                <div className="teamCardGame">
+                {this.state.teams.map((item, index)=>(
+                    <TeamCard team={item}
+                              removeTeamFromList={this.removeTeamFromList}
+                    />
+                )
+                )}
+                </div>
                 <span style={{ color: "red" }}>{this.state.error}</span><br />
                 <button className="startBtnMulti" onClick={this.createGame}>Start</button>
+                </div>
             </div>
 
             <Footer />
