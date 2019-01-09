@@ -116,7 +116,9 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                     openNumbers: this.state.openNumbers1,
                 }
                 if (dartsCricket1.id != undefined) {
-                    DartsCricketService.updateDartsCricket(dartsCricket1.id, dartsCricket1)
+                    DartsCricketService.updateDartsCricket(dartsCricket1.id, dartsCricket1).then(()=>{
+                        this.props.onChange(this.state.score1, this.state.score2);
+                    })
                 }
             });
         }
@@ -132,11 +134,12 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                     openNumbers: this.state.openNumbers2,
                 }
                 if (dartsCricket2.id != undefined) {
-                    DartsCricketService.updateDartsCricket(dartsCricket2.id, dartsCricket2)
+                    DartsCricketService.updateDartsCricket(dartsCricket2.id, dartsCricket2).then(()=>{
+                        this.props.onChange(this.state.score1, this.state.score2);
+                    })
                 }
             });
         }
-        this.props.onChange(this.state.score1, this.state.score2);
     }
     hit = (val: string) => {
 
@@ -202,6 +205,7 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                 <div className="dartsCricket">
                     <span className="score">{`${this.props.dartsCricket1.score.team.players[0].name}-${this.props.dartsCricket1.score.value}`} </span>
                     <span className="score">{`${this.props.dartsCricket2.score.team.players[0].name}-${this.props.dartsCricket2.score.value}`} </span>
+                    <div className="btnList">
                     <div className="hitsBtn">
                         <button onClick={() => this.hit("20")}>20</button>
                         <button onClick={() => this.hit("19")}>19</button>
@@ -210,8 +214,9 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                         <button onClick={() => this.hit("16")}>16</button>
                         <button onClick={() => this.hit("15")}>15</button>
                         <button onClick={() => this.hit("25")}>BULL</button>
-                        <button onClick={this.nextRound}>Next player</button>
                     </div>
+                    <button className="nextPBtn" onClick={this.nextRound}>Next player</button>
+                </div>
                 </div>
             );
         }
@@ -228,8 +233,8 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                         <button onClick={() => this.hit("16")}>16</button>
                         <button onClick={() => this.hit("15")}>15</button>
                         <button onClick={() => this.hit("25")}>BULL</button>
-                        <button onClick={this.nextRound}>Next player</button>
                     </div>
+                    <button className="nextPBtn" onClick={this.nextRound}>Next player</button>
                 </div>
             );
         }

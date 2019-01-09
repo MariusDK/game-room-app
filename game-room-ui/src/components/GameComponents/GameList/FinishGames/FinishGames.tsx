@@ -22,6 +22,7 @@ export interface IUnfinishGamesState {
     filterType: string;
     displayMenu: boolean;
     ordered: boolean;
+    blur: boolean;
 }
 export default class UnfinishGames extends React.Component<any, IUnfinishGamesState>
 {
@@ -39,7 +40,8 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             filter: false,
             filterType: "",
             displayMenu: false,
-            ordered: false
+            ordered: false,
+            blur: false
         }
     }
     componentDidMount() {
@@ -59,7 +61,9 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     public selectGame = (game: IGame) => {
         if (!game.id) return;
         var name = game.name;
-        localStorage.setItem('currentGame', name);
+        this.setState({gameName:name});
+        //localStorage.setItem('currentGame', name);
+        localStorage.setItem('gameState', 'finish');
         var teams: ITeam[] = game.teams;
         teams.forEach(element => {
             if (element.players.length > 1) {
@@ -159,6 +163,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.getGamesOfUser(0);
     }
     showDropdown = (e: any) => {
+        this.setState({blur:true});
         e.preventDefault();
         if (this.state.displayMenu) {
             this.setState({ displayMenu: false });
@@ -171,6 +176,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     }
 
     cancelDropdown = (e: any) => {
+        this.setState({blur:false});
         this.setState({ displayMenu: false }, () => {
             document.removeEventListener('click', this.cancelDropdown);
         });
@@ -191,26 +197,37 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             });
         }
     }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
+    }
     render() {
         if (this.state.redirect) {
             if (this.state.gameType == "solo") {
-                return <Redirect to='/gameSoloPage' />
+                return <Redirect to={`/gameSoloPage/${this.state.gameName}`} />
             }
             else {
-                return <Redirect to='/gameTeamPage' />
+                return <Redirect to={`/gameTeamPage/${this.state.gameName}`} />
             }
         }
         return (
             <div>
-                <div><Navigation /></div>
+                <div><Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                /></div>
                 <div className="unfinishGameList">
+                <div className={this.state.blur?"hideUnfinishGamePanel":"unfinishGamePanel"}>
                     <div className="searchAndDropdownPanel">
                         <div className="searchPanel">
                             <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name" />
                             <button className="searchBtn" onClick={this.searchGame}>Search</button>
                         </div>
                         <div className="dropdownFilter">
-                            <button onClick={this.showDropdown} className="dropdownFilterBtn">Games</button>
+                            <button onClick={this.showDropdown} className="dropdownFilterBtn">Filters for the game list</button>
                             <div className="myFilterDropdown" id="idDropdownFilter">
                                 <DropdownFilter
                                     displayMenu={this.state.displayMenu}
@@ -225,7 +242,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                         <h1>Finish Game List</h1>
                     </div>
                     {this.state.loading && <h1>Loading</h1>}
-                    <div className="unfinishGameL">
+                    <div className={this.state.blur?"blurUnfinishGameL":"unfinishGameL"}>
                         {!this.state.loading &&
                             this.state.fgames.map((item, index) => (
                                 <Game
@@ -244,18 +261,23 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                             loading={this.state.loading}
                         />
                     </div>
+                    <div className="deletePart">
+                    {(!this.state.loading &&
+                        this.state.fgames.length > 0 &&
+                        <button className="deleteBtn" onClick={this.deleteGames}>Delete Games</button>)}
+                    </div>
+                    <div className="nextAndBackPart">
                     {!this.state.loading &&
                         this.state.fgames.length == 4 && this.state.pageNumber >= 0 && (
-                            <button className="nextAndBackBtn" onClick={this.nextPage} >Next</button>
+                            <button className="nextBtn" onClick={this.nextPage} >Next</button>
                         )}
                     {(!this.state.loading &&
                         this.state.fgames.length <= 4 && this.state.pageNumber >= 1 &&
-                        <button className="nextAndBackBtn" onClick={this.backPage}>Back</button>
+                        <button className="backBtn" onClick={this.backPage}>Back</button>
                     )}
-                    {(!this.state.loading &&
-                        this.state.fgames.length > 0 &&
-                        <button className="nextAndBackBtn" onClick={this.deleteGames}>Delete Games</button>)}
+                    </div>
                     <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
+                </div>
                 </div>
 
                 <div><Footer /></div>

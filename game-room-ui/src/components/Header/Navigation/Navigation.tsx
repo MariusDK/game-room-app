@@ -3,30 +3,38 @@ import { Link, Redirect } from 'react-router-dom';
 import "./Navigation.css";
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
+export interface INavigationProps 
+{ 
+    onAddBlur():any;
+    onRemoveBlur():any;
+}
 
-
-export default class Navigation extends React.Component<any, any>
+export default class Navigation extends React.Component<INavigationProps, any>
 {
     constructor(props: any) {
         super(props);
         this.state = {
             redirect: false,
-            displayMenu: false
+            displayMenu: false,
         }
     }
     showDropdown = (e: any) => {
         e.preventDefault();
         if (this.state.displayMenu) {
+            this.props.onRemoveBlur();
             this.setState({ displayMenu: false });
         }
         else {
+            this.props.onAddBlur();
             this.setState({ displayMenu: true }, () => {
                 document.addEventListener('click', this.cancelDropdown);
             });
         }
+        
     }
 
     cancelDropdown = (e: any) => {
+        this.props.onRemoveBlur();
         this.setState({ displayMenu: false }, () => {
             document.removeEventListener('click', this.cancelDropdown);
         });

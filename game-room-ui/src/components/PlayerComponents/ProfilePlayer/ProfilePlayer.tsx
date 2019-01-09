@@ -27,6 +27,7 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
             loading: false,
             redirect: false,
             infoMessage: '',
+            blur:false
         }
     }
     handleChange = (e: any) => {
@@ -117,15 +118,24 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
             console.log("Error");
         }
     }
-
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
+    }
     public render() {
         return (
             <div>
                 <div>
-                    <Navigation />
+                    <Navigation
+                        onAddBlur={this.onAddBlur}
+                        onRemoveBlur={this.onRemoveBlur}
+                     />
                 </div>
                 <div className="profile">
-
+                    <div className={this.state.blur?"hideProfilePanel":"profilePanel"}>
                     <div className="playerForm">
                         <PlayerForm
                             name={this.state.name}
@@ -147,6 +157,7 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
                     </div>
 
                     <button onClick={this.updatePlayer}>Update</button>
+                </div>
                 </div>
                 <div>
                     <Footer />

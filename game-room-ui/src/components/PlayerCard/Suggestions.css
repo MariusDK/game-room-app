@@ -1,11 +1,10 @@
-
 .personCard{
-
+    text-align: center;
     display: inline-block;
-    border: 3px solid #1F160D;
+    border: 3px solid #000000;
     border-radius: 5px;
-    width: calc(100% / 10);
-    margin: 0 1%;
+    margin: 2% 1%;
+    width: calc(22% - 6px);
 }
 .personCard article img{
     text-align:center;
@@ -14,10 +13,48 @@
     font-size: 100%;
     box-sizing: border-box;
     vertical-align: baseline;
+    margin-bottom: calc(5% + 15px);
 
 }
 .personCard section{
     font-weight: bold;
     font-size: 13px;
-    border-top: 3px solid #1F160D;
+    border-top: 3px solid #000000;
 }
+.button-block{
+    position: relative;
+    display: inline-block;
+    border: 15px solid #F0544E;
+    box-sizing: border-box;
+    width: 5%;
+    height: 5%;
+    margin-left: 88%;
+}
+.cancelButton{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: 0;
+    margin: -15px 0 0 -15px;
+    cursor: pointer;
+}
+.mark{
+    background-color: #fff;
+    position: absolute;
+    height: 30px;
+    width: 4px;
+    display: block;
+    top: 0;
+}
+.mark.x{
+    right: 14px;
+    transform: rotate(45deg)
+}
+.mark.xx{
+    left: 12px;
+    transform: rotate(-45deg)
+}
+

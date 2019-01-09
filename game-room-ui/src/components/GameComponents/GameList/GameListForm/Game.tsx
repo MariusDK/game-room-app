@@ -35,15 +35,19 @@ export default class Game extends React.Component<IGameProps, any>{
         {
             return(
                 <div key={this.props.game.id}  className="gameLi" >
+                <div className="checkbox">
                 <input type="checkbox" onChange={this.onChange} defaultChecked={false}/>
+                </div>
+                <div className="imgBtnDiv">
                 <button className="gameBox" onClick={() => { this.props.selectGame(this.props.game) }}>
-                <article>
+                <article className="gameArticle">
                 <img src={require('src/Resurces/game.png')}/>
-                </article>
+                </article>               
                 <section>
-                Game name: {`${this.props.game.name}`}
+                Name: {`${this.props.game.name}`}
                 </section>
                 </button>
+                </div>
                 </div>
     ); 
 
