@@ -60,8 +60,6 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
         this.setState({ nameError: nameError });
         this.setState({ error: error });
         return formIsValid;
-        this.setState({ nameError: nameError });
-        return formIsValid;
     };
     checkDuplicate = (teamCheck:ITeam)=>
     {
@@ -106,11 +104,16 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             localStorage.setItem('currentGame', newGame.name);
 
             GameService.insertGame(newGame)
-                .then((insertErrorM: string) => {
-                    this.setState({ insertError: insertErrorM });
-                    localStorage.setItem("finishGame", "false");
+            .then((result: string) => {
+                if (result!="Insert Working!")
+                {
+                    this.setState({ error: result });                       
+                }
+                else{
+                    localStorage.setItem("finishGame", "false"); 
                     this.setState({ redirect: true });
-                });
+                }
+            });
         }
         else {
             console.log("Error")

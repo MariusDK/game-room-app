@@ -7,6 +7,8 @@ import { SpinnerComponent } from 'src/components/Spinner/Spinner';
 import "../LoginPlayer/LoginPlayer.css";
 import Header from 'src/components/StartPage/Header/Header';
 import Footer from 'src/components/Footer/Footer';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 
 
 
@@ -18,6 +20,8 @@ export interface ILoginPlayerState {
     loading: boolean;
     redirect: boolean;
     errorMessage: string;
+    appId:string;
+    clientId:string;
 }
 
 export interface ILoginPlayerProps extends RouteComponentProps<any> { }
@@ -33,7 +37,9 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
             passwordError: '',
             loading: false,
             redirect: false,
-            errorMessage: ''
+            errorMessage: '',
+            appId: "1810690805706216",
+            clientId:"793667409742-i7s4vr8kmea5gsbkomon4ustrn683em1.apps.googleusercontent.com"
         }
     }
     handleValidation() {
@@ -74,6 +80,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
     }
 
     login = () => {
+        this.setState({ errorMessage: "" });
         this.setState({ loading: true });
         if (this.handleValidation()) {
             var username = this.state.username;
@@ -103,7 +110,37 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
     logout = () => {
         localStorage.removeItem('currentUser')
     }
-
+    responseFacebook = (response:any) => {
+        this.setState({ errorMessage: "" });
+        if (response!=undefined){
+        console.log(response.email);
+        this.setState({username:response.email});
+        PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
+            if (!player) {
+                this.setState({ errorMessage: "Player Not Found!" });
+            }
+            else {
+                localStorage.setItem('currentUser', JSON.stringify(player));
+                this.setState({ redirect: true });
+            }
+        });
+    }
+    }
+    responseGoogle = (response:any) => {
+        this.setState({ errorMessage: "" });
+        if (response!=undefined){
+            this.setState({username:response.w3.U3});
+            PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
+                if (!player) {
+                    this.setState({ errorMessage: "Player Not Found!" });
+                }
+                else {
+                    localStorage.setItem('currentUser', JSON.stringify(player));
+                    this.setState({ redirect: true });
+                }
+            });
+    }
+    }
     public render() {
         const { redirect } = this.state;
         if (redirect) {
@@ -113,6 +150,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
             <div>
                 <Header />
                 <div className="Login">
+                <div className="LoginForm">
                     <LoginForm
                         username={this.state.username}
                         password={this.state.password}
@@ -123,8 +161,29 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
                     <SpinnerComponent
                         loading={this.state.loading}
                     />
-                    <button onClick={this.login}>Sing in</button><br />
-                    <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
+                    <button className="loginBtn" onClick={this.login}>Sing in</button><br />
+                    </div>
+                    <div className="socialExperience">
+                    <FacebookLogin
+                    textButton=""
+                    size="small"
+                    cssClass="facebookLogin"
+                    icon={require("src/Resurces/facebook_icon.png")}
+                    appId={this.state.appId}
+                    autoLoad={false}
+                    fields="name,email"
+                    callback={this.responseFacebook}
+                    />
+                    <GoogleLogin
+                        className="googleLogin"
+                        clientId={this.state.clientId}
+                        buttonText=""
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                        autoLoad={false}
+                        />
+                    </div>
+                    <span className="errorMessage" style={{ color: "red" }}>{this.state.errorMessage}</span><br />
                 </div>
                 <Footer />
             </div>

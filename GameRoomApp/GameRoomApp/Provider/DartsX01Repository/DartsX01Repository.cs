@@ -38,7 +38,7 @@ namespace GameRoomApp.providers.DartsX01Repository
         public DartsX01 GetDartsX01ByScore(Score score)
         {
             var builder = Builders<DartsX01>.Filter;
-            var scoreFilter = builder.Eq("Score", score);
+            var scoreFilter = builder.Eq("Score.Id", score.Id);
             var cursor = _dartsX01Context.dartsX01.Find(scoreFilter);
             DartsX01 dartsX01 = cursor.FirstOrDefault();
             return dartsX01;

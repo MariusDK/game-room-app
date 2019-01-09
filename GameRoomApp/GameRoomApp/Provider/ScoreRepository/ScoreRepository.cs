@@ -193,6 +193,32 @@ namespace GameRoomApp.providers.ScoreRepository
                 RemoveScoreByGame(game);
             }
         }
+        public void UpdatePlayerScores(List<Game> games)
+        {
+            List<Score> scores = new List<Score>();
+            foreach (Game game in games)
+            {
+                foreach (Team team in game.Teams)
+                {
+                    Score score = GetScoreForTeam(team, game);
+                    score.Team = team;
+                    score.Game = game;
+                    UpdateScore(score);
+                    if (game.Type.Equals("Darts/X01"))
+                    {
+                        DartsX01 dartsX01 = _dartsX01Repository.GetDartsX01ByScore(score);
+                        dartsX01.Score = score;
+                        _dartsX01Repository.UpdateDartsX01(dartsX01);
+                    }
+                    if (game.Type.Equals("Darts/Cricket"))
+                    {
+                        DartsCricket dartsCricket = _dartsCricketRepository.GetDartsCricketByScore(score);
+                        dartsCricket.Score = score;
+                        _dartsCricketRepository.UpdateDartsCricket(dartsCricket);
+                    }
+                }   
+            }
+        }
     }
 }
 

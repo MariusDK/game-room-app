@@ -107,6 +107,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                         players: [player],
                     }
                     TeamService.insertTeam(newTeam).then((result: ITeam) => {
+                        console.log(result);
                         teamsList.push(result);
                         this.setState({ teams: teamsList });
                     });
@@ -122,6 +123,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
     }
 
     createGame = () => {
+        this.setState({ error: "" }); 
         if (this.handleValidation()) {
             const newGame: IGame = {
                 name: this.state.name,
@@ -133,14 +135,16 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             localStorage.setItem('currentGame', newGame.name);
 
             GameService.insertGame(newGame)
-                .then((insertErrorM: string) => {
-                    this.setState({ insertError: insertErrorM });
-                    localStorage.setItem("finishGame", "false");
-                    this.setState({ redirect: true });
+                .then((result: string) => {
+                    if (result!="Insert Working!")
+                    {
+                        this.setState({ error: result });                       
+                    }
+                    else{
+                        localStorage.setItem("finishGame", "false"); 
+                        this.setState({ redirect: true });
+                    }
                 });
-        }
-        else {
-            console.log("Error")
         }
     }
     removePlayerFromList=(player:IPlayer) =>{

@@ -97,7 +97,7 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
     render() {
         const redirect = this.state.redirect;
         if (redirect) {
-            return <Redirect to='/' />
+            return <Redirect to='/unfinishGames' />
         }
         return (
             

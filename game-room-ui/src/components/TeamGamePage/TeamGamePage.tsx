@@ -80,7 +80,7 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
     render() {
         const redirect = this.state.redirect;
         if (redirect) {
-            return <Redirect to='/' />
+            return <Redirect to='/unfinishGames' />
         }
         return (
             <div>
@@ -92,6 +92,7 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
                 <div className={this.state.blur?"hideTeamGamePanel":"teamGamePanel"}>
                 <h1>Game name: {this.state.name}</h1>
                         <h3>Type of game: {this.state.type}</h3>
+                    <div className="centerPart">
                     <div className="leftGamePage">
                         {!this.state.loading &&
                             <ScoreList
@@ -121,6 +122,7 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
                             listType="embMoments"
                             gameName={this.state.name}
                         />
+                        </div>
                     </div>
                     <div className={this.state.gameState?"hideFinishButton":"finisButtonZone"}>
                     <button className="finishGameBtn" onClick={this.finishGame}>Finish Game</button>

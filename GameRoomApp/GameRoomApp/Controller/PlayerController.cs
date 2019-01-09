@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using GameRoomApp.DataModel;
+using GameRoomApp.providers.GameRepository;
 using GameRoomApp.providers.PlayerRepository;
+using GameRoomApp.providers.ScoreRepository;
+using GameRoomApp.providers.TeamRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -17,11 +20,18 @@ namespace GameRoomApp.Controller
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;
-
-        public PlayerController(IPlayerRepository playerRepository)
+        private readonly IGameRepository _gameRepository;
+        private readonly IScoreRepository _scoreRepository;
+        private readonly ITeamRepository _teamRepository;
+        public PlayerController(IScoreRepository scoreRepository, IGameRepository gameRepository,
+            IPlayerRepository playerRepository, ITeamRepository teamRepository)
         {
+            this._gameRepository = gameRepository;
+            this._scoreRepository = scoreRepository;
             this._playerRepository = playerRepository;
+            this._teamRepository = teamRepository;
         }
+
         [HttpGet]
         public IEnumerable<Player> GetAllPlayers()
         {
@@ -67,7 +77,7 @@ namespace GameRoomApp.Controller
             string passwordHash = _playerRepository.GetHashString(password);
             string username = player.Username;
             player.Password = passwordHash;
-            var existentPlayer = _playerRepository.GetPlayerByName(player.Name);
+            var existentPlayer = _playerRepository.GetPlayerByUsername(player.Username);
             if (existentPlayer == null)
             {
                 _playerRepository.InsertPlayer(player);
@@ -75,7 +85,7 @@ namespace GameRoomApp.Controller
             }
             else
             {
-                result = $"Player {player.Name} exists!";
+                result = $"Player {player.Username} exists!";
             }
             return result;
         }
@@ -102,7 +112,12 @@ namespace GameRoomApp.Controller
             if (existentPlayer != null)
             {
                 player.Id = playerId;
+                List<Team> teams = _teamRepository.GetTeamByPlayer(existentPlayer);
+                List<Team> updatedTeams = _teamRepository.UpdatePlayerTeams(teams,player);
+                List<Game> games = _gameRepository.GetGamesOfPlayer(updatedTeams);
+                _scoreRepository.UpdatePlayerScores(games);
                 _playerRepository.UpdatePlayer(player);
+                
                 result = "Update Working!";
             }
            else

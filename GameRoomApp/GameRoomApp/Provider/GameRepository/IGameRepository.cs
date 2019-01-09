@@ -13,6 +13,7 @@ namespace GameRoomApp.providers.GameRepository
         Game GetGameByName(string name);
         IEnumerable<Game> GetAllGames();
         List<Game> GetGamesByTeam(Team team);
+        List<Game> GetGamesOfPlayer(List<Team> teams);
         IEnumerable<Game> GetGameHistory();
         IEnumerable<Game> PaginationUnfinishGamesByType(int pageNumber, string type, int limitOfElementsInPage, List<Team> teams);
         IEnumerable<Game> PaginationFinishGamesByType(int pageNumber, string type, int limitOfElementsInPage, List<Team> teams);

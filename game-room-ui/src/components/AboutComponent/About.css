@@ -1,0 +1,13 @@
+.About{
+    background-image:url('./about_wallpaper.jpg');
+    height: 77vh;
+    overflow: auto;  
+    background-size: 100% 100%;
+}
+.About h2{
+    display: block;
+    color:#1C150D;
+    margin:12% 14% 12% 14%;
+    font:30px cursive, sans-serif;
+    text-indent: 50px;
+}

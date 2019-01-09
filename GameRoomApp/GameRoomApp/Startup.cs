@@ -14,6 +14,7 @@ using GameRoomApp.providers.TeamRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +32,6 @@ namespace GameRoomApp
         }
 
         public IConfiguration Configuration { get; }
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -56,6 +56,13 @@ namespace GameRoomApp
             services.AddTransient<IDartsX01Repository, DartsX01Repository>();
             services.AddTransient<IDartsCricketContext, DartsCricketContext>();
             services.AddTransient<IDartsCricketRepository, DartsCricketRepository>();
+
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

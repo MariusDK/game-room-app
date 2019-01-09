@@ -23,6 +23,7 @@ export interface IUnfinishGamesState {
     displayMenu: boolean;
     ordered: boolean;
     blur: boolean;
+    blurNavDropdown:boolean;
 }
 export default class UnfinishGames extends React.Component<any, IUnfinishGamesState>
 {
@@ -41,7 +42,8 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             filterType: "",
             displayMenu: false,
             ordered: false,
-            blur: false
+            blur: false,
+            blurNavDropdown:false
         }
     }
     componentDidMount() {
@@ -49,7 +51,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.getGamesOfUser(0);
     }
     getGamesOfUser(pageNumber: number) {
-        this.setState({ fgames: [] });
+        this.setState({ fgames: [],filter:false,ordered:false });
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser != null) {
             var obj = JSON.parse(currentUser);
@@ -85,7 +87,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.setState({ pageNumber: pageNumber });
 
         if (this.state.filter == true) {
-            this.getByFilter(this.state.filterType);
+            this.getByFilter(this.state.filterType,pageNumber);
         }
         else if (this.state.ordered == true) {
             this.orderByLastFinish(pageNumber);
@@ -98,7 +100,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         pageNumber--;
         this.setState({ pageNumber: pageNumber });
         if (this.state.filter == true) {
-            this.getByFilter(this.state.filterType);
+            this.getByFilter(this.state.filterType,pageNumber);
         }
         else if (this.state.ordered == true) {
             this.orderByLastFinish(pageNumber);
@@ -144,17 +146,17 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         }
     }
 
-    getByFilter = (filterType: string) => {
-        this.setState({ fgames: [] });
+    getByFilter = (filterType: string, pageNumber:number) => {
+        this.setState({ fgames: [],ordered:false });
         if (this.state.filter == false) {
-            this.setState({ pageNumber: 0 });
+            pageNumber = 0;
         }
         this.setState({ filter: true });
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser != null) {
             var obj = JSON.parse(currentUser);
-            GameService.getGamesFinishOfPlayerAndType(this.state.pageNumber, filterType, obj.id).then((result: IGame[]) => {
-                this.setState({ fgames: result, loading: false, filterType: filterType });
+            GameService.getGamesFinishOfPlayerAndType(pageNumber, filterType, obj.id).then((result: IGame[]) => {
+                this.setState({ fgames: result, loading: false, filterType: filterType, pageNumber:pageNumber });
             });
         }
     }
@@ -183,7 +185,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     }
     orderByLastFinish = (pageNumber: number) => {
 
-        this.setState({ fgames: [], loading: true });
+        this.setState({ fgames: [], loading: true,filter:false });
         if (this.state.ordered == false) {
             this.setState({ pageNumber: 0 });
             pageNumber = 0;
@@ -199,10 +201,10 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     }
     onAddBlur=()=>
     {
-        this.setState({blur:true});
+        this.setState({blurNavDropdown:true});
     }
     onRemoveBlur=()=>{
-        this.setState({blur:false});
+        this.setState({blurNavDropdown:false});
     }
     render() {
         if (this.state.redirect) {
@@ -220,7 +222,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                     onRemoveBlur={this.onRemoveBlur}
                 /></div>
                 <div className="unfinishGameList">
-                <div className={this.state.blur?"hideUnfinishGamePanel":"unfinishGamePanel"}>
+                <div className={this.state.blurNavDropdown?"hideUnfinishGamePanel":"unfinishGamePanel"}>
                     <div className="searchAndDropdownPanel">
                         <div className="searchPanel">
                             <input type="text" value={this.state.gameName} name="gameName" onChange={this.handleChange} placeholder="Game Name" />

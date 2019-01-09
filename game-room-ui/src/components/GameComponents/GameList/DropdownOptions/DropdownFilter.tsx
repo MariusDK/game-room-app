@@ -2,7 +2,7 @@ import * as React from 'react';
 import './DropdownFilter.css';
 export interface IDropdownProps {
     displayMenu: boolean;
-    filter(gameType: string): void;
+    filter(gameType: string,pageNumber:number): void;
     reset(): void;
     orderByMostRecent(pageNumber: number): void;
 }
@@ -21,10 +21,10 @@ export default class DropdownFilter extends React.Component<IDropdownProps, any>
                     <div className="dropdownFilter">
                         <ul>
                             <li><button onClick={() => this.props.orderByMostRecent(0)}>Order by the most recent</button></li>
-                            <li><button onClick={() => this.props.filter("Darts/X01")}>Show only DartsX01</button></li>
-                            <li><button onClick={() => this.props.filter("Darts/Cricket")}>Show only DartsCricket</button></li>
-                            <li><button onClick={() => this.props.filter("Foosball")}>Show only Foosball</button></li>
-                            <li><button onClick={() => this.props.filter("any")}>Show the rest of Games</button></li>
+                            <li><button onClick={() => this.props.filter("Darts/X01",0)}>Show only DartsX01</button></li>
+                            <li><button onClick={() => this.props.filter("Darts/Cricket",0)}>Show only DartsCricket</button></li>
+                            <li><button onClick={() => this.props.filter("Foosball",0)}>Show only Foosball</button></li>
+                            <li><button onClick={() => this.props.filter("any",0)}>Show the rest of Games</button></li>
                             <li><button onClick={() => this.props.reset()}>Reset</button></li>
                         </ul>
 
