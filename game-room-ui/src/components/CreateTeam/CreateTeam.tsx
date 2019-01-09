@@ -112,6 +112,7 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
         }
     }
     addTeam = () => {
+        this.setState({ errorMessage: "" });
         this.setState({ loading: true });
         if (this.handleValidation()) {
             const newTeam: ITeam = {
@@ -119,13 +120,14 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                 players: this.state.players
             }
             TeamService.insertTeam(newTeam)
-                .then(() => {
-                    this.props.history.push('/')
+                .then((result:ITeam) => {
+                    console.log(result.id);
+                    if (result.id==undefined)
+                    {
+                        this.setState({ errorMessage: "The team already exists or is empty!"});
+                    }
                 });
             this.setState({ redirect: true });
-        }
-        else {
-            this.setState({ errorMessage: "Creation Failed!" });
         }
         this.setState({ loading: false })
     }
@@ -140,7 +142,7 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
 
         const { redirect } = this.state;
         if (redirect) {
-            <Redirect to='/' />
+           return <Redirect to='/' />
         }
         return (
             <div>

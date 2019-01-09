@@ -113,7 +113,9 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                 .then((response: string) => {
                     this.setState({ infoMessage: response });
                     if (response == "Insert Working!") {
+                        console.log(this.state.redirect);
                         this.setState({ redirect: true });
+                        console.log(this.state.redirect);
                     }
                     else{
                         this.setState({serverError: response});
@@ -178,7 +180,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
     public render() {
         const redirect = this.state.redirect;
         if (redirect) {
-            <Redirect to='/' />
+            return <Redirect to='/' />
         }
         return (
             <div>

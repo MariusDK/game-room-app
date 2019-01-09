@@ -60,8 +60,9 @@ export default class DartsX01Score extends React.Component<IDartsX01Props, IDart
             this.setState({ points: 0, currentScore: total });
             DartsX01Service.getDartsX01ById(id).then((dartsX01: IDartsX01) => {
                 dartsX01.stateScore = total;
-                DartsX01Service.updateDartsX01(this.state.id, dartsX01);
-                this.props.onChangeDartsX01();
+                DartsX01Service.updateDartsX01(this.state.id, dartsX01).then(()=>{
+                    this.props.onChangeDartsX01();
+                });
             })
         }
     }
