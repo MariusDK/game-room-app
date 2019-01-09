@@ -1,14 +1,27 @@
 .soloGameC{
     text-align: center;
     background: url(./wallpaper_create_game.jpg);
-    min-height: 89vh; 
+    min-height: 77vh; 
     background-size: 100% 100%;
-    color: greenyellow;
+    color: black;
+}
+.createSoloPanel{
+    background:  -webkit-linear-gradient(#D6A074, #503C2C, #1C150D);
+    margin-top: 2%;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    padding-bottom:7%; 
+    display: inline-block;
+    margin-bottom: 2%;
+}
+.hideSoloPanel{
+    display: none;
 }
 .searchUsername{
     background: transparent;
     border: none;
-    border-bottom: 3px solid greenyellow;
+    border-bottom: 3px solid black;
     padding: 5px 5px;
     font-size: 17px;     
     outline: none;  
@@ -23,21 +36,21 @@
     outline: none;
     margin-top: 2%;
     font-weight: bold;
-    border: 4px solid greenyellow;
+    border: 4px solid black;
     background: transparent;
     cursor: pointer;
     font-weight: bold;
     font-size: 20px;
     outline: none;
-    color: greenyellow;
+    color: black;
 }
 .startBtn{
     display: inline-block;
     text-decoration: none;
     padding: 5px 40px;
-    border: 4px solid greenyellow;
+    border: 4px solid black;
     border-radius: 5px;
-    color: greenyellow;
+    color: black;
     background: transparent;
     font-size: 20px;
     outline: none;
@@ -45,4 +58,10 @@
     margin-bottom: 3%;
     cursor: pointer;
     font-weight: bold;
+}
+.playerCardGame
+{
+    text-align: left;
+    display: block;
+    margin-top: 2%;
 }

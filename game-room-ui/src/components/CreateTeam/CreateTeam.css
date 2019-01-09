@@ -2,9 +2,23 @@
 {
     background-image: url("./create_team_wallpaper.jpg");
     background-size: 100% 100%;
-    min-height: 79vh; 
+    min-height: 77vh; 
     text-align: center;
     display: block;
+}
+.teamPanel{
+    background:  -webkit-linear-gradient(#D6A074, #503C2C, #1C150D);
+    margin-top: 2%;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    padding-bottom:8%; 
+    display: inline-block;
+    margin-bottom: 2%;
+}
+.hideTeamPanel
+{
+    display: none;
 }
 .searchBtn{
     margin-left: 10px;
@@ -17,15 +31,15 @@
     cursor: pointer;
 }
 .saveBtn{
-    font-size: 17px;
+    font-size: 20px;
     margin-left: 10px;
     margin-top: 20px;
     background: transparent;
     text-decoration: none;
-    padding: 15px 30px 15px 30px;
-    border: 3px solid rgb(26, 240, 6);
+    padding: 10px 30px 10px 30px;
+    border: 3px solid black;
     border-radius: 5px;
-    color: rgb(26, 240, 6);
+    color: black;
     cursor: pointer;
 }
 .searchInput{
@@ -38,4 +52,6 @@
 }
 .playerCard{
     margin-top: 2%;
+    display: block;
+    text-align: left;
 }

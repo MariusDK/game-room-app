@@ -15,6 +15,8 @@ export interface ITeamGameState {
     redirect: boolean;
     victoryMoments: string[];
     embarrassingMoments: string[];
+    blur:boolean;
+    gameState:boolean;
 }
 export interface ITeamGameProps extends RouteComponentProps<any> { }
 export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamGameState>
@@ -27,7 +29,9 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
             loading: true,
             redirect: false,
             victoryMoments: [],
-            embarrassingMoments: []
+            embarrassingMoments: [],
+            blur:false,
+            gameState: false
         }
     }
     onChange = (nameGame: string) => {
@@ -44,7 +48,16 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
         })
     }
     public componentDidMount() {
-        let nameGame = localStorage.getItem('currentGame');
+        var gameState = localStorage.getItem('gameState');
+        if (gameState=='finish')
+        {
+            this.setState({gameState:true});
+        }
+        else{
+            this.setState({gameState:false});
+        }
+        let nameGame = this.props.match.params.gameName;
+        //let nameGame = localStorage.getItem('currentGame');
         if (nameGame != null) {
             this.onChange(nameGame);
         }
@@ -57,26 +70,36 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
             });
         })
     }
-
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
+    }
     render() {
         const redirect = this.state.redirect;
         if (redirect) {
-            return <Redirect to='/' />
+            return <Redirect to='/unfinishGames' />
         }
         return (
             <div>
-                <Navigation />
+                <Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                />
                 <div className="teamGamePage">
-                    <div className="leftGamePage">
-                        <h1>Game name: {this.state.name}</h1>
+                <div className={this.state.blur?"hideTeamGamePanel":"teamGamePanel"}>
+                <h1>Game name: {this.state.name}</h1>
                         <h3>Type of game: {this.state.type}</h3>
+                    <div className="centerPart">
+                    <div className="leftGamePage">
                         {!this.state.loading &&
                             <ScoreList
                                 gameName={this.state.name}
                                 typeOfGame={"multi"}
                                 gameType={this.state.type} />
                         }
-                        <button className="finishGame" onClick={this.finishGame}>Finish Game</button>
                     </div>
                     <div className="rightGamePage">
                         <div className="submitImage">
@@ -99,8 +122,12 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
                             listType="embMoments"
                             gameName={this.state.name}
                         />
+                        </div>
                     </div>
-
+                    <div className={this.state.gameState?"hideFinishButton":"finisButtonZone"}>
+                    <button className="finishGameBtn" onClick={this.finishGame}>Finish Game</button>
+                    </div>
+                    </div>
                 </div>
                 <Footer />
             </div>

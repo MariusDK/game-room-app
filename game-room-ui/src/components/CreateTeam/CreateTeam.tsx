@@ -18,6 +18,8 @@ export interface ITeamState {
     nameError: string;
     username: string;
     errorMessage: string;
+    playerExist: boolean;
+    blur: boolean;
 }
 export interface ITeamProps extends RouteComponentProps<any> { }
 
@@ -32,7 +34,9 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
             redirect: false,
             nameError: '',
             username: '',
-            errorMessage: ''
+            errorMessage: '',
+            playerExist: false,
+            blur:false
         }
     }
 
@@ -57,20 +61,58 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
         this.setState({ nameError: nameError });
         return formIsValid;
     }
+    checkIfPlayerExist = (searchPlayer:IPlayer) =>
+    {
+        this.setState({playerExist:false});
+        this.state.players.forEach( player=> {
+            if (searchPlayer.id==player.id)
+            {
+                this.setState({playerExist:true});
+            }            
+        });
+    }
     addPlayerToList = () => {
         const playerList: IPlayer[] = this.state.players;
         PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
             if (player.name != null) {
-                playerList.push(player);
+                this.checkIfPlayerExist(player);
+                if (this.state.playerExist==false)
+                {
+                    playerList.push(player);
                 this.setState({ players: playerList });
+                this.setState({ errorMessage: "" });
+                }
+                else{
+                    this.setState({ errorMessage: "Player was selected!" });
+                }
             }
             else {
                 this.setState({ errorMessage: "Player not found!" });
             }
         });
     }
-
+    removePlayerFromList=(player:IPlayer) =>{
+        
+        const playerList: IPlayer[] = this.state.players;
+        let positionOfElement=-1;
+        for (var i=0;i<playerList.length;i++)
+        {
+            if (playerList[i].id==player.id)
+            {
+                positionOfElement = i;
+                break;
+            }
+        }
+        if (positionOfElement!=-1)
+        {
+            console.log(playerList);
+            playerList.splice(positionOfElement,1);
+            this.setState({players:playerList});
+            console.log(positionOfElement);
+        }
+    }
     addTeam = () => {
+        this.setState({ errorMessage: "" });
         this.setState({ loading: true });
         if (this.handleValidation()) {
             const newTeam: ITeam = {
@@ -78,26 +120,38 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                 players: this.state.players
             }
             TeamService.insertTeam(newTeam)
-                .then(() => {
-                    this.props.history.push('/')
+                .then((result:ITeam) => {
+                    console.log(result.id);
+                    if (result.id==undefined)
+                    {
+                        this.setState({ errorMessage: "The team already exists or is empty!"});
+                    }
                 });
             this.setState({ redirect: true });
         }
-        else {
-            this.setState({ errorMessage: "Creation Failed!" });
-        }
         this.setState({ loading: false })
+    }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
     }
     public render() {
 
         const { redirect } = this.state;
         if (redirect) {
-            <Redirect to='/' />
+           return <Redirect to='/' />
         }
         return (
             <div>
-                <Navigation />
+                <Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                />
                 <div className="createTeam">
+                <div className={this.state.blur?"hideTeamPanel":"teamPanel"}>
                     <div className="teamForm">
                         <TeamForm
                             name={this.state.name}
@@ -111,11 +165,15 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                     </div>
                     <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
                     <div className="playerCard">
-                        <Suggestions results={this.state.players}
+                    {this.state.players.map((item, index) => (
+                        <Suggestions player={item}
+                                    removePlayerFromList={this.removePlayerFromList}
                         />
+                        )
+                    )}
                     </div>
                     <button className="saveBtn" onClick={this.addTeam}>Save</button>
-
+                    </div>
                 </div>
                 <Footer />
             </div>

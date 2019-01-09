@@ -7,10 +7,10 @@ import PlayerService from 'src/services/PlayerService';
 import { IPlayer } from 'src/models/IPlayer';
 import { ITeam } from 'src/models/ITeam';
 import { IGame } from 'src/models/IGame';
-import Suggestions from 'src/components/PlayerCard/Suggestions';
 import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateGameSolo.css";
 import Footer from 'src/components/Footer/Footer';
+import PlayerCard from 'src/components/PlayerCard/Suggestions';
 
 export interface ICreateGameState {
     name: string;
@@ -27,6 +27,7 @@ export interface ICreateGameState {
     teamName: string;
     error: string;
     duplicate: boolean;
+    blur:boolean;
 }
 export interface ICreateGameProps extends RouteComponentProps<any> { }
 export default class CreateGameSolo extends React.Component<ICreateGameProps, ICreateGameState>
@@ -48,7 +49,8 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             search: false,
             teamName: '',
             error: '',
-            duplicate: false
+            duplicate: false,
+            blur:false
         }
     }
     handleChange = (e: any) => {
@@ -105,6 +107,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                         players: [player],
                     }
                     TeamService.insertTeam(newTeam).then((result: ITeam) => {
+                        console.log(result);
                         teamsList.push(result);
                         this.setState({ teams: teamsList });
                     });
@@ -120,6 +123,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
     }
 
     createGame = () => {
+        this.setState({ error: "" }); 
         if (this.handleValidation()) {
             const newGame: IGame = {
                 name: this.state.name,
@@ -131,26 +135,58 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             localStorage.setItem('currentGame', newGame.name);
 
             GameService.insertGame(newGame)
-                .then((insertErrorM: string) => {
-                    this.setState({ insertError: insertErrorM });
-                    localStorage.setItem("finishGame", "false");
-                    this.setState({ redirect: true });
+                .then((result: string) => {
+                    if (result!="Insert Working!")
+                    {
+                        this.setState({ error: result });                       
+                    }
+                    else{
+                        localStorage.setItem("finishGame", "false"); 
+                        this.setState({ redirect: true });
+                    }
                 });
         }
-        else {
-            console.log("Error")
+    }
+    removePlayerFromList=(player:IPlayer) =>{
+        const playerList: IPlayer[] = this.state.players;
+        let positionOfElement=-1;
+        for (var i=0;i<playerList.length;i++)
+        {
+            if (playerList[i].id==player.id)
+            {
+                positionOfElement = i;
+                break;
+            }
         }
+        if (positionOfElement!=-1)
+        {
+            console.log(playerList);
+            playerList.splice(positionOfElement,1);
+            this.setState({players:playerList});
+            console.log(positionOfElement);
+        }
+    }
+    onAddBlur=()=>
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur=()=>{
+        this.setState({blur:false});
     }
     public render() {
 
 
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to='/gameSoloPage' />
+            return <Redirect to={`/gameSoloPage/${this.state.name}`} />
         }
         return (<div>
-            <div className="soloGameC">
-                <Navigation />
+                <Navigation 
+                    onAddBlur={this.onAddBlur}
+                    onRemoveBlur={this.onRemoveBlur}
+                />
+                <div className="soloGameC">
+                <div className={this.state.blur?"hideSoloPanel":"createSoloPanel"}>
                 <GameForm
                     name={this.state.name}
                     type={this.state.type}
@@ -161,12 +197,17 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                 <br />
                 <input className="searchUsername" placeholder="Search using Username..." type="text" name="username" onChange={this.handleChange} />
                 <button className="searchBtnSolo" onClick={this.addPlayerToList}>Search</button>
-
-                <Suggestions results={this.state.players}
-                />
+                <div className="playerCardGame">
+                {this.state.players.map((item, index) => (
+                        <PlayerCard player={item}
+                                    removePlayerFromList={this.removePlayerFromList}
+                        />
+                        )
+                    )}
+                    </div>
                 <span style={{ color: "red" }}>{this.state.error}</span><br />
                 <button className="startBtn" onClick={this.createGame}>Start</button>
-
+                </div>
             </div>
             <Footer />
         </div>)

@@ -4,16 +4,22 @@
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.0",
+    "@types/react-facebook-login": "^4.1.0",
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-twitter-auth": "0.0.1",
     "axios": "^0.18.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^4.0.1",
+    "react-linkedin-login": "^1.0.4",
+    "react-linkedin-login-oauth2": "^1.0.5",
+    "react-linkedin-sdk": "^1.0.12",
     "react-router-dom": "^4.3.1",
     "react-scripts-ts": "3.1.0",
-    "react-spinners": "^0.4.7"
+    "react-spinners": "^0.4.7",
+    "react-twitter-auth": "0.0.12"
   },
   "scripts": {
     "start": "react-scripts-ts start",

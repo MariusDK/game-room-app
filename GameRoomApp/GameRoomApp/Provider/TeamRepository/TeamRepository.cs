@@ -40,7 +40,7 @@ namespace GameRoomApp.providers.TeamRepository
         public List<Team> GetTeamByPlayer(Player player)
         {
             var builder = Builders<Team>.Filter;
-            var playerFilter = builder.Eq("Players", player);
+            var playerFilter = builder.Eq("Players.Id", player.Id);
             var cursor = _teamContext.Team.Find(playerFilter);
             List<Team> team = cursor.ToList();
             return team;
@@ -113,6 +113,25 @@ namespace GameRoomApp.providers.TeamRepository
             }
             team.Players = players;
             UpdateTeam(team);
+        }
+        public List<Team> UpdatePlayerTeams(List<Team> teams, Player newPlayer)
+        {
+            foreach (Team team in teams)
+            {
+                List<Player> players = team.Players;
+                foreach (Player player in players)
+                {
+                    if (player.Id == newPlayer.Id)
+                    {
+                        player.Name = newPlayer.Name;
+                        player.Password = newPlayer.Password;
+                        player.Username = newPlayer.Username;
+                        break;
+                    }
+                }
+                UpdateTeam(team);
+            }
+            return teams;
         }
     }
 }

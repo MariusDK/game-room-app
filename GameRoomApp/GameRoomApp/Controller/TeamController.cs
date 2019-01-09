@@ -69,10 +69,25 @@ namespace GameRoomApp.Controller
         [HttpPost]
         public Team Post([FromBody] Team team)
         {
-            var result = string.Empty;
-            Team teamResult = _teamRepository.InsertTeam(team);
-            return team;
-   
+            if (team.Players.Count == 0)
+            {
+                return null;
+            }
+            if (team.Name != "") {
+                Team existentTeam = _teamRepository.GetTeamByName(team.Name);
+                if (existentTeam == null)
+                {
+                    Team teamResult = _teamRepository.InsertTeam(team);
+                    return teamResult;
+                }
+                return null;
+            }
+            else
+            {
+                Team teamResult = _teamRepository.InsertTeam(team);
+                return teamResult;
+            }
+            
         }
         [HttpPut]
         [ExactQueryParam("teamName")]

@@ -1,20 +1,54 @@
 .Login{
-    text-align: center;
+    text-align: right;
     background-image: url("./login_wallpaper.jpg");
-    min-height: 79vh; 
+    min-height: 77vh; 
     background-size: 100% 100%;
 }
-.Login button {
+.loginBtn {
 
     display: inline-block;
     text-decoration: none;
-    padding: 10px 30px 10px 30px;
+    padding: 15px 30px 15px 30px;
     border: 3px solid #000000;
     border-radius: 5px;
     color: #000000;
     background: transparent;
     font-size: 17px;
     outline: none;
-    margin-top: 2%;
     cursor: pointer;
+    margin-right: 71px;
+}
+.LoginForm{
+    margin-right: 15%;
+}
+.socialExperience{
+    margin-top: 1%;
+    margin-right: calc(15% + 77px);
+    margin-bottom: 1%;
+}
+.facebookLogin:focus {
+    opacity: 0.9;
+    cursor: pointer;
+    display: inline-flex;
+}
+.googleLogin{
+    width: 50px;
+    height:50px;
+    display: inline-block;
+    border: none;
+    float: right;
+    
+}
+.googleLogin div{
+    margin-right: 0%;
+}
+.googleLogin svg{
+    text-align: center;
+}
+.googleLogin svg g{
+    width: 40px;
+    height: 40px;
+}
+.errorMessage{
+    margin-right: calc(15% + 58px);
 }

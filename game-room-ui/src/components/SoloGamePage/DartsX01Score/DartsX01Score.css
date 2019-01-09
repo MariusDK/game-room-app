@@ -1,3 +1,27 @@
+.dartsX01Form{
+    margin:1% 0;
+}
+.dartsX01Form input{
+    color: #FFFFF3;
+    width: 15%;
+    margin-right: 5%;
+}
 .dartsX01Score{
-    color: #FEE9B0;
+    display: inline-block;
+    text-align: left;
+    width: 40%;
+}
+.updateDartsX01{
+    background: transparent;
+    color:#FFFFF3;
+    text-decoration: none;
+    border: 3px solid #FFFFF3;
+    border-radius: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-right: 10%;
+}
+.dartsX01Form button{
+    width: 30%;
 }

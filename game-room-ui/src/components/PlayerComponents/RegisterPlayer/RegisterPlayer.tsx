@@ -7,6 +7,8 @@ import { SpinnerComponent } from 'src/components/Spinner/Spinner';
 import './RegisterPlayer.css';
 import Header from 'src/components/StartPage/Header/Header';
 import Footer from 'src/components/Footer/Footer';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 
 export interface IRegisterPlayerState {
     infoMessage: string;
@@ -20,6 +22,10 @@ export interface IRegisterPlayerState {
     ageError: string;
     loading: boolean;
     redirect: boolean;
+    blur:boolean;
+    appId:string;
+    clientId:string;
+    serverError:string;
 }
 
 export interface IRegisterPlayerProps extends RouteComponentProps<any> { }
@@ -31,7 +37,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
         this.state = {
             name: '',
             username: '',
-            password: '',
+            password: '123456',
             age: 0,
             nameError: '',
             usernameError: '',
@@ -39,7 +45,11 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             infoMessage: '',
             ageError: '',
             loading: false,
-            redirect: false
+            redirect: false,
+            blur:false,
+            appId: '1810690805706216',
+            clientId:'793667409742-i7s4vr8kmea5gsbkomon4ustrn683em1.apps.googleusercontent.com',
+            serverError: ''
         }
     }
 
@@ -67,12 +77,6 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             formIsValid = false;
             nameError = "Name field cannot be empty!";
         }
-        else if (typeof name !== "undefined") {
-            if (!name.match(/^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$/)) {
-                formIsValid = false;
-                nameError = "Only letters!";
-            }
-        }
         if (!username) {
             formIsValid = false;
             usernameError = "Username field cannot be empty!";
@@ -97,8 +101,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
     };
 
     addPlayer = () => {
-
-        this.setState({ loading: true });
+        this.setState({serverError: ""});
         if (this.handleValidation()) {
             const newPlayer: IPlayer = {
                 name: this.state.name,
@@ -108,10 +111,14 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             }
             PlayerService.insertPlayer(newPlayer)
                 .then((response: string) => {
-                    this.props.history.push('/');
                     this.setState({ infoMessage: response });
                     if (response == "Insert Working!") {
+                        console.log(this.state.redirect);
                         this.setState({ redirect: true });
+                        console.log(this.state.redirect);
+                    }
+                    else{
+                        this.setState({serverError: response});
                     }
                 });
         }
@@ -121,17 +128,65 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
         }
         this.setState({ loading: false });
     }
-
+    responseFacebook = (response:any) => {
+        this.setState({serverError: ""});
+        if (response!=undefined){
+            
+            this.setState({name:response.name, username:response.email});
+            const newPlayer: IPlayer = {
+                name: this.state.name,
+                username: this.state.username,
+                password: '123456',
+                age: this.state.age
+            }
+            console.log(newPlayer);
+        PlayerService.insertPlayer(newPlayer)
+        .then((response: string) => {            
+            this.setState({ infoMessage: response });
+            if (response == "Insert Working!") {
+                console.log(response);
+                this.setState({ redirect: true });
+            }
+            else{
+                this.setState({serverError: response});
+            }
+        });
+    }
+    }  
+    responseGoogle = (response:any) => {
+        this.setState({serverError: ""});
+        if (response!=undefined){
+            this.setState({name:response.w3.ig, username:response.w3.U3});
+            const newPlayer: IPlayer = {
+                name: this.state.name,
+                username: this.state.username,
+                password: '123456',
+                age: this.state.age
+            }
+            console.log(newPlayer);
+        PlayerService.insertPlayer(newPlayer)
+        .then((response: string) => {
+            this.setState({ infoMessage: response });
+            if (response == "Insert Working!") {
+                this.setState({ redirect: true });
+            }
+            else{
+                this.setState({serverError: response});
+            }
+        });
+    }
+    }
 
     public render() {
         const redirect = this.state.redirect;
         if (redirect) {
-            <Redirect to='/' />
+            return <Redirect to='/' />
         }
         return (
             <div>
                 <Header />
                 <div className="registerPanel">
+                <div className="registerPlayerForm">
                     <PlayerForm
                         name={this.state.name}
                         username={this.state.username}
@@ -144,11 +199,33 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                         ageError={this.state.ageError}
                         title="Create your account"
                     />
+                </div>
                     <SpinnerComponent
                         loading={this.state.loading}
                     />
-                    <button onClick={this.addPlayer}>Register</button><br />
-
+                    <button className="registerBtn" onClick={this.addPlayer}>Register</button><br />
+                    <div className="socialExperience">
+                    <FacebookLogin
+                    textButton=""
+                    size="small"
+                    cssClass="facebookLogin"
+                    icon={require("src/Resurces/facebook_icon.png")}
+                    appId={this.state.appId}
+                    autoLoad={false}
+                    fields="name,email"
+                    callback={this.responseFacebook}
+                    />
+                    <GoogleLogin
+                        className="googleLogin"
+                        clientId={this.state.clientId}
+                        buttonText=""
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                        autoLoad={false}
+                        />
+                    
+                    </div>
+                    <span className="errorMessage" style={{ color: "red" }}>{this.state.serverError}</span><br />
                 </div>
                 <Footer />
             </div>

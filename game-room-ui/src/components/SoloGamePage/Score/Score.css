@@ -1,3 +1,27 @@
+.scoreForm{
+    margin:1% 0;
+}
 .scoreForm input{
     color: #FFFFF3;
+    width: 15%;
+    margin-right: 5%;
+}
+
+.normalScore{
+    display: inline-block;
+    text-align: left;
+    width: 40%;
+}
+.scoreForm button{
+    width: 40%;
+}
+.updateNormalScore{
+    background: transparent;
+    color:#FFFFF3;
+    text-decoration: none;
+    border: 3px solid #FFFFF3;
+    border-radius: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    font-size: 15px;
 }

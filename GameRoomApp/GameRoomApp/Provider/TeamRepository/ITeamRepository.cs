@@ -20,5 +20,6 @@ namespace GameRoomApp.providers.TeamRepository
         void RemoveTeamByName(string name);
         void AddPlayerToTeam(ObjectId id, Player player);
         void RemovePlayerFromTeam(ObjectId id, string idPlayer);
+        List<Team> UpdatePlayerTeams(List<Team> teams, Player newPlayer);
     }
 }

@@ -15,13 +15,13 @@ export default class Footer extends React.Component<any, any>
         return (
             <footer>
                 <div className="about">
-                    <Link to="">About</Link>
+                    <Link to="/about">About</Link>
                 </div>
                 <div className="m-year">
                     <img src={require('src/Resurces/year.png')}/>
                 </div>
                 <div className="conditions">
-                    <Link to="">Terms and Conditions</Link>
+                    <Link to="/terms">Terms and Conditions</Link>
                 </div> 
             </footer>
         )

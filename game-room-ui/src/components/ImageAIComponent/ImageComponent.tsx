@@ -8,6 +8,7 @@ import Navigation from '../Header/Navigation/Navigation';
 export interface IAnalyzerImageState {
   loading: boolean;
   response: string;
+  blur: boolean;
 }
 
 export default class AnalyzerImage extends React.Component<any, IAnalyzerImageState>{
@@ -15,7 +16,8 @@ export default class AnalyzerImage extends React.Component<any, IAnalyzerImageSt
     super(props);
     this.state = {
       loading: false,
-      response: ''
+      response: '',
+      blur:false
     }
   }
   analyzeImg = (imgAddress: string) => {
@@ -26,13 +28,23 @@ export default class AnalyzerImage extends React.Component<any, IAnalyzerImageSt
       this.setState({ loading: false, response: completeResponse });
     });
   }
+  onAddBlur()
+    {
+        this.setState({blur:true});
+    }
+    onRemoveBlur(){
+        this.setState({blur:false});
+    }
   render() {
     {
       var imgAddress = localStorage.getItem('clickedImg');
     }
     return (
       <div>
-        <Navigation />
+        <Navigation 
+          onAddBlur={this.onAddBlur}
+          onRemoveBlur={this.onRemoveBlur}
+        />
         <div className="imageAnalyzer">
           <div>
 

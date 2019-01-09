@@ -11,6 +11,8 @@ import CreateTeamGame from './components/GameComponents/CreateTeamGame/CreateTea
 import ImageComponent from './components/ImageAIComponent/ImageComponent';
 import FinishGames from './components/GameComponents/GameList/FinishGames/FinishGames';
 import UnfinishGames from './components/GameComponents/GameList/UnfinishGames/UnfinishGames';
+import About from './components/AboutComponent/About';
+import Terms from './components/TermsComponent/Terms';
 
 const Root = () => (
     <BrowserRouter>
@@ -19,14 +21,17 @@ const Root = () => (
           <Route path="/register" component={RegisterPlayer}/>
           <Route path="/login" component={LoginPlayer}/>
           <Route path="/createGameSolo" component={CreateGameSolo}/>
-          <Route path="/gameSoloPage" component={SoloGamePage}/>
+          <Route path="/gameSoloPage/:gameName" component={SoloGamePage}/>
           <Route path="/createTeam" component={CreateTeam}/>
           <Route path="/createTeamGame" component={CreateTeamGame}/>
-          <Route path="/gameTeamPage" component={TeamGamePage}/>
+          <Route path="/gameTeamPage/:gameName" component={TeamGamePage}/>
           <Route path="/imageAnalyzer" component={ImageComponent}/>
           <Route path="/finishGames" component={FinishGames}/>
           <Route path="/unfinishGames" component={UnfinishGames}/>
+          <Route path="/about" component={About}/>
+          <Route path="/terms" component={Terms}/>
         </Switch>
     </BrowserRouter>
+
 )
 export default Root;

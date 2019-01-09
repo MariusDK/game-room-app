@@ -12,3 +12,4 @@ C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomA
 C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.RazorAssemblyInfo.cs
 C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.RazorTargetAssemblyInfo.cache
 C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\GameRoomApp.csprojAssemblyReference.cache
+C:\Users\MariusDK\Desktop\AccesaStartProgram\game-room-app\GameRoomApp\GameRoomApp\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs

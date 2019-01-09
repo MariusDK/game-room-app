@@ -12,6 +12,7 @@ import Leaderboard from 'src/components/Leaderboard/Leaderboard';
 import GameService from 'src/services/GameService';
 import { IGame } from 'src/models/IGame';
 import Util from 'src/Util/Util';
+import "./ScoreList.css";
 
 
 export interface IScoreListProps {
@@ -107,40 +108,59 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         });
     }
     start301 = () => {
+        const dartsX01List:IDartsX01[]=this.state.dartsX01;
 
-        this.state.dartsX01.forEach(element => {
+        dartsX01List.forEach(element => {
             element.stateScore = 301;
             if (element.id != undefined) {
                 DartsX01Service.updateDartsX01(element.id, element).then(() => {
                     this.setState({ refresh: true });
                 });
-
             }
         });
+        console.log("aici");
+        this.setState({dartsX01:dartsX01List});
     }
     start501 = () => {
-        this.state.dartsX01.forEach(element => {
+        const dartsX01List:IDartsX01[]=this.state.dartsX01;
+        dartsX01List.forEach(element => {
             element.stateScore = 501;
             if (element.id != undefined) {
                 DartsX01Service.updateDartsX01(element.id, element).then(() => {
                     this.setState({ refresh: true });
                 });
-
             }
         });
+        console.log("aici");
+        this.setState({dartsX01:dartsX01List});
     }
     start1001 = () => {
-        this.state.dartsX01.forEach(element => {
+        const dartsX01List:IDartsX01[]=this.state.dartsX01;
+        dartsX01List.forEach(element => {
             element.stateScore = 1001;
             if (element.id != undefined) {
                 DartsX01Service.updateDartsX01(element.id, element).then(() => {
                     this.setState({ refresh: true });
                 });
-
             }
         });
+        console.log("aici");
+        this.setState({dartsX01:dartsX01List});
     }
-    onChange = () => {
+    onChange = (score:IScore) => {
+        console.log(score);
+        const scoreList:IScore[] = this.state.scores;
+        scoreList.forEach(element => {
+            if (score.id==element.id)
+            {
+                element.value = score.value;
+            }            
+        });
+        this.setState({scores:scoreList});
+        this.getData();
+    }
+    onChangeDartsX01 = () => {
+        console.log("adadadaada");
         this.getData();
     }
     onChangeDartsCriket = (score1: number, score2: number) => {
@@ -158,35 +178,35 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
             return (
                 <div>
                     <p>Choose starting score:</p>
+                    <div className="startPoint">
                     <button onClick={this.start301}>301</button>
                     <button onClick={this.start501}>501</button>
                     <button onClick={this.start1001}>1001</button>
+                    </div>
                     {(this.props.typeOfGame == "multi") &&
-                        <h1>Team List</h1>}
+                        <h2>Team List</h2>}
                     {(this.props.typeOfGame == "solo") &&
-                        <h1>Players List</h1>}
+                        <h2>Players List</h2>}
                     {!this.state.loading && this.state.finishGame != "true" &&
                         this.state.dartsX01.map((item, index) => (
-
                             <DartsX01Score
                                 key={index}
                                 dartsX01={item}
                                 score={item.score}
                                 typeOfGame={this.props.typeOfGame}
                                 scoreValue={item.stateScore}
-                                onChange={this.onChange}
+                                onChangeDartsX01={this.onChangeDartsX01}
                             >
                             </DartsX01Score>
-
-
                         )
 
                         )}
-                    <h1>Leaderboard</h1>
+                    <h2>Leaderboard</h2>
                     {!this.state.loading2 &&
                         this.state.leaderboardDartsX01.map((item, index) => (
                             <Leaderboard
                                 key={index}
+                                position={index}
                                 score={item.score}
                                 typeOfGame={this.props.typeOfGame}
                                 scoreValue={item.stateScore}
@@ -201,7 +221,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         if (((this.props.gameType == "Darts/Cricket") && (!this.state.loading)) && (this.state.finishGame != "true")) {
             return (
                 <div>
-                    <h1>Players List</h1>
+                    <h2>Players List</h2>
                     <DartsCricketScore
                         typeOfGame={this.props.typeOfGame}
                         dartsCricket1={this.state.dartsCricket[0]}
@@ -214,11 +234,12 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         }
         else {
             return (
-                <div>
+                <div className="scoreList">
+                <div className="scorePanel">
                     {(this.props.typeOfGame == "multi") &&
-                        <h1>Team List</h1>}
+                        <h2>Team List</h2>}
                     {(this.props.typeOfGame == "solo") &&
-                        <h1>Players List</h1>}
+                        <h2>Players List</h2>}
                     {!this.state.loading && this.state.finishGame != "true" &&
                         this.state.scores.map((item, index) => (
 
@@ -232,19 +253,22 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                             </Score>
                         )
                         )}
-                    <h1>Leaderboard</h1>
+                </div>
+                <div className="leaderboardPanel">
+                    <h2>Leaderboard</h2>
                     {!this.state.loading2 &&
-                        this.state.leaderboard.map((item, index) => (
+                        this.state.leaderboard.map((item, index) => (                          
                             <Leaderboard
                                 key={index}
+                                position={index}
                                 score={item}
                                 typeOfGame={this.props.typeOfGame}
                                 scoreValue={item.value}
                             >
                             </Leaderboard>
-
                         )
                         )}
+                    </div>
                 </div>
             );
         }

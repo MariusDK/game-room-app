@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Cors;
 using GameRoomApp.providers;
 using GameRoomApp.providers.DartsCricketRepository;
 using GameRoomApp.providers.DartsX01Repository;
@@ -12,6 +14,7 @@ using GameRoomApp.providers.TeamRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +33,10 @@ namespace GameRoomApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<Settings>(settings =>
@@ -52,6 +56,13 @@ namespace GameRoomApp
             services.AddTransient<IDartsX01Repository, DartsX01Repository>();
             services.AddTransient<IDartsCricketContext, DartsCricketContext>();
             services.AddTransient<IDartsCricketRepository, DartsCricketRepository>();
+
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +76,13 @@ namespace GameRoomApp
             {
                 app.UseHsts();
             }
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
+            app.UseMvc();
 
             app.UseHttpsRedirection();
             app.UseMvc();

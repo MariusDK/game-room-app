@@ -18,7 +18,7 @@ const PlayerForm = (props: IPlayerFormProps) => {
     return (
         <div className="playerForm">
             <h1>{props.title}</h1>
-            <input type="text" name="name" placeholder="Name" onChange={props.handleChange} value={props.name} /><br />
+            <input type="text" name="name" placeholder="Name" required pattern="^[A-Za-zÀ-ÿ ,.'-]+$" onChange={props.handleChange} value={props.name} /><br />
             <span style={{ color: "red" }}>{props.nameError}</span><br />
 
             <input type="text" name="username" placeholder="Username" onChange={props.handleChange} value={props.username} /><br />

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import GameService from 'src/services/GameService';
 import { IGame } from 'src/models/IGame';
+import "./SubmitComponent.css";
 export interface ISubmitComponentProps {
     gameName: string;
     onChange(gameName:string):void;
@@ -43,6 +44,7 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                     result.victoryMoments = victoryMomentsList;
                     console.log(result.victoryMoments);
 
+
                 }
                 else{
                     console.log(result.victoryMoments);
@@ -52,9 +54,11 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                     console.log(result.victoryMoments);
                     
                 }
-                GameService.updateGame(this.props.gameName,result);
+                GameService.updateGame(this.props.gameName,result).then(()=>{
+                    this.onChange();
+                });
             }
-            this.onChange();
+            
         })
         
     }
@@ -86,9 +90,10 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
                     result.embarrassingMoments = embarrassingMomentsList;
                     console.log(result.victoryMoments);
                 }
-                GameService.updateGame(this.props.gameName,result);
+                GameService.updateGame(this.props.gameName,result).then(()=>{
+                    this.onChange();
+                });;
             }
-            this.onChange();
         })
      }}
     onChange=()=>
@@ -100,9 +105,11 @@ export default class SubmitComponent extends React.Component<ISubmitComponentPro
     render()
     {
         return(
-            <div>
-                <h1>Image Upload</h1>
+            <div className="submitComponent">
+                <h2>Image Upload</h2>
+                <div className="submitPart">
                 <input type="file" name="file" onChange={this.fileSelectedHandler}/>
+                </div>
                 <button onClick={this.fileUploadVictoryHandler}>Add Victory Moments</button>
                 <button onClick={this.fileUploadEmbarrassingHandler}>Add Embarrassing Moments</button>
             </div>

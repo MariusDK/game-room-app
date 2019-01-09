@@ -1,4 +1,31 @@
 .hitsBtn
 {
+    display: block;
     margin-top: 2%;
+    text-align: center;
+    width: 100%;
+}
+.hitsBtn button{
+    display: inline-block;
+    width: 20%;
+    margin: 0.3% 40% 0.3% 20%;
+    background: transparent;
+    color:#FFFFF3;
+    text-decoration: none;
+    border: 3px solid #FFFFF3;
+    border-radius: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.nextPBtn{
+    background: transparent;
+    color:#FFFFF3;
+    text-decoration: none;
+    border: 3px solid #FFFFF3;
+    border-radius: 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    margin: 1% 29.5%;
 }
