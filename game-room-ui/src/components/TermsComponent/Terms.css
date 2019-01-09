@@ -1,0 +1,17 @@
+.terms{
+    background-image:url('./terms_wallpaper.jpg');
+    height: 77vh;
+    overflow: auto;  
+    background-size: 100% 100%;
+}
+.termsInfo h1{
+    text-align: center;
+}
+.termsInfo{
+    display: block;
+    color:black;
+    margin:1% 14% 1% 14%;
+    font:20px cursive, sans-serif;
+    text-indent: 50px;
+    font-weight: bold;
+}

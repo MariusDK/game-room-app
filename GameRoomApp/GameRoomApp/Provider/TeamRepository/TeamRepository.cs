@@ -40,7 +40,7 @@ namespace GameRoomApp.providers.TeamRepository
         public List<Team> GetTeamByPlayer(Player player)
         {
             var builder = Builders<Team>.Filter;
-            var playerFilter = builder.Eq("Players", player);
+            var playerFilter = builder.Eq("Players.Id", player.Id);
             var cursor = _teamContext.Team.Find(playerFilter);
             List<Team> team = cursor.ToList();
             return team;

@@ -53,7 +53,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     }
     getGamesOfUser(pageNumber:number)
     {
-        this.setState({ ugames: []});
+        this.setState({ ugames: [],filter:false,ordered:false});
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser != null) {
             var obj = JSON.parse(currentUser);
@@ -91,7 +91,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.setState({pageNumber:pageNumber});
         console.log(pageNumber);
         if (this.state.filter==true){
-            this.getByFilter(this.state.filterType);
+            this.getByFilter(this.state.filterType,pageNumber);
         }
         else if (this.state.ordered==true){
             this.orderByMostRecent(pageNumber);
@@ -105,7 +105,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         pageNumber--;
         this.setState({pageNumber:pageNumber});
         if (this.state.filter==true){
-            this.getByFilter(this.state.filterType);
+            this.getByFilter(this.state.filterType,pageNumber);
         }
         else if (this.state.ordered==true){
             this.orderByMostRecent(pageNumber);
@@ -156,18 +156,20 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
     }
     }
    
-    getByFilter=(filterType:string)=>{
-            this.setState({ ugames: []});
+    getByFilter=(filterType:string, pageNumber:number)=>{
+            this.setState({ ugames: [],ordered:false});
+            console.log(pageNumber);
             if (this.state.filter==false)
             {
-                this.setState({pageNumber:0});
+                pageNumber = 0;
             }
+            //console.log(this.state.pageNumber);
             this.setState({ filter: true});
             let currentUser = localStorage.getItem("currentUser");
             if (currentUser != null) {
                 var obj = JSON.parse(currentUser);
-                GameService.getGamesUnfinishOfPlayerAndType(this.state.pageNumber,filterType,obj.id).then((result: IGame[]) => {
-                    this.setState({ ugames: result, loading: false, filterType:filterType });
+                GameService.getGamesUnfinishOfPlayerAndType(pageNumber,filterType,obj.id).then((result: IGame[]) => {
+                    this.setState({ ugames: result, loading: false, filterType:filterType,pageNumber:pageNumber });
                     console.log(this.state.pageNumber);
                 });
                 }
@@ -199,7 +201,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
       }
     orderByMostRecent=(pageNumber:number)=>{
         
-        this.setState({ ugames: [], loading: true});
+        this.setState({ ugames: [], loading: true,filter:false});
         if (this.state.ordered==false)
         {
             this.setState({pageNumber:0});
@@ -215,6 +217,10 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             });
             }
         }
+    pageNumberUpdate=()=>
+    {
+        this.setState({pageNumber:0});
+    }
     onAddBlur=()=>
     {
         this.setState({blurNavDropdown:true});
