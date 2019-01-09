@@ -80,6 +80,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
     }
 
     login = () => {
+        this.setState({ errorMessage: "" });
         this.setState({ loading: true });
         if (this.handleValidation()) {
             var username = this.state.username;
@@ -110,7 +111,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
         localStorage.removeItem('currentUser')
     }
     responseFacebook = (response:any) => {
-        console.log("facebook console");
+        this.setState({ errorMessage: "" });
         if (response!=undefined){
         console.log(response.email);
         this.setState({username:response.email});
@@ -126,8 +127,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
     }
     }
     responseGoogle = (response:any) => {
-        console.log("google console");
-        console.log(response);
+        this.setState({ errorMessage: "" });
         if (response!=undefined){
             this.setState({username:response.w3.U3});
             PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
@@ -150,6 +150,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
             <div>
                 <Header />
                 <div className="Login">
+                <div className="LoginForm">
                     <LoginForm
                         username={this.state.username}
                         password={this.state.password}
@@ -160,23 +161,29 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
                     <SpinnerComponent
                         loading={this.state.loading}
                     />
-                    <button onClick={this.login}>Sing in</button><br />
-                    <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
-                    <div>
+                    <button className="loginBtn" onClick={this.login}>Sing in</button><br />
+                    </div>
+                    <div className="socialExperience">
                     <FacebookLogin
-                    appId={this.state.appId}
+                    textButton=""
+                    size="small"
+                    cssClass="facebookLogin"
                     icon={require("src/Resurces/facebook_icon.png")}
+                    appId={this.state.appId}
                     autoLoad={false}
                     fields="name,email"
                     callback={this.responseFacebook}
                     />
                     <GoogleLogin
+                        className="googleLogin"
                         clientId={this.state.clientId}
-                        buttonText="Login"
+                        buttonText=""
                         onSuccess={this.responseGoogle}
-                        onFailure={this.responseGoogle}/>
+                        onFailure={this.responseGoogle}
+                        autoLoad={false}
+                        />
                     </div>
-                    
+                    <span className="errorMessage" style={{ color: "red" }}>{this.state.errorMessage}</span><br />
                 </div>
                 <Footer />
             </div>

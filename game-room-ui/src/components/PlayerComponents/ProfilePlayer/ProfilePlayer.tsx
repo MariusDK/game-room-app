@@ -29,7 +29,8 @@ export default class ProfilePlayer extends React.Component<any, IRegisterPlayerS
             infoMessage: '',
             blur:false,
             appId:'',
-            clientId:''
+            clientId:'',
+            serverError: ''
         }
     }
     handleChange = (e: any) => {

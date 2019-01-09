@@ -4,7 +4,6 @@
     background-image: url("./register-wallpaper.jpg");
     background-size: 100% 100%;
 }
-
 h1
 {
     margin-top: 0px;
@@ -42,6 +41,7 @@ h1
 .socialExperience{
     margin-top: 1%;
     margin-right: calc(15% + 65px);
+    margin-bottom: 1%;
 }
 .facebookLogin:focus {
     opacity: 0.9;
@@ -65,4 +65,7 @@ h1
 .googleLogin svg g{
     width: 40px;
     height: 40px;
+}
+.errorMessage{
+    margin-right: 12%;
 }

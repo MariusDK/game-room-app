@@ -4,7 +4,7 @@
     min-height: 77vh; 
     background-size: 100% 100%;
 }
-.Login button {
+.loginBtn {
 
     display: inline-block;
     text-decoration: none;
@@ -16,5 +16,39 @@
     font-size: 17px;
     outline: none;
     cursor: pointer;
-    margin-right: calc(9% + 55px);
+    margin-right: 71px;
+}
+.LoginForm{
+    margin-right: 15%;
+}
+.socialExperience{
+    margin-top: 1%;
+    margin-right: calc(15% + 77px);
+    margin-bottom: 1%;
+}
+.facebookLogin:focus {
+    opacity: 0.9;
+    cursor: pointer;
+    display: inline-flex;
+}
+.googleLogin{
+    width: 50px;
+    height:50px;
+    display: inline-block;
+    border: none;
+    float: right;
+    
+}
+.googleLogin div{
+    margin-right: 0%;
+}
+.googleLogin svg{
+    text-align: center;
+}
+.googleLogin svg g{
+    width: 40px;
+    height: 40px;
+}
+.errorMessage{
+    margin-right: calc(15% + 58px);
 }

@@ -89,7 +89,7 @@ namespace GameRoomApp.providers.GameRepository
         public List<Game> GetGamesByTeam(Team team)
         {
             var builder = Builders<Game>.Filter;
-            var teamFilter = builder.Eq("Teams", team);
+            var teamFilter = builder.Eq("Teams.Id", team.Id);
             var cursor = _gameContext.Games.Find(teamFilter);
             List<Game> games = cursor.ToList();
             return games;
@@ -328,6 +328,29 @@ namespace GameRoomApp.providers.GameRepository
                 }
             }
             return finishGames;
+        }
+        public List<Game> GetGamesOfPlayer(List<Team> teams)
+        {
+            List<Game> games = new List<Game>();
+            foreach (Team team in teams)
+            {
+                List<Game> gamesOfTeam =GetGamesByTeam(team);
+                foreach (Game game in gamesOfTeam)
+                {
+                    foreach (Team gameTeam in game.Teams)
+                    {
+                        if (gameTeam.Id == team.Id)
+                        {
+                            gameTeam.Players = team.Players;
+                            break;
+                        }
+                    }
+                    games.Add(game);
+                    UpdateGameById(game);
+                }
+            }
+            return games;
+            
         }
     }
 }

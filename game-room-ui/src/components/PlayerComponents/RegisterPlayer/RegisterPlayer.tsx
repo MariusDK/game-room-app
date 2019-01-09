@@ -25,6 +25,7 @@ export interface IRegisterPlayerState {
     blur:boolean;
     appId:string;
     clientId:string;
+    serverError:string;
 }
 
 export interface IRegisterPlayerProps extends RouteComponentProps<any> { }
@@ -46,8 +47,9 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             loading: false,
             redirect: false,
             blur:false,
-            appId: "1810690805706216",
-            clientId:"793667409742-i7s4vr8kmea5gsbkomon4ustrn683em1.apps.googleusercontent.com"
+            appId: '1810690805706216',
+            clientId:'793667409742-i7s4vr8kmea5gsbkomon4ustrn683em1.apps.googleusercontent.com',
+            serverError: ''
         }
     }
 
@@ -99,8 +101,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
     };
 
     addPlayer = () => {
-
-        this.setState({ loading: true });
+        this.setState({serverError: ""});
         if (this.handleValidation()) {
             const newPlayer: IPlayer = {
                 name: this.state.name,
@@ -110,10 +111,12 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             }
             PlayerService.insertPlayer(newPlayer)
                 .then((response: string) => {
-                    this.props.history.push('/');
                     this.setState({ infoMessage: response });
                     if (response == "Insert Working!") {
                         this.setState({ redirect: true });
+                    }
+                    else{
+                        this.setState({serverError: response});
                     }
                 });
         }
@@ -124,7 +127,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
         this.setState({ loading: false });
     }
     responseFacebook = (response:any) => {
-        console.log("facebook console");
+        this.setState({serverError: ""});
         if (response!=undefined){
             
             this.setState({name:response.name, username:response.email});
@@ -136,22 +139,20 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             }
             console.log(newPlayer);
         PlayerService.insertPlayer(newPlayer)
-        .then((response: string) => {
-            this.props.history.push('/');
+        .then((response: string) => {            
             this.setState({ infoMessage: response });
             if (response == "Insert Working!") {
-                this.setState({ redirect: true });
                 console.log(response);
+                this.setState({ redirect: true });
             }
             else{
-                console.log('player exist!');
+                this.setState({serverError: response});
             }
         });
     }
     }  
     responseGoogle = (response:any) => {
-        console.log("google console");
-        console.log(response);
+        this.setState({serverError: ""});
         if (response!=undefined){
             this.setState({name:response.w3.ig, username:response.w3.U3});
             const newPlayer: IPlayer = {
@@ -163,14 +164,12 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
             console.log(newPlayer);
         PlayerService.insertPlayer(newPlayer)
         .then((response: string) => {
-            this.props.history.push('/');
             this.setState({ infoMessage: response });
             if (response == "Insert Working!") {
                 this.setState({ redirect: true });
-                console.log(response);
             }
             else{
-                console.log('player exist!');
+                this.setState({serverError: response});
             }
         });
     }
@@ -224,6 +223,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                         />
                     
                     </div>
+                    <span className="errorMessage" style={{ color: "red" }}>{this.state.serverError}</span><br />
                 </div>
                 <Footer />
             </div>

@@ -1,10 +1,9 @@
 .loginForm
 {
+    margin-top: 5%;
     display: inline-block;
     position: relative;
-    margin-top: 8%;
     padding: 2%;
-    margin-right: 7%;
     text-align: center;
     white-space: nowrap;
 }

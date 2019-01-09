@@ -114,5 +114,24 @@ namespace GameRoomApp.providers.TeamRepository
             team.Players = players;
             UpdateTeam(team);
         }
+        public List<Team> UpdatePlayerTeams(List<Team> teams, Player newPlayer)
+        {
+            foreach (Team team in teams)
+            {
+                List<Player> players = team.Players;
+                foreach (Player player in players)
+                {
+                    if (player.Id == newPlayer.Id)
+                    {
+                        player.Name = newPlayer.Name;
+                        player.Password = newPlayer.Password;
+                        player.Username = newPlayer.Username;
+                        break;
+                    }
+                }
+                UpdateTeam(team);
+            }
+            return teams;
+        }
     }
 }
