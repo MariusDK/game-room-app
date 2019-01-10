@@ -75,7 +75,7 @@ export default class Navigation extends React.Component<INavigationProps, any>
                     <img src={require('src/Resurces/logo.png')} />
                 </div>
                 <div className="logoutButton">
-                    <button onClick={this.logout}>Logout</button>
+                    <button onClick={this.logout}>Log out</button>
                 </div>
             </div>
         )

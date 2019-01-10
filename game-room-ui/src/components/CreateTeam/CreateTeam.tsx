@@ -160,7 +160,7 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                         />
                     </div>
                     <div>
-                        <input className="searchInput" placeholder="Search for..." type="text" name="username" onChange={this.handleChange} />
+                        <input className="searchInput" placeholder="Search using username..." type="text" name="username" onChange={this.handleChange} />
                         <button className="searchBtn" onClick={this.addPlayerToList}>Search</button><br></br>
                     </div>
                     <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />

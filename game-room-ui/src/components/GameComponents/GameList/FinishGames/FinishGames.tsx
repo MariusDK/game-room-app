@@ -241,7 +241,7 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
                         </div>
                     </div>
                     <div className="title">
-                        <h1>Finish Game List</h1>
+                        <h1>Finished Game List</h1>
                     </div>
                     {this.state.loading && <h1>Loading</h1>}
                     <div className={this.state.blur?"blurUnfinishGameL":"unfinishGameL"}>

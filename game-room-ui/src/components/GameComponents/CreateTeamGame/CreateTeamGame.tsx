@@ -170,7 +170,7 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
                     />
                 </div>
                 <br />
-                <input placeholder="Search using Team Name" type="text" name="teamName" onChange={this.handleChange} />
+                <input placeholder="Search using team name" type="text" name="teamName" onChange={this.handleChange} />
                 <button className="searchMultiBtn" onClick={this.getTeamByName}>Search</button>
                 <div className="teamCardGame">
                 {this.state.teams.map((item, index)=>(

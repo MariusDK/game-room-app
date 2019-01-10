@@ -195,7 +195,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
 
                 />
                 <br />
-                <input className="searchUsername" placeholder="Search using Username..." type="text" name="username" onChange={this.handleChange} />
+                <input className="searchUsername" placeholder="Search using username..." type="text" name="username" onChange={this.handleChange} />
                 <button className="searchBtnSolo" onClick={this.addPlayerToList}>Search</button>
                 <div className="playerCardGame">
                 {this.state.players.map((item, index) => (

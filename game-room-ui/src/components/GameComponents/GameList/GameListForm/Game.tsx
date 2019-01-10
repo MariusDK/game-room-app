@@ -41,7 +41,7 @@ export default class Game extends React.Component<IGameProps, any>{
                 <div className="imgBtnDiv">
                 <button className="gameBox" onClick={() => { this.props.selectGame(this.props.game) }}>
                 <article className="gameArticle">
-                <img src={require('src/Resurces/game.png')}/>
+                <img src={require('src/Resurces/gameLogo.png')}/>
                 </article>               
                 <section>
                 Name: {`${this.props.game.name}`}

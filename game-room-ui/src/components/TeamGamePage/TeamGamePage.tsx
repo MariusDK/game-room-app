@@ -80,7 +80,7 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
     render() {
         const redirect = this.state.redirect;
         if (redirect) {
-            return <Redirect to='/unfinishGames' />
+            return <Redirect to='/' />
         }
         return (
             <div>
