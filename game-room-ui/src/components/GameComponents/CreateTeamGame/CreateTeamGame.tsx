@@ -34,6 +34,9 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             blur: false
         }
     }
+    componentDidMount(){
+        localStorage.setItem('gameState', 'unfinish');
+    }
     handleChange = (e: any) => {
         const { name, value } = e.target;
         this.setState((prevState: any) => (
