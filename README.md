@@ -152,7 +152,7 @@ Checkpoint 4
 - Am facut diferite modificari in aspect.
 - Am adauga icon-ul aplicatiei in locul celui dat de react.
 - Urmeaza sa antrenez mai bine IA-ul.
-
+- Problmea cu datele generate ramane, trebuie create jocuri pentru a vedea continutul
 		
 					
 
