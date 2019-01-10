@@ -131,6 +131,27 @@ si extragerea de date intre Custom Vison AI si aplicatia noastra.
 
 - Nu am implementat inca partea de social media integration si conectarea pe sesiune.
 
+#
+Checkpoint 4
+
+- Am adaugat paginile About si Terms and Conditions.
+- Am adaugat logarea cu Facebook si Google.
+- Am mai adaugat diferite validari primite de la server.
+- Nu se mai poate inregistra cineva cu un username deja existent.
+- Update-ul merge.
+- In partea de creare a echipei:
+	- Am adaugat un buton care duce la o pagina cu echipele existente.
+ 	- Acum se pot elimina jucatori din lista de carduri, fiecare card are acum un x pentru acest lucru.
+	- Am adaugat validari pentru a nu exista informatie duplicat. (pe partea de server si client)
+- In partea de creare joc PVP:
+	- Am adaugat eliminarea jucatorilor si diferite validari.
+- In partea de creare joc Echipa:
+	- Am adaugat eliminarea echipe si diferite validari.
+- In partea de liste am scos bugurile pe care le-am intalnit.
+- In partea paginilor dedicate jocurilor am adaugat adresa cu numele jocului (este unic) pentru a permite copierea si am scos bugurile de randare.
+- Am facut diferite modificari in aspect.
+- Am adauga icon-ul aplicatiei in locul celui dat de react.
+- Urmeaza sa antrenez mai bine IA-ul.
 
 		
 					
