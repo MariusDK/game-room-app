@@ -53,6 +53,37 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
             blur:false
         }
     }
+    componentDidMount(){
+        var playerJson = localStorage.getItem('currentUser');
+        var player:IPlayer = JSON.parse(playerJson);
+        console.log(player.username);       
+        const teamsList: ITeam[] = this.state.teams;
+        const playerList: IPlayer[] = this.state.players;
+        PlayerService.getPlayerByUsername(player.username).then((player: IPlayer) => {
+            if (player.name != null) {
+                this.handleDuplicate(player);
+                if (!this.state.duplicate) {
+                    playerList.push(player);
+                    this.setState({ players: playerList })
+                    const newTeam: ITeam = {
+                        name: '',
+                        players: [player],
+                    }
+                    TeamService.insertTeam(newTeam).then((result: ITeam) => {
+                        console.log(result);
+                        teamsList.push(result);
+                        this.setState({ teams: teamsList });
+                    });
+                }
+                else {
+                    this.setState({ error: "Player already exists" });
+                }
+            }
+            else {
+                this.setState({ error: "Player don't exist!" });
+            }
+        });
+    }
     handleChange = (e: any) => {
         const { name, value } = e.target;
         this.setState((prevState: any) => (
@@ -94,8 +125,10 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         return formIsValid;
     };
     addPlayerToList = () => {
+        this.setState({ error: "" });
         const teamsList: ITeam[] = this.state.teams;
         const playerList: IPlayer[] = this.state.players;
+        console.log(this.state.username);
         PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
             if (player.name != null) {
                 this.handleDuplicate(player);

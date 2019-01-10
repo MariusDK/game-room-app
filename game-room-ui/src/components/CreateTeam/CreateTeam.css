@@ -2,7 +2,7 @@
 {
     background-image: url("./create_team_wallpaper.jpg");
     background-size: 100% 100%;
-    min-height: 77vh; 
+    min-height: 76vh; 
     text-align: center;
     display: block;
 }
@@ -19,6 +19,21 @@
 .hideTeamPanel
 {
     display: none;
+}
+.teamList{
+    margin-top: 2%;
+    margin-right:2%; 
+    text-align: right;
+}
+.teamListBtn{
+    margin-left: 10px;
+    background: transparent;
+    text-decoration: none;
+    padding: 7px 30px 7px 30px;
+    border: 3px solid black;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
 }
 .searchBtn{
     margin-left: 10px;

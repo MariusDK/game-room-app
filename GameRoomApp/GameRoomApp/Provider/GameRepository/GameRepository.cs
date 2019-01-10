@@ -86,6 +86,14 @@ namespace GameRoomApp.providers.GameRepository
             var nameFilter = builder.Eq("Name", name);
             _gameContext.Games.DeleteOne(nameFilter);
         }
+        public void RemoveGamesByTeam(string teamId)
+        {
+            ObjectId objectId = new ObjectId(teamId);
+            var builder = Builders<Game>.Filter;
+            var nameFilter = builder.Eq("Teams.Id", objectId);
+            _gameContext.Games.DeleteMany(nameFilter);
+
+        }
         public List<Game> GetGamesByTeam(Team team)
         {
             var builder = Builders<Game>.Filter;
@@ -352,5 +360,5 @@ namespace GameRoomApp.providers.GameRepository
             return games;
             
         }
-    }
+    }  
 }
