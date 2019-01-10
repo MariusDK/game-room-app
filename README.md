@@ -151,8 +151,8 @@ Checkpoint 4
 - In partea paginilor dedicate jocurilor am adaugat adresa cu numele jocului (este unic) pentru a permite copierea si am scos bugurile de randare.
 - Am facut diferite modificari in aspect.
 - Am adauga icon-ul aplicatiei in locul celui dat de react.
-- Urmeaza sa antrenez mai bine IA-ul.
-- Problmea cu datele generate ramane, trebuie create jocuri pentru a vedea continutul
+- Am antrenat customvision.ai cu cate 100 poze pentru darts, 100 poze pentru foosball, 100 poze pentru fifa.
+- Problema cu datele generate ramane, trebuie create jocuri pentru a vedea continutul
 		
 					
 
