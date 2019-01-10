@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameRoomApp.DataModel;
+using GameRoomApp.providers.GameRepository;
 using GameRoomApp.providers.TeamRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,25 @@ namespace GameRoomApp.Controller
     public class TeamController : ControllerBase
     {
         private readonly ITeamRepository _teamRepository;
-        public TeamController(ITeamRepository teamRepository)
+        private readonly IGameRepository _gameRepository;
+        public TeamController(ITeamRepository teamRepository, IGameRepository gameRepository)
         {
             this._teamRepository = teamRepository;
+            this._gameRepository = gameRepository;
         }
         [HttpGet]
         public IEnumerable<Team> GetAllTeams()
         {
             return _teamRepository.GetAllTeams();
+        }
+        [HttpGet]
+        [ActionName(nameof(GetTeamByName))]
+        [ExactQueryParam("idPlayer")]
+        public IEnumerable<Team> GetAllTeamsOfUser(string idPlayer)
+        {
+            Player player = new Player();
+            player.Id = idPlayer;
+            return _teamRepository.GetTeamByPlayer(player);
         }
         [HttpGet]
         [ActionName(nameof(GetTeamByName))]
@@ -195,6 +207,7 @@ namespace GameRoomApp.Controller
             if (existentTeam != null)
             {
                 _teamRepository.RemoveTeam(idObject);
+                _gameRepository.RemoveGamesByTeam(teamId);
                 result = "Delete Working!";
             }
             else

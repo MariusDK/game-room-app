@@ -6,7 +6,7 @@
 }
 .hideTeamPanel
 {
-    display: hide;
+    display: none;
 }
 .multiGameC h1{
     color: black;

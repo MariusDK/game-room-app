@@ -27,6 +27,7 @@ namespace GameRoomApp.providers.GameRepository
         void UpdateGameByName(string name,Game game);
         void RemoveGameById(ObjectId id);
         void RemoveGameByName(string id);
+        void RemoveGamesByTeam(string teamId);
         void AddPlayerToGame(string id, Team team);
         void RemoveTeamFromGame(string id, string teamId);
         void RemoveSelectedGame(Game games);
