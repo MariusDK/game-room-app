@@ -24,7 +24,7 @@ export default class DropdownFilter extends React.Component<IDropdownProps, any>
                             <li><button onClick={() => this.props.filter("Darts/X01",0)}>Show only DartsX01</button></li>
                             <li><button onClick={() => this.props.filter("Darts/Cricket",0)}>Show only DartsCricket</button></li>
                             <li><button onClick={() => this.props.filter("Foosball",0)}>Show only Foosball</button></li>
-                            <li><button onClick={() => this.props.filter("any",0)}>Show the rest of Games</button></li>
+                            <li><button onClick={() => this.props.filter("any",0)}>Show the rest of games</button></li>
                             <li><button onClick={() => this.props.reset()}>Reset</button></li>
                         </ul>
 

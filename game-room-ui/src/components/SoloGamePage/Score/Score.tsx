@@ -51,9 +51,9 @@ export default class Score extends React.Component<IScoreProps, IScoreState>
         this.setState({ points: 0, currentScore: total });
         ScoreService.getScoreById(this.state.id).then((score: IScore) => {
             score.value = total;
-            ScoreService.updateScore(this.state.id, score);
-            this.props.onChange(score);
-
+            ScoreService.updateScore(this.state.id, score).then((result:string)=>{
+                this.props.onChange(score);
+            });
         })
     }
     render() {

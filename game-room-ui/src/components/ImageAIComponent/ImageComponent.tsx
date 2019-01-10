@@ -28,14 +28,14 @@ export default class AnalyzerImage extends React.Component<any, IAnalyzerImageSt
       this.setState({ loading: false, response: completeResponse });
     });
   }
-  onAddBlur()
+  onAddBlur=()=>
     {
         this.setState({blur:true});
     }
-    onRemoveBlur(){
+  onRemoveBlur=()=>{
         this.setState({blur:false});
     }
-  render() {
+  render=()=> {
     {
       var imgAddress = localStorage.getItem('clickedImg');
     }
