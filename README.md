@@ -27,7 +27,6 @@ Checkpoint 2
 - Fiind prima aplicatie facuta in React lucrurile au mers mai greu.(Am urmărit mai mult functionalitatiile principale).
 - Au fost modificate rutele si nu toate au fost actualizate in Postman.
 
-
 #
 Checkpoint 3
 - Se adauga in run comanda: chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
@@ -37,6 +36,7 @@ Checkpoint 3
 - Contul ce care se va face logarea este: username: admin123 si password: admin123 
 - Dupa ce sa facut logarea avem pagina de profil. (Inca nu am adaugat incarcare a pozei utilizatorului dar o sa fac acest lucru)
 - In aceasta parte de profil se pot actualiza datele utilizatorului.
+    -Update-ul nu este facut corect, trebuie refacut.	 
 - In navigator avem legaturile la celelalte pagini:
 	- Linkul Home ne trimite cate Pagina profilului.
 	- Linkul Create Team ne duce catre pagina de creare a echipelor.
