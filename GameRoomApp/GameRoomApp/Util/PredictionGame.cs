@@ -21,7 +21,7 @@ namespace GameRoomApp.Util
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Prediction-Key", "3e9438bd78174aaa8dd27cd01641d2aa");
-            string url = "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/d4bdc768-1bf6-4f25-a2b9-5f5780c4e4c9/image?iterationId=597af64c-92f4-431b-bb89-88576a40c01e";
+            string url = "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/d4bdc768-1bf6-4f25-a2b9-5f5780c4e4c9/image?iterationId=36fa6759-e3b0-4675-a12e-3e80db312319";
             HttpResponseMessage response;
 
             //byte[] byteData = GetImageAsByteArray(imageFilePath);

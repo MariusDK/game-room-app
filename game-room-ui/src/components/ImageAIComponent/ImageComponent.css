@@ -8,17 +8,18 @@
 .imageAnalyzer img {
     width: 400px;
     height: auto;
-    margin-top: 10%; 
+    margin-top: 5%; 
 }
 .imageAnalyzer button{
-    margin-top: 3%;
+    margin-top: 2%;
 }
 .spinner{
-    margin-top: 3%; 
+    margin-top: 1%; 
 }
 .resultIA
 {
     color: #B4498D;
+    margin-bottom: 2%;
 }
 .probabiltyBtn
 {
