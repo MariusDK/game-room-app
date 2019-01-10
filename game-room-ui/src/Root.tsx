@@ -13,6 +13,7 @@ import FinishGames from './components/GameComponents/GameList/FinishGames/Finish
 import UnfinishGames from './components/GameComponents/GameList/UnfinishGames/UnfinishGames';
 import About from './components/AboutComponent/About';
 import Terms from './components/TermsComponent/Terms';
+import TeamList from './components/TeamComponents/TeamList';
 
 const Root = () => (
     <BrowserRouter>
@@ -30,6 +31,7 @@ const Root = () => (
           <Route path="/unfinishGames" component={UnfinishGames}/>
           <Route path="/about" component={About}/>
           <Route path="/terms" component={Terms}/>
+          <Route path="/teams" component={TeamList}/>
         </Switch>
     </BrowserRouter>
 

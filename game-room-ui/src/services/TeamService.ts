@@ -15,7 +15,18 @@ export default class TeamService {
         .get(`https://localhost:44333/api/team?teamName=${teamName}`)
         .then((result: AxiosResponse) => result.data)
     }
-
+    public static getTeamsByUserId = (idPlayer:string):Promise<ITeam[]> =>
+    {
+        return axios
+        .get(`https://localhost:44333/api/team?idPlayer=${idPlayer}`)
+        .then((result: AxiosResponse) => result.data)
+    }
+    public static deleteTeamById = (idTeam:string):Promise<string> =>
+    {
+        return axios
+        .delete(`https://localhost:44333/api/team?teamId=${idTeam}`)
+        .then((result: AxiosResponse) => result.data)
+    }
     
 
 }

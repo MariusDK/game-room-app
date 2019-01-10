@@ -1,0 +1,24 @@
+.teamListPage{
+    text-align: center;
+    background: url('./teamList_wallpaper.jpg');
+    min-height: 76vh; 
+    background-size: 100% 100%;
+}
+.TeamListPanel{
+    background:  -webkit-linear-gradient(#D6A074, #503C2C, #1C150D);
+    margin-top: 2%;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    padding-bottom:7%; 
+    display: inline-block;
+    margin-bottom: 2%;
+}
+.teamListCardGame{
+    text-align: left;
+    display: block;
+    margin-top: 2%;
+}
+.hideTeamListPanel{
+    display: none;
+}
