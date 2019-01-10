@@ -18,11 +18,10 @@ export default class DropdownMenu extends React.Component<IDropdownProps, any>
                 {this.props.displayMenu ? (
                     <div className="dropDownMenu">
                         <ul>
-
-                            <li><Link to="/createGameSolo">Create Game Solo</Link></li>
-                            <li><Link to="/createTeamGame">Create Game Team</Link></li>
-                            <li><Link to="/unfinishGames">Unfinish Game List</Link></li>
-                            <li><Link to="/finishGames">Finish Game List</Link></li>
+                            <li><Link to="/createGameSolo">Create PvP Game</Link></li>
+                            <li><Link to="/createTeamGame">Create Team Game </Link></li>
+                            <li><Link to="/unfinishGames">Unfinished Game List</Link></li>
+                            <li><Link to="/finishGames">Finished Game List</Link></li>
                         </ul>
 
                     </div>

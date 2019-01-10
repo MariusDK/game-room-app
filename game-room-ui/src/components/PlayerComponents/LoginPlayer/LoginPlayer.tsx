@@ -161,7 +161,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
                     <SpinnerComponent
                         loading={this.state.loading}
                     />
-                    <button className="loginBtn" onClick={this.login}>Sing in</button><br />
+                    <button className="loginBtn" onClick={this.login}>Sign in</button><br />
                     </div>
                     <div className="socialExperience">
                     <FacebookLogin
