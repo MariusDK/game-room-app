@@ -54,6 +54,7 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         }
     }
     componentDidMount(){
+        localStorage.setItem('gameState', 'unfinish');
         var playerJson = localStorage.getItem('currentUser');
         var player:IPlayer = JSON.parse(playerJson);
         console.log(player.username);       

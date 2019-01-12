@@ -218,7 +218,7 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
                 </div>
             );
         }
-        if (((this.props.gameType == "Darts/Cricket") && (!this.state.loading)) && (this.state.finishGame != "true")) {
+        if ((this.props.gameType == "Darts/Cricket") && (!this.state.loading)) {
             return (
                 <div>
                     <h2>Players List</h2>
