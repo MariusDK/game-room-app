@@ -44,7 +44,7 @@ export default class Game extends React.Component<IGameProps, any>{
                 <img src={require('src/Resurces/gameLogo.png')}/>
                 </article>               
                 <section>
-                Name: {`${this.props.game.name}`}
+                    {`${this.props.game.name}`}
                 </section>
                 </button>
                 </div>

@@ -118,10 +118,9 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.setState({loading:true});
         this.state.selectedGames.forEach(element => {
             GameService.deleteGame(element.id).then(() => {
+                this.getGamesOfUser(this.state.pageNumber);
             });
         });
-        this.getGamesOfUser(this.state.pageNumber);
-        
     }
     handleChange = (e: any) => {
         const { name, value } = e.target;
