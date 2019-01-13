@@ -23,7 +23,7 @@
 }
 .socialExperience{
     margin-top: 1%;
-    margin-right: calc(15% + 77px);
+    margin-right: calc(15% + 78px);
     margin-bottom: 1%;
 }
 .facebookLogin:focus {
@@ -50,5 +50,5 @@
     height: 40px;
 }
 .errorMessage{
-    margin-right: calc(15% + 58px);
+    margin-right: calc(15% + 72px);
 }

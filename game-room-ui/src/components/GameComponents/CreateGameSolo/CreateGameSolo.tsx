@@ -56,14 +56,13 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
     componentDidMount(){
         localStorage.setItem('gameState', 'unfinish');
         var playerJson = localStorage.getItem('currentUser');
-        var player:IPlayer = JSON.parse(playerJson);
-        console.log(player.username);       
+        var player:IPlayer = JSON.parse(playerJson);      
         const teamsList: ITeam[] = this.state.teams;
         const playerList: IPlayer[] = this.state.players;
         PlayerService.getPlayerByUsername(player.username).then((player: IPlayer) => {
             if (player.name != null) {
                 this.handleDuplicate(player);
-                if (!this.state.duplicate) {
+                if (!this.state.duplicate) { 
                     playerList.push(player);
                     this.setState({ players: playerList })
                     const newTeam: ITeam = {
@@ -71,13 +70,13 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                         players: [player],
                     }
                     TeamService.insertTeam(newTeam).then((result: ITeam) => {
-                        console.log(result);
                         teamsList.push(result);
                         this.setState({ teams: teamsList });
                     });
                 }
                 else {
                     this.setState({ error: "Player already exists" });
+                    this.setState({duplicate:false});
                 }
             }
             else {
@@ -99,9 +98,6 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         playerList.forEach(element => {
             if (element.id == player.id) {
                 this.setState({ duplicate: true });
-            }
-            else {
-                this.setState({ duplicate: false });
             }
         });
     }
@@ -129,7 +125,6 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         this.setState({ error: "" });
         const teamsList: ITeam[] = this.state.teams;
         const playerList: IPlayer[] = this.state.players;
-        console.log(this.state.username);
         PlayerService.getPlayerByUsername(this.state.username).then((player: IPlayer) => {
             if (player.name != null) {
                 this.handleDuplicate(player);
@@ -141,13 +136,13 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                         players: [player],
                     }
                     TeamService.insertTeam(newTeam).then((result: ITeam) => {
-                        console.log(result);
                         teamsList.push(result);
-                        this.setState({ teams: teamsList });
+                        this.setState({ teams : teamsList });
                     });
                 }
                 else {
                     this.setState({ error: "Player already exists" });
+                    this.setState({ duplicate:false });
                 }
             }
             else {
@@ -183,7 +178,10 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
     }
     removePlayerFromList=(player:IPlayer) =>{
         const playerList: IPlayer[] = this.state.players;
+        const teamList: ITeam[] = this.state.teams;
+        var selectedTeam: ITeam;
         let positionOfElement=-1;
+        let positionOfTeam=-1;
         for (var i=0;i<playerList.length;i++)
         {
             if (playerList[i].id==player.id)
@@ -194,10 +192,22 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
         }
         if (positionOfElement!=-1)
         {
-            console.log(playerList);
             playerList.splice(positionOfElement,1);
             this.setState({players:playerList});
-            console.log(positionOfElement);
+            for(let k=0; k<teamList.length; k++)
+            {
+                if (teamList[k].players[0].id==player.id)
+                {
+                    positionOfTeam=k;
+                    selectedTeam = teamList[k];
+                }
+            }
+           if (positionOfTeam!=-1)
+           {
+                teamList.splice(positionOfTeam,1);
+                TeamService.deleteTeamById(selectedTeam.id).then((result:string)=>{
+             });
+           }
         }
     }
     onAddBlur=()=>
@@ -233,7 +243,9 @@ export default class CreateGameSolo extends React.Component<ICreateGameProps, IC
                 <button className="searchBtnSolo" onClick={this.addPlayerToList}>Search</button>
                 <div className="playerCardGame">
                 {this.state.players.map((item, index) => (
-                        <PlayerCard player={item}
+                        <PlayerCard 
+                                    key={index}
+                                    player={item}
                                     removePlayerFromList={this.removePlayerFromList}
                         />
                         )

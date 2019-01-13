@@ -38,7 +38,7 @@ h1
     cursor: pointer;
     display: inline-block;
 }
-.socialExperience{
+.socialExperienceRegister{
     margin-top: 1%;
     margin-right: calc(15% + 65px);
     margin-bottom: 1%;
@@ -66,6 +66,6 @@ h1
     width: 40px;
     height: 40px;
 }
-.errorMessage{
+.errorMessageRegister{
     margin-right: 12%;
 }

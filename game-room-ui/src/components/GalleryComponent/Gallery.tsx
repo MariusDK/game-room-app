@@ -36,7 +36,6 @@ export default class Gallery extends React.Component<GalleryProps, GalleryState>
         this.setState({ moments: this.props.moments });
     }
     componentWillReceiveProps(props: GalleryProps) {
-        console.log(this.props.moments);
         this.setState({ loading: true });
         this.setState({ moments: this.props.moments });
     }

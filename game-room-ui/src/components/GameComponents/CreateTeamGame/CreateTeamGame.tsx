@@ -87,7 +87,7 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
                 this.setState({ teams: teamsList });
                 }
                 else{
-                    this.setState({ error: "Duplicate team!" });
+                    this.setState({ error: "The team is already selected!" });
                 }
             }
             else {
@@ -177,7 +177,9 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
                 <button className="searchMultiBtn" onClick={this.getTeamByName}>Search</button>
                 <div className="teamCardGame">
                 {this.state.teams.map((item, index)=>(
-                    <TeamCard team={item}
+                    <TeamCard 
+                              key={index}
+                              team={item}
                               removeTeamFromList={this.removeTeamFromList}
                     />
                 )
