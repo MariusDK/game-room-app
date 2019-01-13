@@ -12,7 +12,6 @@ const Leaderboard=(props:ILeaderboardProps)=>
 {
     if (props.typeOfGame=="solo")
     {
-       console.log("aici");
     return(
         <div key={props.score.id} className="leaderboardContiner" >  
             <span className='leaderboard'>{`${props.position+1}`}. Name: {`${props.score.team.players[0].name}`} - Score: {`${props.scoreValue}`}</span>
@@ -20,7 +19,6 @@ const Leaderboard=(props:ILeaderboardProps)=>
     )
     }
     else{
-        console.log("aici");
         return(
             <div key={props.score.id} className="leaderboardContiner" >  
                 <span className='leaderboard'>{`${props.position+1}`}. Name: {`${props.score.team.name}`} - Score: {`${props.scoreValue}`}</span>

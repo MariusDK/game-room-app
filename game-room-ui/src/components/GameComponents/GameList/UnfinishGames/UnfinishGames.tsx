@@ -59,7 +59,6 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             var obj = JSON.parse(currentUser);
             GameService.getGamesUnfinishOfPlayer(pageNumber,obj.id).then((result: IGame[]) => {
                 this.setState({ ugames: result, loading: false, pageNumber: pageNumber });
-                console.log(this.state.pageNumber);
             });
         }
     }
@@ -89,7 +88,6 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         let pageNumber = this.state.pageNumber;
         pageNumber++;
         this.setState({pageNumber:pageNumber});
-        console.log(pageNumber);
         if (this.state.filter==true){
             this.getByFilter(this.state.filterType,pageNumber);
         }
@@ -141,10 +139,8 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         }
         else{
         GameService.getGameByName(this.state.gameName).then((result: IGame) => {
-            console.log(result.id);
             if (result.id==undefined)
             {
-                console.log("aici");
                 this.setState({errorMessage:"Game not found!",loading: false});
             }
             else{
@@ -157,19 +153,16 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
    
     getByFilter=(filterType:string, pageNumber:number)=>{
             this.setState({ ugames: [],ordered:false});
-            console.log(pageNumber);
             if (this.state.filter==false)
             {
                 pageNumber = 0;
             }
-            //console.log(this.state.pageNumber);
             this.setState({ filter: true});
             let currentUser = localStorage.getItem("currentUser");
             if (currentUser != null) {
                 var obj = JSON.parse(currentUser);
                 GameService.getGamesUnfinishOfPlayerAndType(pageNumber,filterType,obj.id).then((result: IGame[]) => {
                     this.setState({ ugames: result, loading: false, filterType:filterType,pageNumber:pageNumber });
-                    console.log(this.state.pageNumber);
                 });
                 }
             }
@@ -212,7 +205,6 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
             var obj = JSON.parse(currentUser);
             GameService.getUnfinishGamesOrderByStartDate(pageNumber,obj.id).then((result: IGame[]) => {
                 this.setState({ ugames: result, loading: false, pageNumber: pageNumber});
-                console.log(this.state.pageNumber);
             });
             }
         }
@@ -229,11 +221,8 @@ export default class UnfinishGames extends React.Component<any, IUnfinishGamesSt
         this.setState({blurNavDropdown:false});
     }
     render() {
-        console.log(this.state.pageNumber);
         if (this.state.redirect) {
-            console.log(this.state.gameType);
             if (this.state.gameType == "solo") {
-                console.log(this.state.gameName);
                 return <Redirect to={`/gameSoloPage/${this.state.gameName}`}/>
             }
             else {

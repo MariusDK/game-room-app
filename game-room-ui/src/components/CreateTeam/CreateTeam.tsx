@@ -128,8 +128,11 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                     {
                         this.setState({ errorMessage: "The team already exists or is empty!"});
                     }
+                    else{
+                        this.setState({ redirect: true });
+                    }
                 });
-            this.setState({ redirect: true });
+
         }
         this.setState({ loading: false })
     }
@@ -179,7 +182,9 @@ export default class CreateTeam extends React.Component<ITeamProps, ITeamState>
                     <span style={{ color: "red" }}>{this.state.errorMessage}</span><br />
                     <div className="playerCard">
                     {this.state.players.map((item, index) => (
-                        <Suggestions player={item}
+                        <Suggestions
+                                    key={index} 
+                                    player={item}
                                     removePlayerFromList={this.removePlayerFromList}
                         />
                         )

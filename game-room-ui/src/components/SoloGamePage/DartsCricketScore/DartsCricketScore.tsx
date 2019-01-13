@@ -21,6 +21,7 @@ export interface IDartsCricketState {
     openNumbers2: string[];
     score1: number;
     score2: number;
+    gameStatus: string;
 }
 export default class DartsCricketScore extends React.Component<IDartsCricketProps, IDartsCricketState>
 {
@@ -35,7 +36,8 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
             openNumbers2: [],
             score1: 0,
             score2: 0,
-            round: 1
+            round: 1,
+            gameStatus:''
         }
     }
     handleChange = (e: any) => {
@@ -48,6 +50,9 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
         ));
     }
     componentDidMount() {
+        let gameState = localStorage.getItem('gameState');
+        this.setState({gameStatus:gameState});
+        console.log(this.props.dartsCricket1.score.value);
         let hits1: string[] = this.props.dartsCricket1.hits;
         if (hits1 == null) {
             hits1 = [];
@@ -195,6 +200,7 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
         }
     }
     nextRound = () => {
+        console.log("NextPlayer");
         let round = this.state.round;
         round++;
         this.setState({ round: round })
@@ -205,6 +211,7 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                 <div className="dartsCricket">
                     <span className="score">{`${this.props.dartsCricket1.score.team.players[0].name}-${this.props.dartsCricket1.score.value}`} </span>
                     <span className="score">{`${this.props.dartsCricket2.score.team.players[0].name}-${this.props.dartsCricket2.score.value}`} </span>
+                    {this.state.gameStatus!="finish"?(
                     <div className="btnList">
                     <div className="hitsBtn">
                         <button onClick={() => this.hit("20")}>20</button>
@@ -217,6 +224,8 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                     </div>
                     <button className="nextPBtn" onClick={this.nextRound}>Next player</button>
                 </div>
+                    )
+                :null}
                 </div>
             );
         }
@@ -225,7 +234,9 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                 <div className="dartsCricket">
                     <span className="score">{`${this.props.dartsCricket1.score.team.name}-${this.state.score1}`} </span>
                     <span className="score">{`${this.props.dartsCricket2.score.team.name}-${this.state.score2}`} </span>
-                    <div className="hitsBtn">
+                    {this.state.gameStatus!="finish"?(
+                        <div className="btnList">
+                        <div className="hitsBtn">
                         <button onClick={() => this.hit("20")}>20</button>
                         <button onClick={() => this.hit("19")}>19</button>
                         <button onClick={() => this.hit("18")}>18</button>
@@ -233,8 +244,11 @@ export default class DartsCricketScore extends React.Component<IDartsCricketProp
                         <button onClick={() => this.hit("16")}>16</button>
                         <button onClick={() => this.hit("15")}>15</button>
                         <button onClick={() => this.hit("25")}>BULL</button>
-                    </div>
-                    <button className="nextPBtn" onClick={this.nextRound}>Next player</button>
+                        </div>
+                        <button className="nextPBtn" onClick={this.nextRound}>Next player</button>
+                        </div>
+                    )
+                    :null}
                 </div>
             );
         }
