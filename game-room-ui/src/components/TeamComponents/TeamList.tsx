@@ -40,7 +40,6 @@ export default class TeamList extends React.Component<ITeamListProps, ITeamListS
             if (result.length!=0)
             {
                 result.forEach(element => {
-                    console.log(element);
                     if (element.name!="")
                     {
                         teamList.push(element);
@@ -48,7 +47,6 @@ export default class TeamList extends React.Component<ITeamListProps, ITeamListS
                 });
             }
             this.setState({teams:teamList,userId:userId});
-            console.log(this.state.teams);
         });
     }
     removeTeamFromList = (team:ITeam) => {
@@ -77,7 +75,9 @@ export default class TeamList extends React.Component<ITeamListProps, ITeamListS
                 <br />
                <div className="teamListCardGame">
                 {this.state.teams.map((item, index)=>(
-                    <TeamCard team={item}
+                    <TeamCard 
+                              key={index}
+                              team={item}
                               removeTeamFromList={this.removeTeamFromList}
                     />
                 )

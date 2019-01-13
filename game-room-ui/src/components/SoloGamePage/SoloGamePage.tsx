@@ -43,7 +43,6 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
             this.setState({ type: result.type });
             if (result.victoryMoments != undefined) {
                 this.setState({ victoryMoments: result.victoryMoments });
-                console.log(this.state.victoryMoments);
             }
             if (result.embarrassingMoments != undefined) {
                 this.setState({ embarrassingMoments: result.embarrassingMoments });

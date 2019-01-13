@@ -101,8 +101,7 @@ export default class LoginPlayer extends React.Component<ILoginPlayerProps, ILog
 
             //this.setState({redirect:true});
         } else {
-            console.log("Error");
-            this.setState({ errorMessage: "Error" });
+            this.setState({ errorMessage: "Failed to login!" });
         }
         this.setState({ loading: false });
 

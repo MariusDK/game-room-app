@@ -11,21 +11,18 @@ export default class GameService {
     }
     public static getGameByName = (gameName:string):Promise<IGame> =>
     {
-        console.log(gameName);
         return axios
         .get(`https://localhost:44333/api/game?gameName=${gameName}`)
         .then((result: AxiosResponse) => result.data)
     }
     public static finishGame = (gameName:string,game:IGame):Promise<string> =>
     {
-        console.log(gameName);
         return axios
         .put(`https://localhost:44333/api/game?name=${gameName}`,game)
         .then((result: AxiosResponse) => result.data)
     }
     public static getGamesUnfinishOfPlayer = (page:number,playerId:string):Promise<IGame[]> =>
     {
-        console.log(playerId);
         return axios
         .get(`https://localhost:44333/api/game?page=${page}&userIdu=${playerId}`)
         .then((result: AxiosResponse) => result.data)
@@ -69,7 +66,6 @@ export default class GameService {
     }
     public static getPredictionGame = (infoAboutImg:string):Promise<string> =>
     {
-        console.log(infoAboutImg);
         return axios
         .get(`https://localhost:44333/api/game?imgAbout=${infoAboutImg}`)
         .then((result: AxiosResponse) => result.data)

@@ -30,6 +30,7 @@ export interface IScoreListState {
     leaderboardDartsX01: IDartsX01[];
     finishGame: string;
     refresh: boolean;
+    gameStatus: string;
 }
 export default class ScoreList extends React.Component<IScoreListProps, IScoreListState>
 {
@@ -44,10 +45,13 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
             loading2: true,
             leaderboardDartsX01: [],
             finishGame: '',
-            refresh: true
+            refresh: true,
+            gameStatus:''
         }
     }
     public componentDidMount() {
+        let gameState = localStorage.getItem('gameState');
+        this.setState({gameStatus:gameState});
         this.getData();
     }
     getData = () => {
@@ -177,12 +181,17 @@ export default class ScoreList extends React.Component<IScoreListProps, IScoreLi
         if (this.props.gameType == "Darts/X01") {
             return (
                 <div>
-                    <p>Choose starting score:</p>
+                            
+                    {this.state.gameStatus!="finish"?(
+
                     <div className="startPoint">
+                    <p>Choose starting score:</p>
                     <button onClick={this.start301}>301</button>
                     <button onClick={this.start501}>501</button>
                     <button onClick={this.start1001}>1001</button>
                     </div>
+                      )
+                      :null}
                     {(this.props.typeOfGame == "multi") &&
                         <h2>Team List</h2>}
                     {(this.props.typeOfGame == "solo") &&

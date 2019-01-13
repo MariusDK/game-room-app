@@ -204,7 +204,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                         loading={this.state.loading}
                     />
                     <button className="registerBtn" onClick={this.addPlayer}>Register</button><br />
-                    <div className="socialExperience">
+                    <div className="socialExperienceRegister">
                     <FacebookLogin
                     textButton=""
                     size="small"
@@ -225,7 +225,7 @@ export default class RegisterPlayer extends React.Component<IRegisterPlayerProps
                         />
                     
                     </div>
-                    <span className="errorMessage" style={{ color: "red" }}>{this.state.serverError}</span><br />
+                    <span className="errorMessageRegister" style={{ color: "red" }}>{this.state.serverError}</span><br />
                 </div>
                 <Footer />
             </div>
