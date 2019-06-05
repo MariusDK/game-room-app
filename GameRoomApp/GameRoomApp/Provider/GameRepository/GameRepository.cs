@@ -35,6 +35,21 @@ namespace GameRoomApp.providers.GameRepository
             Game game = cursor.FirstOrDefault();
             return game;
         }
+        public Team GetPlayerTeam(Game game, string playerId)
+        {
+            foreach (Team team in game.Teams)
+            {
+                foreach (Player player in team.Players)
+                {
+                    if (player.Id.Equals(playerId))
+                    {
+                        return team;
+                    }
+                }
+            }
+            return null;
+
+        }
         public IEnumerable<Game> GetAllGames()
         {
             var builder = Builders<Game>.Filter;

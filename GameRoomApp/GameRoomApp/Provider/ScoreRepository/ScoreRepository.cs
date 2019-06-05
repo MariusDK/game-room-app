@@ -53,6 +53,14 @@ namespace GameRoomApp.providers.ScoreRepository
             List<Score> scores = cursor.ToList();
             return scores;
         }
+        public List<Score> GetScoresOfPlayer(string playerId)
+        {
+            var builder = Builders<Score>.Filter;
+            var gameFilter = builder.Eq("Team.Players.Id", playerId);
+            var cursor = _scoreContext.Score.Find(gameFilter);
+            List<Score> scores = cursor.ToList();
+            return scores;
+        }
 
         public IEnumerable<Score> LeaderboardForGame(Game game)
         {

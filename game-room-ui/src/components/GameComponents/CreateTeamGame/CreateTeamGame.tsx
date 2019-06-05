@@ -10,6 +10,8 @@ import Navigation from 'src/components/Header/Navigation/Navigation';
 import "./CreateTeamGame.css";
 import Footer from 'src/components/Footer/Footer';
 import TeamCard from 'src/components/TeamCard/TeamCard';
+import DropdownLocation from '../DropdownLocation/DropdownLocantion';
+import DropdownReferee from '../DropdownReferee/DropdownReferee';
 
 export default class CreateTeamGame extends React.Component<ICreateGameProps, ICreateGameState>
 {
@@ -31,7 +33,11 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             teamName: '',
             error: '',
             duplicate: false,
-            blur: false
+            blur: false,
+            displayLocationMenu: false,
+            location: "Bucharest",
+            displayRefereeMenu: false,
+            referee: "Gratian"
         }
     }
     componentDidMount(){
@@ -100,6 +106,8 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             const newGame: IGame = {
                 name: this.state.name,
                 type: this.state.type,
+                location: this.state.location,
+                referee: this.state.referee,
                 teams: this.state.teams,
                 victoryMoments: [],
                 embarrassingMoments: []
@@ -138,6 +146,52 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
             teamList.splice(positionOfElement,1);
             this.setState({teams:teamList});
         }
+    }
+    showRefereeDropdown=(e:any)=> {
+        e.preventDefault();
+        if (this.state.displayRefereeMenu)
+        {
+            this.setState({displayRefereeMenu:false});
+        }
+        else
+        {
+            this.setState({displayRefereeMenu:true},() => {
+                document.addEventListener('click', this.cancelRefereeDropdown);
+              });
+        }
+    }
+    cancelRefereeDropdown=(e:any)=> {
+        this.setState({displayRefereeMenu:false},() => {
+            document.removeEventListener('click', this.cancelRefereeDropdown);
+          });
+      }
+    choosenReferee=(referee:string)=>{
+        this.setState({referee:referee});
+        document.getElementById("displayReferee").innerHTML = referee;
+        console.log(referee);
+    }
+    showLocationDropdown=(e:any)=> {
+        e.preventDefault();
+        if (this.state.displayLocationMenu)
+        {
+            this.setState({displayLocationMenu:false});
+        }
+        else
+        {
+            this.setState({displayLocationMenu:true},() => {
+                document.addEventListener('click', this.cancelLocationDropdown);
+              });
+        }
+    }
+    cancelLocationDropdown=(e:any)=> {
+        this.setState({displayLocationMenu:false},() => {
+            document.removeEventListener('click', this.cancelLocationDropdown);
+          });
+      }
+    choosenLocation=(location:string)=>{
+        this.setState({location:location});
+        console.log(this.state.location);
+        document.getElementById("displayLocation").innerHTML = location;
     }
     onAddBlur=()=>
     {
@@ -185,6 +239,21 @@ export default class CreateTeamGame extends React.Component<ICreateGameProps, IC
                 )
                 )}
                 </div>
+                <button onClick={this.showLocationDropdown} id="displayLocation" className="dropdownFilterBtn">Location</button>
+        
+                    <DropdownLocation
+                        displayLocationMenu={this.state.displayLocationMenu}
+                        choosenLocation={this.choosenLocation}
+                    >
+                    </DropdownLocation>
+                    <button onClick={this.showRefereeDropdown} id="displayReferee" className="dropdownFilterBtn">Referee</button>
+                    
+         
+                    <DropdownReferee
+                        displayRefereeMenu={this.state.displayRefereeMenu}
+                        choosenReferee={this.choosenReferee}
+                    >
+                    </DropdownReferee>
                 <span style={{ color: "red" }}>{this.state.error}</span><br />
                 <button className="startBtnMulti" onClick={this.createGame}>Start</button>
                 </div>

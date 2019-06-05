@@ -1,6 +1,6 @@
 .soloGamePage{
     background: url(./gamePageWallpaper.jpg);
-    min-height: 77vh; 
+    min-height: 78vh; 
     background-size: 100% 100%;
     display: block;
     color: #FFFFF3;
@@ -12,14 +12,32 @@
     border-bottom: 3px solid #FFFFF3;
     border-radius: 5px;
 }
+#alert-dialog-title{
+    background: #D6A074;
+    border-bottom: 3px solid #8e5c34e0;
+    color: #FFFFF3;
+
+}
+.MuiDialogContent-root{
+    background: #503C2C;
+
+}
+.MuiDialogContent-root p{
+    color: #FFFFF3;
+}
+.MuiDialogActions-root.MuiDialogActions-spacing
+{
+    background: #503C2C;
+
+}
 .leftGamePage
 {
     margin-top: 0%;
     text-align: left;
-    margin-left: 2%;
+    margin-left: 5%;
     width: 48%;
     height: 100%;
-    display: inline-block;
+    display: grid;
     top: 0;
     position: relative;
     float: left;
@@ -74,4 +92,16 @@
 }
 .hideFinishButton{
     display: none;
+}
+.predictGameBtn{
+    margin-top: 1%;
+    margin-bottom: 3%;
+    background: transparent;
+    color:#FFFFF3;
+    text-decoration: none;
+    border: 3px solid #FFFFF3;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
 }

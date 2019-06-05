@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './DropdownFilter.css';
+
 export interface IDropdownProps {
     displayMenu: boolean;
     filter(gameType: string,pageNumber:number): void;
