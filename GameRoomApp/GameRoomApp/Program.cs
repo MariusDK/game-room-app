@@ -120,76 +120,76 @@ namespace GameRoomApp
             teams3.Add(teams[2]);
 
 
-            Game game1 = new Game("5bec01f13b4a4a3cd81f456f", "Joc1", "Fifa", teams1, DateTime.Now);
-            Game game2 = new Game("994f8881011ea98668f4f090", "Joc2", "Darts/Cricket", teams1, DateTime.Now);
-            Game game3 = new Game("df8b4518c1f279c812c3e9c6", "Joc3", "Darts/X01", teams1, DateTime.Now);
-            Game game4 = new Game("92acbcb8d9e3b016f147973b", "Joc4", "Darts/Cricket", teams2, DateTime.Now);
-            Game game5 = new Game("e65909d50566e7da93c18a34", "Joc5", "Darts/X01", teams3, DateTime.Now);
-            Game game6 = new Game("480231d988cc45af532b0465", "Joc6", "Foosball", teams2, DateTime.Now);
+            //Game game1 = new Game("5bec01f13b4a4a3cd81f456f", "Joc1", "Fifa", teams1, DateTime.Now);
+            //Game game2 = new Game("994f8881011ea98668f4f090", "Joc2", "Darts/Cricket", teams1, DateTime.Now);
+            //Game game3 = new Game("df8b4518c1f279c812c3e9c6", "Joc3", "Darts/X01", teams1, DateTime.Now);
+            //Game game4 = new Game("92acbcb8d9e3b016f147973b", "Joc4", "Darts/Cricket", teams2, DateTime.Now);
+            //Game game5 = new Game("e65909d50566e7da93c18a34", "Joc5", "Darts/X01", teams3, DateTime.Now);
+            //Game game6 = new Game("480231d988cc45af532b0465", "Joc6", "Foosball", teams2, DateTime.Now);
 
 
-            List<Game> games = new List<Game>();
-            games.Add(game1);
-            games.Add(game2);
-            games.Add(game3);
-            games.Add(game4);
-            games.Add(game5);
-            games.Add(game6);
+            //List<Game> games = new List<Game>();
+            //games.Add(game1);
+            //games.Add(game2);
+            //games.Add(game3);
+            //games.Add(game4);
+            //games.Add(game5);
+            //games.Add(game6);
 
-            gameCol.InsertMany(games);
+            //gameCol.InsertMany(games);
             List<Score> scores = new List<Score>();
             List<DartsCricket> dartsCrickets = new List<DartsCricket>();
             List<DartsX01> dartsX01s = new List<DartsX01>();
 
-            Score score1 = new Score("53a6f7fe7203d6e6a544b65c",teams[0],game1);
-            scores.Add(score1);
-            Score score2 = new Score("a039dae78caf276e5195e6f9", teams[1], game1);
-            scores.Add(score2);
+            //Score score1 = new Score("53a6f7fe7203d6e6a544b65c",teams[0],game1);
+            //scores.Add(score1);
+            //Score score2 = new Score("a039dae78caf276e5195e6f9", teams[1], game1);
+            //scores.Add(score2);
 
-            Score score3 = new Score("917dd10d4e37a4bab350fdb1", teams[0], game2);
-            scores.Add(score3);
-            DartsCricket dartsCricket1 = new DartsCricket(score3);
-            dartsCrickets.Add(dartsCricket1);
-            Score score4 = new Score("606f58a9d9ae17388095735e", teams[1], game2);
-            scores.Add(score4);
-            DartsCricket dartsCricket2 = new DartsCricket(score4);
-            dartsCrickets.Add(dartsCricket2);
+            //Score score3 = new Score("917dd10d4e37a4bab350fdb1", teams[0], game2);
+            //scores.Add(score3);
+            //DartsCricket dartsCricket1 = new DartsCricket(score3);
+            //dartsCrickets.Add(dartsCricket1);
+            //Score score4 = new Score("606f58a9d9ae17388095735e", teams[1], game2);
+            //scores.Add(score4);
+            //DartsCricket dartsCricket2 = new DartsCricket(score4);
+            //dartsCrickets.Add(dartsCricket2);
 
-            Score score5 = new Score("e44af887fa698eba93860929", teams[0], game3);
-            scores.Add(score5);
-            DartsX01 dartsX011 = new DartsX01(score5);
-            dartsX01s.Add(dartsX011);
-            Score score6 = new Score("f9dfc49456e924f75b873bfd", teams[1], game3);
-            scores.Add(score6);
-            DartsX01 dartsX012 = new DartsX01(score6);
-            dartsX01s.Add(dartsX012);
+            //Score score5 = new Score("e44af887fa698eba93860929", teams[0], game3);
+            //scores.Add(score5);
+            //DartsX01 dartsX011 = new DartsX01(score5);
+            //dartsX01s.Add(dartsX011);
+            //Score score6 = new Score("f9dfc49456e924f75b873bfd", teams[1], game3);
+            //scores.Add(score6);
+            //DartsX01 dartsX012 = new DartsX01(score6);
+            //dartsX01s.Add(dartsX012);
 
-            Score score7 = new Score("cac8fc99190916d692418dd6", teams[2], game4);
-            scores.Add(score7);
-            DartsCricket dartsCricket3 = new DartsCricket(score7);
-            dartsCrickets.Add(dartsCricket3);
-            Score score8 = new Score("c4c356e866fc99a89723113e", teams[3], game4);
-            scores.Add(score8);
-            DartsCricket dartsCricket4 = new DartsCricket(score8);
-            dartsCrickets.Add(dartsCricket4);
+            //Score score7 = new Score("cac8fc99190916d692418dd6", teams[2], game4);
+            //scores.Add(score7);
+            //DartsCricket dartsCricket3 = new DartsCricket(score7);
+            //dartsCrickets.Add(dartsCricket3);
+            //Score score8 = new Score("c4c356e866fc99a89723113e", teams[3], game4);
+            //scores.Add(score8);
+            //DartsCricket dartsCricket4 = new DartsCricket(score8);
+            //dartsCrickets.Add(dartsCricket4);
 
-            Score score9 = new Score("d96a906662e793726bd6f644", teams[2], game5);
-            scores.Add(score9);
-            DartsX01 dartsX013 = new DartsX01(score9);
-            dartsX01s.Add(dartsX013);
-            Score score10 = new Score("dcc57e854a7754536115b626", teams[4], game5);
-            scores.Add(score10);
-            DartsX01 dartsX014 = new DartsX01(score10);
-            dartsX01s.Add(dartsX014);
+            //Score score9 = new Score("d96a906662e793726bd6f644", teams[2], game5);
+            //scores.Add(score9);
+            //DartsX01 dartsX013 = new DartsX01(score9);
+            //dartsX01s.Add(dartsX013);
+            //Score score10 = new Score("dcc57e854a7754536115b626", teams[4], game5);
+            //scores.Add(score10);
+            //DartsX01 dartsX014 = new DartsX01(score10);
+            //dartsX01s.Add(dartsX014);
 
-            Score score11 = new Score("33a00ae166d60fde092ed876", teams[2], game6);
-            scores.Add(score11);
-            Score score12 = new Score("52a2a2d08b5a6aab9d7953a3", teams[3], game6);
-            scores.Add(score12);
+            //Score score11 = new Score("33a00ae166d60fde092ed876", teams[2], game6);
+            //scores.Add(score11);
+            //Score score12 = new Score("52a2a2d08b5a6aab9d7953a3", teams[3], game6);
+            //scores.Add(score12);
 
-            scoreCol.InsertMany(scores);
-            dartsCricketCol.InsertMany(dartsCrickets);
-            dartsX01Col.InsertMany(dartsX01s);
+            //scoreCol.InsertMany(scores);
+            //dartsCricketCol.InsertMany(dartsCrickets);
+            //dartsX01Col.InsertMany(dartsX01s);
 
         }
     }

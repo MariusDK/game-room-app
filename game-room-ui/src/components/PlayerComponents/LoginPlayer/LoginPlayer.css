@@ -1,7 +1,7 @@
 .Login{
     text-align: right;
     background-image: url("./login_wallpaper.jpg");
-    min-height: 77vh; 
+    min-height: 78vh; 
     background-size: 100% 100%;
 }
 .loginBtn {

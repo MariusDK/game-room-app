@@ -1,7 +1,7 @@
 .soloGameC{
     text-align: center;
     background: url(./wallpaper_create_game.jpg);
-    min-height: 77vh; 
+    min-height: 78vh; 
     background-size: 100% 100%;
     color: black;
 }
@@ -64,4 +64,15 @@
     text-align: left;
     display: block;
     margin-top: 2%;
+}
+.show.dropdown{
+    display: inline;
+    
+}
+.dropdown-menu.show {
+    display: grid;
+    background: #D6A074;
+}
+#displayLocation{
+    margin-bottom: 1%;
 }

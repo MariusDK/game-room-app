@@ -7,6 +7,9 @@ using GameRoomApp.providers.ScoreRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GameRoomApp.providers.GameRepository;
+using GameRoomApp.Util.CART;
+using MongoDB.Bson;
+using GameRoomApp.providers.PlayerRepository;
 
 namespace GameRoomApp.Controller
 {
@@ -16,10 +19,12 @@ namespace GameRoomApp.Controller
     {
         private readonly IScoreRepository _scoreRepository;
         private readonly IGameRepository _gameRepository;
-        public ScoreController(IScoreRepository scoreRepository,IGameRepository gameRepository)
+        private readonly IPlayerRepository _playerRepository;
+        public ScoreController(IScoreRepository scoreRepository,IGameRepository gameRepository, IPlayerRepository playerRepository)
         {
             this._scoreRepository = scoreRepository;
             this._gameRepository = gameRepository;
+            this._playerRepository = playerRepository;
         }
         [HttpGet]
         [ActionName("GetScore")]
@@ -27,6 +32,40 @@ namespace GameRoomApp.Controller
         public Score GetScore(string scoreId)
         {
             return _scoreRepository.GetScoreById(scoreId);
+        }
+        [HttpGet]
+        [ActionName("GetPrediction")]
+        [ExactQueryParam("gameId","playerId")]
+        public string GetPrediction(string gameId,string playerId)
+        {
+            List<Score> AllScores = _scoreRepository.GetScoresOfPlayer(playerId);
+            List<Score> scores = new List<Score>();
+
+            foreach (Score score in AllScores)
+            {
+                if (!(score.Game.Id.Equals(gameId)))
+                {
+                    scores.Add(score);
+                }
+            }
+            List<string> features = new List<string>() { "GameType", "Location", "Opponent", "Age", "Referee" };
+            ObjectId gameObId = new ObjectId(gameId);
+            Game game = _gameRepository.GetGameById(gameObId);
+            Team teamOfPlayer = _gameRepository.GetPlayerTeam(game, playerId);
+            List<Player> opponents = new List<Player>();
+            foreach (Team team in game.Teams)
+            {
+                if (!(team.Id.Equals(teamOfPlayer.Id)))
+                {
+                    foreach (Player opponent in team.Players)
+                    {
+                        opponents.Add(opponent);
+                    }
+                }
+            }
+            Player player = _playerRepository.GetPlayerById(new ObjectId(playerId));
+            DecisionTree decisionTree = new DecisionTree(scores,features,opponents,player,game,_scoreRepository);
+            return decisionTree.prediction;
         }
         [HttpGet]
         [ActionName("GetScoresOfGame")]

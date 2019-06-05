@@ -57,7 +57,6 @@ namespace GameRoomApp
             services.AddTransient<IDartsCricketContext, DartsCricketContext>();
             services.AddTransient<IDartsCricketRepository, DartsCricketRepository>();
 
-
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
@@ -81,8 +80,6 @@ namespace GameRoomApp
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
-
-            app.UseMvc();
 
             app.UseHttpsRedirection();
             app.UseMvc();
