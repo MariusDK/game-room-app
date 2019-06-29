@@ -26,14 +26,18 @@ namespace GameRoomApp.Controller
         private readonly IScoreRepository _scoreRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly ITeamRepository _teamRepository;
+        private readonly IDartsX01Repository _dartsX01Repository;
+        private readonly IDartsCricketRepository _dartsCricketRepository;
         private PredictionGame _predicitonGame;
         public GameController(IScoreRepository scoreRepository, IGameRepository gameRepository,
-            IPlayerRepository playerRepository, ITeamRepository teamRepository)
+            IPlayerRepository playerRepository, ITeamRepository teamRepository, IDartsX01Repository dartsX01Repository, IDartsCricketRepository dartsCricketRepository)
         {
             this._gameRepository = gameRepository;
             this._scoreRepository = scoreRepository;
             this._playerRepository = playerRepository;
             this._teamRepository = teamRepository;
+            this._dartsX01Repository = dartsX01Repository;
+            this._dartsCricketRepository = dartsCricketRepository;
             _predicitonGame = new PredictionGame();
   
         }
@@ -264,10 +268,52 @@ namespace GameRoomApp.Controller
             if (existentGame != null)
             {
                 List<Score> scores = _scoreRepository.GetScoresForGame(existentGame);
+                Score winnerScore = new Score();
+                winnerScore.Value = 0;
+                //find who is the winner
+                if (game.Type.Equals("Darts/X01"))
+                {
+                    var leaderboardDartsX01 = _dartsX01Repository.LeaderboardInGameDartsX01(game, scores);
+                    var winnerDartsX01 = leaderboardDartsX01.First();
+                    foreach (Score score in scores)
+                    {
+                        if (score.Team.Id == winnerDartsX01.Key.Id)
+                        {
+                            winnerScore = score;
+                            winnerScore.Value = 1;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Score score in scores)
+                    {
+                        score.Game = game;
+                        if (winnerScore.Value < score.Value)
+                        {
+                            winnerScore = score;
+                        }
+
+                    }
+                }
                 foreach (Score score in scores)
                 {
                     score.Game = game;
+                    if (winnerScore.Id == score.Id)
+                    {
+                        double ChanceOfVictory = winnerScore.ChanceOfVictory+3;
+                        if (ChanceOfVictory>100)
+                        {
+                            ChanceOfVictory = ChanceOfVictory - (ChanceOfVictory - 100);
+                        }
+                        score.ChanceOfVictory = ChanceOfVictory;
+                    }
+                    else
+                    {
+                        score.ChanceOfVictory = score.ChanceOfVictory - 3;
+                    }
                     _scoreRepository.UpdateScore(score);
+
                 }
                 //_scoreRepository.UpdateScoreByGame(game,existentGame);
                 _gameRepository.UpdateGameById(game);

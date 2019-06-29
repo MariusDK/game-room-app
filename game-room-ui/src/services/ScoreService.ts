@@ -26,6 +26,11 @@ export default class ScoreService {
         .get(`https://localhost:44333/api/score?gameId=${gameId}&playerId=${playerId}`)
         .then((result:AxiosResponse) => result.data)
     }
+    public static getProcentualPrediction = (gameId:string,playerId:string):Promise<number>=>{
+        return axios
+        .get(`https://localhost:44333/api/score?gameId=${gameId}&playerId=${playerId}&regression=${'regression'}`)
+        .then((result:AxiosResponse) => result.data)
+    }
     public static updateScore = (scoreId:string,score:IScore):Promise<string> =>
     {
         return axios

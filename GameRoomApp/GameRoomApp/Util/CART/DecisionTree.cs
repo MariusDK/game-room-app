@@ -11,6 +11,7 @@ namespace GameRoomApp.Util.CART
     {
         public Node root { get; set; }
         public string prediction { get; set; }
+        public double procentualPrediction { get; set; }
         public IScoreRepository scoreRepository;
 
         public DecisionTree(Node root, IScoreRepository scoreRepository)
@@ -60,7 +61,7 @@ namespace GameRoomApp.Util.CART
                 prediction = MakeDecision(scores);
             }
             else {
-                prediction = "no decision";
+                prediction = "equality";
             }
 
         }
@@ -668,6 +669,375 @@ namespace GameRoomApp.Util.CART
             {
                 return "defeat";
             }
+        }
+        // --------------------------------------------------------REGRETION PART
+        public DecisionTree(List<Score> scores, List<string> features, List<Player> opponents, Player player, Game game, IScoreRepository scoreRepository,string a)
+        {
+            if (scores.Count == 0)
+            {
+                procentualPrediction = 50;
+            }
+            else
+            {
+                if (scores.Count == 1)
+                {
+                    procentualPrediction = scores[0].ChanceOfVictory;
+                }
+                else
+                {
+                    this.scoreRepository = scoreRepository;
+                    string bestFeature = GetBestFeatureRegression(features, scores, opponents, player);
+                    features.Remove(bestFeature);
+                    this.root = new Node();
+                    this.root.value = bestFeature;
+                    this.root.left = new Node();
+                    this.root.right = new Node();
+                    scores = GetScoresAfterFeature(game, bestFeature, scores, opponents);
+                    Node currentNode = root;
+                    Queue<Node> nodes = new Queue<Node>();
+                    nodes.Enqueue(root.left);
+                    nodes.Enqueue(root.right);
+                    while (features.Count != 0)
+                    {
+                        if (bestFeature.Equals("empty"))
+                        {
+                            break;
+                        }
+                        if ((scores.Count < 3) || (CoeficientVariation(scores) < 10))
+                        {
+                            break;
+                        }
+                        if (nodes.Count != 0)
+                        {
+                            currentNode = nodes.First();
+                            bestFeature = GetBestFeatureRegression(features, scores, opponents, player);
+                            features.Remove(bestFeature);
+                            scores = GetScoresAfterFeature(game, bestFeature, scores, opponents);
+                            currentNode.left = new Node();
+                            currentNode.right = new Node();
+                            nodes.Enqueue(currentNode.left);
+                            nodes.Enqueue(currentNode.right);
+                        }
+                    }
+                    if (scores.Count != 0)
+                    {
+                        procentualPrediction = CalculateRegressionPrediction(scores);
+                    }
+                }
+            }
+        }
+        public string GetBestFeatureRegression(List<string> features, List<Score> scores, List<Player> opponents, Player player)
+        {
+            if (scores.Count != 0)
+            {
+                double SDRGameType = 0;
+                double SDRLocation = 0;
+                double SDROpponents = 0;
+                double SDRAge = 0;
+                double SDRReferee = 0;
+                double STarget = StandardDeviationOfTarget(scores);
+
+                foreach (string feature in features)
+                {
+                    if (feature.Equals("GameType"))
+                    {
+                        //calculam standard deviation GameType
+                        //facem diferenta si obtine reducerea deviatie standard
+                        double sdGameType = StandardDeviationGameType(scores);
+                        SDRGameType = STarget - sdGameType;
+                        
+                    }
+                    if (feature.Equals("Location"))
+                    {
+                        double sdLocation = StandardDeviationLocation(scores);
+                        SDRLocation = STarget - sdLocation;
+                    }
+                    if (feature.Equals("Opponent"))
+                    {
+                        double sdOpponents = StandardDeviationOpponents(scores, opponents);
+                        SDROpponents = STarget-sdOpponents;
+                    }
+                    if (feature.Equals("Form"))
+                    {
+                        //mai gandim
+                    }
+                    if (feature.Equals("ChoosenTeam"))
+                    {
+                        //intrebam daca mai adauga un field
+                    }
+                    if (feature.Equals("Age"))
+                    {
+                        double sdAge = StandardDeviationAge(scores, player);
+                        SDRAge = STarget-sdAge;
+                    }
+                    if (feature.Equals("Referee"))
+                    {
+                        double sdReferee = StandardDeviationReferee(scores);
+                        SDRReferee = STarget-sdReferee;
+                    }
+
+                }//eliminam cele care sunt 0
+                var SDRMap = new Dictionary<string, double>();
+
+                SDRMap.Add("GameType", SDRGameType);
+                SDRMap.Add("Location", SDRLocation);
+                SDRMap.Add("Opponents", SDROpponents);
+                SDRMap.Add("Age", SDRAge);
+                SDRMap.Add("Referee", SDRReferee);
+
+                KeyValuePair<string, double> choosenSDR = new KeyValuePair<string, double>("empty", 0);
+                foreach (KeyValuePair<string, double> sdr in SDRMap)
+                {
+                    if (sdr.Value > choosenSDR.Value)
+                    {
+                        choosenSDR = sdr;
+                    }
+                }
+                return choosenSDR.Key;
+            }
+            return "";
+       
+        }
+        public double StandardDeviationOfTarget(List<Score> scores)
+        {
+            double standardDeviationTarget = 0;
+            double medie = MedieScores(scores);
+            foreach (Score score in scores)
+            {
+                double val = score.ChanceOfVictory - medie;
+                standardDeviationTarget = standardDeviationTarget + Math.Pow(val, 2);
+            }
+            standardDeviationTarget = standardDeviationTarget / scores.Count;
+            double finalSDT = Math.Sqrt(standardDeviationTarget);
+            return finalSDT;
+        }
+        public double MedieScores(List<Score> scores)
+        {
+            double avg = 0;
+            foreach (Score score in scores)
+            {
+                avg = avg + score.ChanceOfVictory;
+            }
+            return avg / scores.Count;
+        }
+        public double StandardDeviationGameType(List<Score> scores)
+        {
+            //Darts
+            double sdGameType = 0;
+            List<Score> dartsX01s = new List<Score>();
+            List<Score> dartsCrickets = new List<Score>();
+            List<Score> fifas = new List<Score>();
+            List<Score> foosballs = new List<Score>();
+            List<Score> otherGames = new List<Score>();
+            double sdDartsX01 = 0;
+            double sdDartsCricket = 0;
+            double sdFifa = 0;
+            double sdFoosball = 0;
+            double sdOtherGames = 0;
+
+
+            foreach (Score score in scores)
+            {
+                if (score.Game.Type.Equals("Darts/X01"))
+                {
+                    dartsX01s.Add(score);
+                }
+                else if (score.Game.Type.Equals("Darts/Cricket"))
+                {
+                    dartsCrickets.Add(score);
+                }
+                else if (score.Game.Type.Equals("Fifa"))
+                {
+                    fifas.Add(score);
+                }
+                else if (score.Game.Type.Equals("Foosball"))
+                {
+                    foosballs.Add(score);
+                }
+                else
+                {
+                    otherGames.Add(score);
+                }
+            }
+            if (dartsX01s.Count != 0)
+            {
+                sdDartsX01 = StandardDeviationOfTarget(dartsX01s);
+            }
+            if (dartsCrickets.Count != 0)
+            {
+                sdDartsCricket = StandardDeviationOfTarget(dartsCrickets);
+            }
+            if (fifas.Count != 0)
+            {
+                sdFifa = StandardDeviationOfTarget(fifas);
+
+            }
+            if (foosballs.Count != 0)
+            {
+                sdFoosball = StandardDeviationOfTarget(foosballs);
+            }
+            if (otherGames.Count != 0)
+            {
+                sdOtherGames = StandardDeviationOfTarget(otherGames);
+            }
+            sdGameType = ((double)dartsX01s.Count / scores.Count) * sdDartsX01 + ((double)dartsCrickets.Count / scores.Count) * sdDartsCricket + ((double)foosballs.Count / scores.Count) * sdFoosball
+                + ((double)fifas.Count / scores.Count) * sdFifa + ((double)otherGames.Count / scores.Count) * sdOtherGames;
+
+
+            return sdGameType;
+        }
+        public double StandardDeviationLocation(List<Score> scores)
+        {
+            double sdLocation = 0;
+            List<Score> parisScores = new List<Score>();
+            List<Score> londonScores = new List<Score>();
+            List<Score> berlinScores = new List<Score>();
+            List<Score> romeScores = new List<Score>();
+            List<Score> bucharestScores = new List<Score>();
+            double sdParis = 0;
+            double sdLondon = 0;
+            double sdBerlin = 0;
+            double sdRome = 0;
+            double sdBucharest = 0;
+
+            foreach (Score score in scores)
+            {
+                if (score.Game.Location.Equals("Paris"))
+                {
+                    parisScores.Add(score);
+                }
+                if (score.Game.Location.Equals("London"))
+                {
+                    londonScores.Add(score);
+                }
+                if (score.Game.Location.Equals("Berlin"))
+                {
+                    berlinScores.Add(score);
+                }
+                if (score.Game.Location.Equals("Rome"))
+                {
+                    romeScores.Add(score);
+                }
+                if (score.Game.Location.Equals("Bucharest"))
+                {
+                    bucharestScores.Add(score);
+                }
+            }
+            if (parisScores.Count != 0)
+            {
+                sdParis = StandardDeviationOfTarget(parisScores);
+            }
+            if (londonScores.Count != 0)
+            {
+                sdLondon = StandardDeviationOfTarget(londonScores);
+            }
+            if (berlinScores.Count != 0)
+            {
+                sdBerlin = StandardDeviationOfTarget(berlinScores);
+            }
+            if (romeScores.Count != 0)
+            {
+                sdRome = StandardDeviationOfTarget(romeScores);
+            }
+            if (bucharestScores.Count != 0)
+            {
+                sdBucharest = StandardDeviationOfTarget(bucharestScores);
+            }
+            sdLocation = ((double)parisScores.Count / scores.Count) * sdParis + ((double)londonScores.Count / scores.Count) * sdLondon
+                + ((double)berlinScores.Count / scores.Count) * sdBerlin + ((double)romeScores.Count / scores.Count) * sdRome + ((double)bucharestScores.Count / scores.Count) * sdBucharest;
+            return sdLocation;
+
+        }
+        public double StandardDeviationOpponents(List<Score> scores, List<Player> opponents)
+        {
+            List<Score> opponentScores = GetScoresOfOpponents(scores, opponents);
+            double sdOpponents = StandardDeviationOfTarget(opponentScores);
+            return sdOpponents;
+        }
+        public double StandardDeviationAge(List<Score> scores, Player player)
+        {
+            double sdAge = 0;
+            double sdOlder = 0;
+            double sdYouger = 0;
+            string ageStatus;
+            var AgeMap = GetScoresOfAgeStatus(scores, player);
+            var youngOldValues = AgeMap.First();
+            List<Score> youngerList = youngOldValues.Key;
+            List<Score> olderList = youngOldValues.Value;
+            if (youngerList.Count != 0)
+            {
+                sdYouger = StandardDeviationOfTarget(youngerList);
+            }
+            if (olderList.Count != 0)
+            {
+                sdOlder = StandardDeviationOfTarget(olderList);
+            }
+            sdAge = ((double)youngerList.Count / scores.Count) * sdYouger + ((double)olderList.Count / scores.Count) * sdOlder;
+            return sdAge;
+        }
+        public double StandardDeviationReferee(List<Score> scores)
+        {
+            List<Score> iacobCalinScores = new List<Score>();
+            List<Score> gratianScores = new List<Score>();
+            List<Score> cosminScores = new List<Score>();
+            List<Score> gabiScores = new List<Score>();
+            double sdIacobCalin = 0;
+            double sdGratian = 0;
+            double sdCosmin = 0;
+            double sdGabi = 0;
+            double sdReferee = 0;
+            foreach (Score score in scores)
+            {
+                if (score.Game.Referee.Equals("Iacob Calin"))
+                {
+                    iacobCalinScores.Add(score);
+                }
+                if (score.Game.Referee.Equals("Gratian"))
+                {
+                    gratianScores.Add(score);
+                }
+                if (score.Game.Referee.Equals("Cosmin"))
+                {
+                    cosminScores.Add(score);
+                }
+                if (score.Game.Referee.Equals("Gabi"))
+                {
+                    gabiScores.Add(score);
+                }
+            }
+            if (iacobCalinScores.Count != 0)
+            {
+                sdIacobCalin = StandardDeviationOfTarget(iacobCalinScores);
+            }
+            if (gratianScores.Count != 0)
+            {
+                sdGratian = StandardDeviationOfTarget(gratianScores);
+            }
+            if (cosminScores.Count != 0)
+            {
+                sdCosmin = StandardDeviationOfTarget(cosminScores);
+            }
+            if (gabiScores.Count != 0)
+            {
+                sdGabi = StandardDeviationOfTarget(gabiScores);
+            }
+            sdReferee = ((double)iacobCalinScores.Count / scores.Count) * sdIacobCalin + ((double)gratianScores.Count / scores.Count) * sdGratian
+                + ((double)cosminScores.Count / scores.Count) * sdCosmin + ((double)gabiScores.Count / scores.Count) * sdGabi;
+            return sdReferee;
+        }
+        public double CoeficientVariation(List<Score> featureScore)
+        {
+            double CV = (StandardDeviationOfTarget(featureScore) / featureScore.Count) * 100;
+            return CV;
+        }
+        public double CalculateRegressionPrediction(List<Score> scores)
+        {
+            double regressionPrediction = 0;
+            foreach (Score score in scores)
+            {
+                regressionPrediction = regressionPrediction + score.ChanceOfVictory;
+            }
+            return regressionPrediction / scores.Count;
         }
     }
 }

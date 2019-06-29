@@ -40,5 +40,6 @@ namespace GameRoomApp.DataModel
         public Team Team { get; set; }
         public Game Game { get; set; }
         public int Value { get; set; }
+        public double ChanceOfVictory { get; set; }
     }
 }

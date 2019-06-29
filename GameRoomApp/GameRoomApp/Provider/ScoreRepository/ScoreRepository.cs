@@ -136,7 +136,7 @@ namespace GameRoomApp.providers.ScoreRepository
             var uBuilder = Builders<Score>.Update;
             var idFilter = fBuilder.Eq("Id", score.Id);
             var updateDefinition = uBuilder.Set("Team", score.Team).Set("Game", score.Game).
-                Set("Value", score.Value);
+                Set("Value", score.Value).Set("ChanceOfVictory",score.ChanceOfVictory);
             var cursor = _scoreContext.Score.UpdateOne(idFilter, updateDefinition);
         }
         public void UpdateScoreByGame(Game newGame,Game oldGame)
