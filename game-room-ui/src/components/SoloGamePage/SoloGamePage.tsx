@@ -26,6 +26,7 @@ export interface ISoloGameState {
     gameState: boolean;
     open: boolean;
     prediction: string;
+    procentualPrediction: number;
 }
 export interface ISoloGameProps extends RouteComponentProps<any> { }
 export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloGameState>
@@ -42,7 +43,8 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
             blur: false,
             gameState: false,
             open: false,
-            prediction: ''
+            prediction: '',
+            procentualPrediction: 0 
         }
     }
     onChange = (nameGame: string) => {
@@ -95,6 +97,11 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
                 this.setState({ open: true, prediction: prediction });
             })
         }); 
+        GameService.getGameByName(this.state.name).then((result: IGame) => {
+            ScoreService.getProcentualPrediction(result.id,player.id).then((procentualPrediction:number)=>{
+                this.setState({ open: true, procentualPrediction: procentualPrediction });
+            })
+        }); 
     }
 
     handleClose = () => {
@@ -145,7 +152,8 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
                                     <DialogTitle id="alert-dialog-title">{"Prediction"}</DialogTitle>
                                     <DialogContent id="alert-dialog-content">
                                         <DialogContentText id="alert-dialog-description">
-                                            Prediction here! {this.state.prediction}
+                                            Prediction here! {this.state.prediction} 
+                                            Chance of win: {this.state.procentualPrediction}
                                         </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>

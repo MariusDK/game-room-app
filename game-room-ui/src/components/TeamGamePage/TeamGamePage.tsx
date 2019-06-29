@@ -31,7 +31,7 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
             victoryMoments: [],
             embarrassingMoments: [],
             blur:false,
-            gameState: false
+            gameState: false,    
         }
     }
     onChange = (nameGame: string) => {

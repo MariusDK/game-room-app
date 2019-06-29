@@ -35,15 +35,16 @@ namespace GameRoomApp.Controller
         }
         [HttpGet]
         [ActionName("GetPrediction")]
-        [ExactQueryParam("gameId","playerId")]
-        public string GetPrediction(string gameId,string playerId)
+        [ExactQueryParam("gameId","playerId","classification")]
+        public string GetPrediction(string gameId,string playerId,string classification)
         {
             List<Score> AllScores = _scoreRepository.GetScoresOfPlayer(playerId);
             List<Score> scores = new List<Score>();
 
             foreach (Score score in AllScores)
             {
-                if (!(score.Game.Id.Equals(gameId)))
+                //de verificat
+                if (!(score.Game.Id.Equals(gameId)) && (score.Game.EndOn != DateTime.MinValue))
                 {
                     scores.Add(score);
                 }
@@ -66,6 +67,52 @@ namespace GameRoomApp.Controller
             Player player = _playerRepository.GetPlayerById(new ObjectId(playerId));
             DecisionTree decisionTree = new DecisionTree(scores,features,opponents,player,game,_scoreRepository);
             return decisionTree.prediction;
+        }
+        [HttpGet]
+        [ActionName("GetPredictionProcent")]
+        [ExactQueryParam("gameId", "playerId","regression")]
+        public double GetPredictionProecent(string gameId, string playerId,string regression)
+        {
+            List<Score> AllScores = _scoreRepository.GetScoresOfPlayer(playerId);
+            List<Score> scores = new List<Score>();
+            Score currentScore = new Score();
+            foreach (Score score in AllScores)
+            {
+                if ((!(score.Game.Id.Equals(gameId)))&&(score.Game.EndOn!=DateTime.MinValue))
+                {
+                    Console.WriteLine(DateTime.MinValue);
+                    scores.Add(score);
+                }
+                else
+                {
+                    if (score.Game.Id.Equals(gameId))
+                    {
+                        currentScore = score;
+                    }
+                }
+            }
+            List<string> features = new List<string>() { "GameType", "Location", "Opponent", "Age", "Referee" };
+            ObjectId gameObId = new ObjectId(gameId);
+            Game game = _gameRepository.GetGameById(gameObId);
+            Team teamOfPlayer = _gameRepository.GetPlayerTeam(game, playerId);
+            List<Player> opponents = new List<Player>();
+            foreach (Team team in game.Teams)
+            {
+                if (!(team.Id.Equals(teamOfPlayer.Id)))
+                {
+                    foreach (Player opponent in team.Players)
+                    {
+                        opponents.Add(opponent);
+                    }
+                }
+            }
+            Player player = _playerRepository.GetPlayerById(new ObjectId(playerId));
+            DecisionTree decisionTree = new DecisionTree(scores, features, opponents, player, game, _scoreRepository,"regression");
+
+            double procentualPrediction = decisionTree.procentualPrediction;
+            currentScore.ChanceOfVictory = procentualPrediction;
+            _scoreRepository.UpdateScore(currentScore);
+            return procentualPrediction;
         }
         [HttpGet]
         [ActionName("GetScoresOfGame")]

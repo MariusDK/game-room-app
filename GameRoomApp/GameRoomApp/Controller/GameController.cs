@@ -264,10 +264,35 @@ namespace GameRoomApp.Controller
             if (existentGame != null)
             {
                 List<Score> scores = _scoreRepository.GetScoresForGame(existentGame);
+                Score winnerScore = new Score();
+                winnerScore.Value = 0;
+                //find who is the winner
                 foreach (Score score in scores)
                 {
                     score.Game = game;
+                    if (winnerScore.Value>score.Value)
+                    {
+                        winnerScore = score;
+                    }
+                   
+                }
+                foreach (Score score in scores)
+                {
+                    score.Game = game;
+                    if (winnerScore.Id == score.Id)
+                    {
+                        double ChanceOfVictory = winnerScore.ChanceOfVictory+3;
+                        if (ChanceOfVictory>100)
+                        {
+                            ChanceOfVictory = ChanceOfVictory - (ChanceOfVictory - 100);
+                        }
+                    }
+                    else
+                    {
+                        double ChanceOfVictory = winnerScore.ChanceOfVictory - 3;
+                    }
                     _scoreRepository.UpdateScore(score);
+
                 }
                 //_scoreRepository.UpdateScoreByGame(game,existentGame);
                 _gameRepository.UpdateGameById(game);
