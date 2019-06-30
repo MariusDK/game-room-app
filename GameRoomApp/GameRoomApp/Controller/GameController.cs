@@ -298,6 +298,7 @@ namespace GameRoomApp.Controller
                 }
                 foreach (Score score in scores)
                 {
+                    
                     score.Game = game;
                     if (winnerScore.Id == score.Id)
                     {
@@ -310,7 +311,15 @@ namespace GameRoomApp.Controller
                     }
                     else
                     {
-                        score.ChanceOfVictory = score.ChanceOfVictory - 3;
+                        if (score.ChanceOfVictory != 0)
+                        {
+                            score.ChanceOfVictory = score.ChanceOfVictory - 3;
+                        }
+                        else
+                        {
+                            //Aici
+                            //List<Score> scores =
+                        }
                     }
                     _scoreRepository.UpdateScore(score);
 

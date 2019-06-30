@@ -144,7 +144,7 @@ namespace GameRoomApp.Controller
                 DecisionTree decisionTree = new DecisionTree(opponentScores, features, opponentsO, opponent, game, _scoreRepository, "regression");
                 double procentualPredictionOpponent = decisionTree.procentualPrediction;
                 currentOpponentScore.ChanceOfVictory = procentualPredictionOpponent;
-                _scoreRepository.UpdateScore(currentScore);
+                _scoreRepository.UpdateScore(currentOpponentScore);
             }
             double procentualPrediction = decisionTreeMain.procentualPrediction;
             currentScore.ChanceOfVictory = procentualPrediction;
