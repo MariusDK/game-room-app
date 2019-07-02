@@ -1,5 +1,5 @@
 .terms{
-    background-image:url('./terms_wallpaper.jpg');
+    background-image:url('./terms4.jpeg');
     height: 78vh;
     overflow: auto;  
     background-size: 100% 100%;
@@ -9,7 +9,7 @@
 }
 .termsInfo{
     display: block;
-    color:black;
+    color:#FFE4C2;
     margin:1% 14% 1% 14%;
     font:20px cursive, sans-serif;
     text-indent: 50px;

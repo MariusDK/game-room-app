@@ -12,6 +12,7 @@ namespace GameRoomApp.providers.ScoreRepository
         void InsertScoreForAllPlayers(Game game);
         List<Score> GetScoresForGame(Game game);
         List<Score> GetScoresOfPlayer(string playerId);
+        List<Score> GetScoresOfTeam(string teamId);
         IEnumerable<Score> LeaderboardForGame(Game game);
         Score GetScoreForTeam(Team team, Game game);
         Score GetScoreById(string id);
