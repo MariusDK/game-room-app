@@ -260,10 +260,11 @@ namespace GameRoomApp.Controller
         }
         [HttpPut]
         [ExactQueryParam("name")]
-        public string finishGame(string name, [FromBody] Game game)
+        public string FinishGame(string name, [FromBody] Game game)
         {
             var result = string.Empty;
             var existentGame = _gameRepository.GetGameByName(name);
+            var equalityIndice = 0;
             game.EndOn = DateTime.Now;
             if (existentGame != null)
             {
@@ -283,6 +284,7 @@ namespace GameRoomApp.Controller
                             winnerScore.Value = 1;
                         }
                     }
+                    _scoreRepository.UpdateScore(winnerScore);
                 }
                 else
                 {
@@ -295,34 +297,40 @@ namespace GameRoomApp.Controller
                         }
 
                     }
-                }
-                foreach (Score score in scores)
-                {
-                    
-                    score.Game = game;
-                    if (winnerScore.Id == score.Id)
+                    foreach (Score score in scores)
                     {
-                        double ChanceOfVictory = winnerScore.ChanceOfVictory+3;
-                        if (ChanceOfVictory>100)
+                        if (winnerScore.Value == score.Value)
                         {
-                            ChanceOfVictory = ChanceOfVictory - (ChanceOfVictory - 100);
+                            equalityIndice++;
                         }
-                        score.ChanceOfVictory = ChanceOfVictory;
                     }
-                    else
+                }
+                if (equalityIndice != scores.Count) {
+                    foreach (Score score in scores)
                     {
-                        if (score.ChanceOfVictory != 0)
+
+                        int k = 0;
+                        score.Game = game;
+                        if (winnerScore.Id == score.Id)
                         {
-                            score.ChanceOfVictory = score.ChanceOfVictory - 3;
+                            double ChanceOfVictory = winnerScore.ChanceOfVictory + 3;
+                            if (ChanceOfVictory >= 100)
+                            {
+                                ChanceOfVictory = ChanceOfVictory - (ChanceOfVictory - 100);
+                            }
+                            score.ChanceOfVictory = ChanceOfVictory;
+                            k++;
                         }
                         else
                         {
-                            //Aici
-                            //List<Score> scores =
+                            if (score.ChanceOfVictory != 0)
+                            {
+                                score.ChanceOfVictory = score.ChanceOfVictory - 3;
+                            }
                         }
-                    }
-                    _scoreRepository.UpdateScore(score);
 
+                        _scoreRepository.UpdateScore(score);
+                    }
                 }
                 //_scoreRepository.UpdateScoreByGame(game,existentGame);
                 _gameRepository.UpdateGameById(game);

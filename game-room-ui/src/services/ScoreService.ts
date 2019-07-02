@@ -23,12 +23,7 @@ export default class ScoreService {
     }
     public static getPrediction = (gameId:string,playerId:string):Promise<string>=>{
         return axios
-        .get(`https://localhost:44333/api/score?gameId=${gameId}&playerId=${playerId}&classification=${'classification'}`)
-        .then((result:AxiosResponse) => result.data)
-    }
-    public static getProcentualPrediction = (gameId:string,playerId:string):Promise<number>=>{
-        return axios
-        .get(`https://localhost:44333/api/score?gameId=${gameId}&playerId=${playerId}&regression=${'regression'}`)
+        .get(`https://localhost:44333/api/score?gameId=${gameId}&playerId=${playerId}`)
         .then((result:AxiosResponse) => result.data)
     }
     public static getProcentualPrediction = (gameId:string,playerId:string):Promise<number>=>{

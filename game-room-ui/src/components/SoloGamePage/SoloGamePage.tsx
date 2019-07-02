@@ -152,13 +152,13 @@ export default class SoloGamePage extends React.Component<ISoloGameProps, ISoloG
                                     <DialogTitle id="alert-dialog-title">{"Prediction"}</DialogTitle>
                                     <DialogContent id="alert-dialog-content">
                                         <DialogContentText id="alert-dialog-description">
-                                            Prediction here! {this.state.prediction} 
-                                            Chance of win: {this.state.procentualPrediction}
+                                        Classification - Prediction here: {this.state.prediction} <br></br>
+                                        Regression - The chance to win: {this.state.procentualPrediction}%
                                         </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
                                         <button className="finishGameBtn" onClick={this.handleClose} color="primary">
-                                            Thx
+                                            Thank You
                                         </button>
                                     </DialogActions>
                                 </Dialog>

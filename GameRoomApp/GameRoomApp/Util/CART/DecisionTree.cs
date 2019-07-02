@@ -677,7 +677,6 @@ namespace GameRoomApp.Util.CART
             {
                 procentualPrediction = 50;
             }
-<<<<<<< HEAD
             else
             {
                 if (scores.Count == 1)
@@ -726,50 +725,6 @@ namespace GameRoomApp.Util.CART
                     }
                 }
             }
-=======
-            this.scoreRepository = scoreRepository;
-            string bestFeature = GetBestFeatureRegression(features, scores, opponents, player);
-            features.Remove(bestFeature);
-            this.root = new Node();
-            this.root.value = bestFeature;
-            this.root.left = new Node();
-            this.root.right = new Node();
-            scores = GetScoresAfterFeature(game, bestFeature, scores, opponents);
-            Node currentNode = root;
-            Queue<Node> nodes = new Queue<Node>();
-            nodes.Enqueue(root.left);
-            nodes.Enqueue(root.right);
-            while (features.Count != 0)
-            {
-                if (bestFeature.Equals("empty"))
-                {
-                    break;
-                }
-                if ((scores.Count < 3) || (CoeficientVariation(scores)<10))
-                {
-                    break;
-                }
-                if (nodes.Count != 0)
-                {
-                    currentNode = nodes.First();
-                    bestFeature = GetBestFeatureRegression(features, scores, opponents, player);
-                    features.Remove(bestFeature);
-                    scores = GetScoresAfterFeature(game, bestFeature, scores, opponents);
-                    currentNode.left = new Node();
-                    currentNode.right = new Node();
-                    nodes.Enqueue(currentNode.left);
-                    nodes.Enqueue(currentNode.right);
-                }
-            }
-            if (scores.Count != 0)
-            {
-                procentualPrediction = CalculateRegressionPrediction(scores);
-            }
-            else
-            {
-                procentualPrediction = 0;
-            }
->>>>>>> 222d1996385faa85891466fabd5713d159a2c16a
         }
         public string GetBestFeatureRegression(List<string> features, List<Score> scores, List<Player> opponents, Player player)
         {
@@ -797,7 +752,7 @@ namespace GameRoomApp.Util.CART
                         double sdLocation = StandardDeviationLocation(scores);
                         SDRLocation = STarget - sdLocation;
                     }
-                    if (feature.Equals("Opponent"))
+                    if (feature.Equals("Opponents"))
                     {
                         double sdOpponents = StandardDeviationOpponents(scores, opponents);
                         SDROpponents = STarget-sdOpponents;
@@ -846,32 +801,19 @@ namespace GameRoomApp.Util.CART
         public double StandardDeviationOfTarget(List<Score> scores)
         {
             double standardDeviationTarget = 0;
-<<<<<<< HEAD
             double medie = MedieScores(scores);
             foreach (Score score in scores)
             {
                 double val = score.ChanceOfVictory - medie;
-=======
-            int medie = MedieScores(scores);
-            foreach (Score score in scores)
-            {
-                int val = score.ChanceOfVictory - medie;
->>>>>>> 222d1996385faa85891466fabd5713d159a2c16a
                 standardDeviationTarget = standardDeviationTarget + Math.Pow(val, 2);
             }
             standardDeviationTarget = standardDeviationTarget / scores.Count;
             double finalSDT = Math.Sqrt(standardDeviationTarget);
             return finalSDT;
         }
-<<<<<<< HEAD
         public double MedieScores(List<Score> scores)
         {
             double avg = 0;
-=======
-        public int MedieScores(List<Score> scores)
-        {
-            int avg = 0;
->>>>>>> 222d1996385faa85891466fabd5713d159a2c16a
             foreach (Score score in scores)
             {
                 avg = avg + score.ChanceOfVictory;

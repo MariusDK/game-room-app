@@ -78,9 +78,9 @@ namespace GameRoomApp.Controller
             Score currentScore = new Score();
             foreach (Score score in AllScores)
             {
-                if ((!(score.Game.Id.Equals(gameId)))&&(score.Game.EndOn!=DateTime.MinValue))
+                if ((!(score.Game.Id.Equals(gameId)))&&(score.Game.EndOn!=null))
                 {
-                    Console.WriteLine(DateTime.MinValue);
+                   
                     scores.Add(score);
                 }
                 else
@@ -117,9 +117,8 @@ namespace GameRoomApp.Controller
                 Score currentOpponentScore = new Score();
                 foreach (Score score in opponentAllScores)
                 {
-                    if ((!(score.Game.Id.Equals(gameId))) && (score.Game.EndOn != DateTime.MinValue))
+                    if ((!(score.Game.Id.Equals(gameId))) && (score.Game.EndOn != null))
                     {
-                        Console.WriteLine(DateTime.MinValue);
                         opponentScores.Add(score);
                     }
                     else
