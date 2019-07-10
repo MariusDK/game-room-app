@@ -7,23 +7,24 @@ using System.Threading.Tasks;
 
 namespace GameRoomApp.Util.CART
 {
-    public class DecisionTree
+    public class DecisionTreeTeam
     {
+
         public Node root { get; set; }
         public string prediction { get; set; }
         public double procentualPrediction { get; set; }
         public IScoreRepository scoreRepository;
 
-        public DecisionTree(Node root, IScoreRepository scoreRepository)
+        public DecisionTreeTeam(Node root, IScoreRepository scoreRepository)
         {
             this.prediction = null;
             this.root = root;
             this.scoreRepository = scoreRepository;
         }
-        public DecisionTree(List<Score> scores, List<string> features, List<Player> opponents, Player player, Game game,IScoreRepository scoreRepository)
+        public DecisionTreeTeam(List<Score> scores, List<string> features, List<Team> opponents, Team team, Game game, IScoreRepository scoreRepository)
         {
             this.scoreRepository = scoreRepository;
-            string bestFeature = GetBestFeature(features, scores, opponents, player);
+            string bestFeature = GetBestFeature(features, scores, opponents, team);
             features.Remove(bestFeature);
             this.root = new Node();
             this.root.value = bestFeature;
@@ -40,14 +41,14 @@ namespace GameRoomApp.Util.CART
                 {
                     break;
                 }
-                if (scores.Count<2)
+                if (scores.Count < 2)
                 {
                     break;
                 }
                 if (nodes.Count != 0)
                 {
                     currentNode = nodes.First();
-                    bestFeature = GetBestFeature(features, scores, opponents, player);
+                    bestFeature = GetBestFeature(features, scores, opponents, team);
                     features.Remove(bestFeature);
                     scores = GetScoresAfterFeature(game, bestFeature, scores, opponents);
                     currentNode.left = new Node();
@@ -60,12 +61,13 @@ namespace GameRoomApp.Util.CART
             {
                 prediction = MakeDecision(scores);
             }
-            else {
+            else
+            {
                 prediction = "equality";
             }
 
         }
-        public List<Score> GetScoresAfterFeature(Game game, string feature, List<Score> scores, List<Player> opponents)
+        public List<Score> GetScoresAfterFeature(Game game, string feature, List<Score> scores, List<Team> opponents)
         {
             List<Score> remainingScore = new List<Score>();
 
@@ -93,24 +95,21 @@ namespace GameRoomApp.Util.CART
             {
                 foreach (Score score in scores)
                 {
-                    List<Player> players = new List<Player>();
+                    List<Team> teams = new List<Team>();
                     foreach (Team team in game.Teams)
                     {
-                        foreach (Player player in team.Players)
-                        {
-                            players.Add(player);
-                        }
+                        teams.Add(team);
                     }
                     //de verificat
-                    foreach (Player opponent in opponents)
+                    foreach (Team opponent in opponents)
                     {
-                        if (players.Contains(opponent))
+                        if (teams.Contains(opponent))
                         {
                             remainingScore.Add(score);
                         }
                     }
                 }
-            }            
+            }
             if (feature.Equals("Age"))
             {
                 //de discutat
@@ -262,19 +261,19 @@ namespace GameRoomApp.Util.CART
             return giniIndexLocation;
 
         }
-        public double GiniIndexOpponents(List<Score> scores, List<Player> opponents)
+        public double GiniIndexOpponents(List<Score> scores, List<Team> opponents)
         {
             List<Score> opponentScores = GetScoresOfOpponents(scores, opponents);
             double giniIndexOpponents = GiniOfSoloGeneral(opponentScores);
             return giniIndexOpponents;
         }
-        public double GiniIndexAge(List<Score> scores, Player player)
+        public double GiniIndexAge(List<Score> scores, Team team)
         {
             double giniIndexAge = 0;
             double giniOlder = 0;
             double giniYouger = 0;
-            string ageStatus;
-            var AgeMap = GetScoresOfAgeStatus(scores, player);
+            string ageStatus="";
+            var AgeMap = GetScoresOfAgeStatus(scores, team);
             var youngOldValues = AgeMap.First();
             List<Score> youngerList = youngOldValues.Key;
             List<Score> olderList = youngOldValues.Value;
@@ -339,7 +338,7 @@ namespace GameRoomApp.Util.CART
                 + ((double)cosminScores.Count / scores.Count) * cosminGini + ((double)gabiScores.Count / scores.Count) * gabiGini;
             return giniIndexReferee;
         }
-        public string GetBestFeature(List<string> features, List<Score> scores, List<Player> opponents,Player player)
+        public string GetBestFeature(List<string> features, List<Score> scores, List<Team> opponents, Team team)
         {
             if (scores.Count != 0)
             {
@@ -348,10 +347,10 @@ namespace GameRoomApp.Util.CART
                 double giniIndexOpponents = 0;
                 double giniIndexAge = 0;
                 double giniIndexReferee = 0;
-            
+
                 foreach (string feature in features)
-                { 
-                if (feature.Equals("GameType"))
+                {
+                    if (feature.Equals("GameType"))
                     {
                         giniIndexGameType = GiniIndexGameType(scores);
                     }
@@ -373,7 +372,7 @@ namespace GameRoomApp.Util.CART
                     }
                     if (feature.Equals("Age"))
                     {
-                        giniIndexAge = GiniIndexAge(scores, player);
+                        giniIndexAge = GiniIndexAge(scores, team);
                     }
                     if (feature.Equals("Referee"))
                     {
@@ -382,15 +381,15 @@ namespace GameRoomApp.Util.CART
 
                 }//eliminam cele care sunt 0
                 var giniIndexMap = new Dictionary<string, double>();
-               
-                giniIndexMap.Add("GameType",giniIndexGameType);
-                giniIndexMap.Add("Location",giniIndexLocation);
-                giniIndexMap.Add("Opponents",giniIndexOpponents);
-                giniIndexMap.Add("Age",giniIndexAge);
-                giniIndexMap.Add("Referee",giniIndexReferee);
 
-                KeyValuePair<string, double> choosenGiniIndex = new KeyValuePair<string, double>("empty",1);
-                foreach (KeyValuePair<string,double> giniIndex in giniIndexMap)
+                giniIndexMap.Add("GameType", giniIndexGameType);
+                giniIndexMap.Add("Location", giniIndexLocation);
+                giniIndexMap.Add("Opponents", giniIndexOpponents);
+                giniIndexMap.Add("Age", giniIndexAge);
+                giniIndexMap.Add("Referee", giniIndexReferee);
+
+                KeyValuePair<string, double> choosenGiniIndex = new KeyValuePair<string, double>("empty", 1);
+                foreach (KeyValuePair<string, double> giniIndex in giniIndexMap)
                 {
                     if ((choosenGiniIndex.Value > giniIndex.Value) && (giniIndex.Value != 0))
                     {
@@ -401,7 +400,7 @@ namespace GameRoomApp.Util.CART
             }
             return "";
         }
-        public Dictionary<List<Score>,List<Score>> GetScoresOfAgeStatus(List<Score> scores,Player player)
+        public Dictionary<List<Score>, List<Score>> GetScoresOfAgeStatus(List<Score> scores, Team team)
         {
             var AgeMap = new Dictionary<List<Score>, List<Score>>();
             List<Score> youngerScores = new List<Score>();
@@ -409,22 +408,8 @@ namespace GameRoomApp.Util.CART
             string ageStatus = "";
             foreach (Score score in scores)
             {
-                List<Player> opponents = GetOpponentsOfGame(score,player);
-                if (opponents.Count > score.Game.Teams.Count)
-                {
-                    foreach (Team team in score.Game.Teams)
-                    {
-                        if (CheckPlayerInTeam(team, player))
-                        {
-                            ageStatus = GetTeamAgeStatus(opponents, team);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    ageStatus = GetAgeStatus(opponents, player);
-                }
+                List<Team> opponents = GetOpponentsOfGame(score, team);
+                ageStatus = GetTeamAgeStatus(opponents, team);
                 if (ageStatus.Equals("younger"))
                 {
                     youngerScores.Add(score);
@@ -437,61 +422,21 @@ namespace GameRoomApp.Util.CART
             AgeMap.Add(youngerScores, olderScores);
             return AgeMap;
         }
-        public List<Player> GetOpponentsOfGame(Score score,Player player)
+        public List<Team> GetOpponentsOfGame(Score score, Team teamOur)
         {
-            
-            List<Player> opponents = new List<Player>();
+            List<Team> opponents = new List<Team>();
             foreach (Team team in score.Game.Teams)
             {
-                if (team.Players.Count != 1)
+                if (team.Id != teamOur.Id)
                 {
-                    if (!(CheckPlayerInTeam(team, player)))
-                    {
-                        foreach (Player p in team.Players)
-                        {
-                            opponents.Add(p);
-                        }
-                    }
-                }
-                else
-                {
-                    Player opponent = team.Players[0];
-                    if (!opponent.Id.Equals(player.Id))
-                    {
-                        opponents.Add(opponent);
-                    }
+                    opponents.Add(team);
+
                 }
             }
             return opponents;
         }
-        public bool CheckPlayerInTeam(Team team,Player player)
-        {
-            foreach (Player playerT in team.Players)
-            {
-                if (playerT.Id.Equals(player.Id))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public string GetAgeStatus(List<Player> opponents, Player player)
-        {
-            int opponentsAge = 0;
-            foreach (Player opponent in opponents)
-            {
-                opponentsAge = opponent.Age;
-            }
-            opponentsAge = opponentsAge / opponents.Count;
-            if (player.Age > opponentsAge)
-            {
-                return "older";
-            }
-            else {
-                return "younger";
-            }
-        }
-        public string GetTeamAgeStatus(List<Player> opponents, Team team)
+        
+        public string GetTeamAgeStatus(List<Team> opponents, Team team)
         {
             double teamAge = 0;
             foreach (Player teamPlayer in team.Players)
@@ -500,9 +445,15 @@ namespace GameRoomApp.Util.CART
             }
             teamAge = teamAge / team.Players.Count;
             int opponentsAge = 0;
-            foreach (Player opponent in opponents)
+            foreach (Team opponent in opponents)
             {
-                opponentsAge = opponent.Age;
+                int opTeamAge = 0;
+                foreach (Player opPlayer in  opponent.Players)
+                {
+                    opTeamAge = opTeamAge + opPlayer.Age;
+                }
+
+                opponentsAge = opponentsAge + opTeamAge/opponent.Players.Count;
             }
             opponentsAge = opponentsAge / opponents.Count;
             if (teamAge > opponentsAge)
@@ -519,7 +470,8 @@ namespace GameRoomApp.Util.CART
             //for every game find enemy score
             int nrOfWins = 0;
             int nrOfLoss = 0;
-            foreach (Score score in dartsX01s) {
+            foreach (Score score in dartsX01s)
+            {
                 if (score.Value == 1)
                 {
                     nrOfWins++;
@@ -529,7 +481,7 @@ namespace GameRoomApp.Util.CART
                     nrOfLoss++;
                 }
             }
-            double giniOfDartsX01 = 1 - Math.Pow((double)nrOfWins / dartsX01s.Count, 2)-Math.Pow((double)nrOfLoss / dartsX01s.Count, 2);
+            double giniOfDartsX01 = 1 - Math.Pow((double)nrOfWins / dartsX01s.Count, 2) - Math.Pow((double)nrOfLoss / dartsX01s.Count, 2);
             return giniOfDartsX01;
         }
         public double GiniOfSoloDartsCricket(List<Score> dartsCrickets)
@@ -565,7 +517,8 @@ namespace GameRoomApp.Util.CART
                 {
                     nrOfWins++;
                 }
-                else {
+                else
+                {
                     nrOfLoss++;
                 }
             }
@@ -573,7 +526,7 @@ namespace GameRoomApp.Util.CART
             double giniOfGeneral = 1 - Math.Pow((double)nrOfWins / scores.Count, 2) - Math.Pow((double)nrOfLoss / scores.Count, 2);
             return giniOfGeneral;
         }
-        public List<Score> GetScoresOfOpponents(List<Score> scores, List<Player> opponents)
+        public List<Score> GetScoresOfOpponents(List<Score> scores, List<Team> opponents)
         {
             //de verificat containul de la lista
             List<Score> scoresWithOpponents = new List<Score>();
@@ -582,38 +535,13 @@ namespace GameRoomApp.Util.CART
                 List<Team> teams = score.Game.Teams;
                 foreach (Team team in teams)
                 {
-                    int scoresSize = scoresWithOpponents.Count;
-                    foreach (Player opponent in opponents)
+                    if (opponents.Contains(team))
                     {
-                        if (CheckIfScoreExist(scoresWithOpponents,score))
-                        {
-                            break;
-                        }
-                        if (CheckIfPlayerExist(team.Players,opponent))
-                        {
-                            scoresWithOpponents.Add(score);
-                            break;
-                        }
-                   
-                    }
-                    if (scoresSize != scoresWithOpponents.Count)
-                    {
-                        break;
+                        scoresWithOpponents.Add(score);
                     }
                 }
             }
             return scoresWithOpponents;
-        }
-        public bool CheckIfPlayerExist(List<Player> players, Player player)
-        {
-            foreach (Player p in players)
-            {
-                if (p.Id.Equals(player.Id))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
         public bool CheckIfScoreExist(List<Score> scores, Score score)
         {
@@ -653,7 +581,8 @@ namespace GameRoomApp.Util.CART
                 {
                     nr_wins++;
                 }
-                else {
+                else
+                {
                     nr_defeats++;
                 }
             }
@@ -671,7 +600,7 @@ namespace GameRoomApp.Util.CART
             }
         }
         // --------------------------------------------------------REGRETION PART
-        public DecisionTree(List<Score> scores, List<string> features, List<Player> opponents, Player player, Game game, IScoreRepository scoreRepository,string a)
+        public DecisionTreeTeam(List<Score> scores, List<string> features, List<Team> opponents, Team team, Game game, IScoreRepository scoreRepository, string a)
         {
             if (scores.Count == 0)
             {
@@ -686,7 +615,7 @@ namespace GameRoomApp.Util.CART
                 else
                 {
                     this.scoreRepository = scoreRepository;
-                    string bestFeature = GetBestFeatureRegression(features, scores, opponents, player);
+                    string bestFeature = GetBestFeatureRegression(features, scores, opponents, team);
                     features.Remove(bestFeature);
                     this.root = new Node();
                     this.root.value = bestFeature;
@@ -710,7 +639,7 @@ namespace GameRoomApp.Util.CART
                         if (nodes.Count != 0)
                         {
                             currentNode = nodes.First();
-                            bestFeature = GetBestFeatureRegression(features, scores, opponents, player);
+                            bestFeature = GetBestFeatureRegression(features, scores, opponents, team);
                             features.Remove(bestFeature);
                             scores = GetScoresAfterFeature(game, bestFeature, scores, opponents);
                             currentNode.left = new Node();
@@ -726,7 +655,7 @@ namespace GameRoomApp.Util.CART
                 }
             }
         }
-        public string GetBestFeatureRegression(List<string> features, List<Score> scores, List<Player> opponents, Player player)
+        public string GetBestFeatureRegression(List<string> features, List<Score> scores, List<Team> opponents, Team team)
         {
             if (scores.Count != 0)
             {
@@ -745,7 +674,7 @@ namespace GameRoomApp.Util.CART
                         //facem diferenta si obtine reducerea deviatie standard
                         double sdGameType = StandardDeviationGameType(scores);
                         SDRGameType = STarget - sdGameType;
-                        
+
                     }
                     if (feature.Equals("Location"))
                     {
@@ -755,7 +684,7 @@ namespace GameRoomApp.Util.CART
                     if (feature.Equals("Opponents"))
                     {
                         double sdOpponents = StandardDeviationOpponents(scores, opponents);
-                        SDROpponents = STarget-sdOpponents;
+                        SDROpponents = STarget - sdOpponents;
                     }
                     if (feature.Equals("Form"))
                     {
@@ -767,13 +696,13 @@ namespace GameRoomApp.Util.CART
                     }
                     if (feature.Equals("Age"))
                     {
-                        double sdAge = StandardDeviationAge(scores, player);
-                        SDRAge = STarget-sdAge;
+                        double sdAge = StandardDeviationAge(scores, team);
+                        SDRAge = STarget - sdAge;
                     }
                     if (feature.Equals("Referee"))
                     {
                         double sdReferee = StandardDeviationReferee(scores);
-                        SDRReferee = STarget-sdReferee;
+                        SDRReferee = STarget - sdReferee;
                     }
 
                 }//eliminam cele care sunt 0
@@ -796,7 +725,7 @@ namespace GameRoomApp.Util.CART
                 return choosenSDR.Key;
             }
             return "";
-       
+
         }
         public double StandardDeviationOfTarget(List<Score> scores)
         {
@@ -948,19 +877,19 @@ namespace GameRoomApp.Util.CART
             return sdLocation;
 
         }
-        public double StandardDeviationOpponents(List<Score> scores, List<Player> opponents)
+        public double StandardDeviationOpponents(List<Score> scores, List<Team> opponents)
         {
             List<Score> opponentScores = GetScoresOfOpponents(scores, opponents);
             double sdOpponents = StandardDeviationOfTarget(opponentScores);
             return sdOpponents;
         }
-        public double StandardDeviationAge(List<Score> scores, Player player)
+        public double StandardDeviationAge(List<Score> scores, Team team)
         {
             double sdAge = 0;
             double sdOlder = 0;
             double sdYouger = 0;
             string ageStatus;
-            var AgeMap = GetScoresOfAgeStatus(scores, player);
+            var AgeMap = GetScoresOfAgeStatus(scores, team);
             var youngOldValues = AgeMap.First();
             List<Score> youngerList = youngOldValues.Key;
             List<Score> olderList = youngOldValues.Value;
@@ -1039,5 +968,6 @@ namespace GameRoomApp.Util.CART
             }
             return regressionPrediction / scores.Count;
         }
+
     }
 }

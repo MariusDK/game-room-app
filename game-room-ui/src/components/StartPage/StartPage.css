@@ -1,8 +1,19 @@
+/* @media only screen and (min-height:755px) {
+    .SPage{
+    min-height: 100vh;
+    }
+}
+@media only screen and (max-height:755px) {
+    .SPage{
+    min-height: 78vh;
+    }
+} */
+
 .SPage{
     background-image:url('./wallpaper.jpg');
-    height: 78vh;
     overflow: auto;  
     background-size: 100% 100%;
+    min-height: 78vh;
 }
 .SPage h2{
     display: block;

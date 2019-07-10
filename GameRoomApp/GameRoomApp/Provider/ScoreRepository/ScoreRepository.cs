@@ -61,7 +61,14 @@ namespace GameRoomApp.providers.ScoreRepository
             List<Score> scores = cursor.ToList();
             return scores;
         }
-
+        public List<Score> GetScoresOfTeam(string teamId)
+        {
+            var builder = Builders<Score>.Filter;
+            var gameFilter = builder.Eq("Team.Id", teamId);
+            var cursor = _scoreContext.Score.Find(gameFilter);
+            List<Score> scores = cursor.ToList();
+            return scores;
+        }
         public IEnumerable<Score> LeaderboardForGame(Game game)
         {
             List<Team> teams = game.Teams;
@@ -136,7 +143,7 @@ namespace GameRoomApp.providers.ScoreRepository
             var uBuilder = Builders<Score>.Update;
             var idFilter = fBuilder.Eq("Id", score.Id);
             var updateDefinition = uBuilder.Set("Team", score.Team).Set("Game", score.Game).
-                Set("Value", score.Value);
+                Set("Value", score.Value).Set("ChanceOfVictory",score.ChanceOfVictory);
             var cursor = _scoreContext.Score.UpdateOne(idFilter, updateDefinition);
         }
         public void UpdateScoreByGame(Game newGame,Game oldGame)

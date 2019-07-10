@@ -74,6 +74,7 @@ namespace GameRoomApp.Controller
             if (existentDartsCricket != null)
             {
                 _dartsCricketRepository.UpdateDartsCricket(dartsCricket);
+                _scoreRepository.UpdateScore(dartsCricket.Score);
                 result = "Update Working!";
             }
             else

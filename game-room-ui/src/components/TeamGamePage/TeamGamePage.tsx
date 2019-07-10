@@ -6,8 +6,16 @@ import { Redirect, RouteComponentProps } from 'react-router';
 import Navigation from '../Header/Navigation/Navigation';
 import SubmitComponent from '../ImageComponents/SubmitComponent';
 import Gallery from '../GalleryComponent/Gallery';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Footer from '../Footer/Footer';
 import './TeamGamePage.css';
+import ScoreService from 'src/services/ScoreService';
+import { ITeam } from 'src/models/ITeam';
+
 export interface ITeamGameState {
     name: string;
     type: string;
@@ -17,6 +25,10 @@ export interface ITeamGameState {
     embarrassingMoments: string[];
     blur:boolean;
     gameState:boolean;
+    open: boolean;
+    prediction: string;
+    procentualPrediction: number;
+
 }
 export interface ITeamGameProps extends RouteComponentProps<any> { }
 export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamGameState>
@@ -31,7 +43,10 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
             victoryMoments: [],
             embarrassingMoments: [],
             blur:false,
-            gameState: false,    
+            gameState: false,
+            open: false,   
+            prediction: '',
+            procentualPrediction: 0  
         }
     }
     onChange = (nameGame: string) => {
@@ -61,6 +76,34 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
         if (nameGame != null) {
             this.onChange(nameGame);
         }
+    }
+    handleClickOpen = () => {
+        var player = JSON.parse(localStorage.getItem('currentUser'));
+        var playerTeam:ITeam;
+        console.log(player);
+        GameService.getGameByName(this.state.name).then((result: IGame) => {
+            var teams = result.teams;
+            teams.forEach(team => {
+                team.players.forEach(element => {
+                    if (player.id==element.id)
+                    {
+                        playerTeam = team;
+                    }
+                });
+            });
+            ScoreService.getPredictionTeam(result.id,playerTeam.id).then((prediction:string)=>{
+                console.log(prediction);
+                this.setState({ open: true, prediction: prediction });
+            })
+        }); 
+        GameService.getGameByName(this.state.name).then((result: IGame) => {
+            ScoreService.getProcentualPredictionTeam(result.id,playerTeam.id).then((procentualPrediction:number)=>{
+                this.setState({ open: true, procentualPrediction: procentualPrediction });
+            })
+        }); 
+    }
+    handleClose = () => {
+        this.setState({ open: false });
     }
     finishGame = () => {
         var name = this.state.name;
@@ -94,6 +137,26 @@ export default class TeamGamePage extends React.Component<ITeamGameProps, ITeamG
                         <h3>Type of game: {this.state.type}</h3>
                     <div className="centerPart">
                     <div className="leftGamePage">
+                    <div>
+                                <button className="predictGameBtn" onClick={this.handleClickOpen}>Click here to find if you win</button>
+                                </div>
+                                <Dialog id="predictionDialog"
+                                    open={this.state.open}
+                                    color="#503C2C"
+                                >
+                                    <DialogTitle id="alert-dialog-title">{"Prediction"}</DialogTitle>
+                                    <DialogContent id="alert-dialog-content">
+                                        <DialogContentText id="alert-dialog-description">
+                                        Classification - Prediction here: {this.state.prediction} <br></br>
+                                        Regression - The chance to win: {this.state.procentualPrediction}%
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <button className="finishGameBtn" onClick={this.handleClose} color="primary">
+                                            Thank You
+                                        </button>
+                                    </DialogActions>
+                                </Dialog>
                         {!this.state.loading &&
                             <ScoreList
                                 gameName={this.state.name}
